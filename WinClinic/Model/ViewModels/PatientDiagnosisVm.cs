@@ -7,13 +7,12 @@ namespace bStudioHospital
 {
     public class PatientDiagnosisVm
     {
-        [Column(TypeName = "varchar")]
         [Required(AllowEmptyStrings = false)]
         [StringLength(20, MinimumLength = 8)]
         public string PatientID { get; set; }
 
         [Required]
-        public int DiagnosticCodesID { get; set; }
+        public Guid DiagnosticCodesID { get; set; }
 
         [StringLength(50)]
         [Required(AllowEmptyStrings = false)]

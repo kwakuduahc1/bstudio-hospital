@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Mvc;
 
 namespace bStudioHospital.Model.ViewModels
 {
@@ -35,7 +34,6 @@ namespace bStudioHospital.Model.ViewModels
         [Column(TypeName = "varchar")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required"), MaxLength(20)]
         [Display(Name = "PatientID")]
-        [Remote("VerifyUniqueID", "Helpers")]
         public string PatientID { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
@@ -66,7 +64,7 @@ namespace bStudioHospital.Model.ViewModels
 
         public Guid ID { get; set; }
 
-        [StringLength(15,MinimumLength=8,ErrorMessage="{0} must be within {0} and {1} characters")]
+        [StringLength(15, MinimumLength = 8, ErrorMessage = "{0} must be within {0} and {1} characters")]
         public string Receipt { get; set; }
     }
 
@@ -92,8 +90,8 @@ namespace bStudioHospital.Model.ViewModels
 
         public string ServiceName { get; set; }
 
-        [StringLength(1500,ErrorMessage="{0} should not exceed {1} characters")]
-        [Required(AllowEmptyStrings=false,ErrorMessage="{0} is required")]
+        [StringLength(1500, ErrorMessage = "{0} should not exceed {1} characters")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
         public string Results { get; set; }
 
         [Display(Name = "Date Requested")]
