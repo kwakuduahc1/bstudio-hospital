@@ -1,7 +1,6 @@
 ﻿using bStudioHospital.Model.ConsultingRoom;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bStudioHospital
 {
@@ -9,7 +8,7 @@ namespace bStudioHospital
     {
         [Required(AllowEmptyStrings = false)]
         [StringLength(20, MinimumLength = 8)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [Required]
         public Guid DiagnosticCodesID { get; set; }
@@ -28,7 +27,7 @@ namespace bStudioHospital
                 ID = Guid.NewGuid(),
                 DateAdded = DateTime.Now,
                 DiagnosticCodesID = DiagnosticCodesID,
-                PatientID = PatientID
+                PatientsID = PatientsID
             };
         }
     }

@@ -18,9 +18,8 @@ namespace bStudioHospital.Model.NursingCare
         [Required]
        public Guid PatientMedicationsID { get; set; }
 
-        [StringLength(30)]
         [Required]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [StringLength(500)]
         [Required]

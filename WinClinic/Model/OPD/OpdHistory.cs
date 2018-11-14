@@ -1,4 +1,4 @@
-﻿using bStudioHospital.Model.Records;
+﻿ using bStudioHospital.Model.Records;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +11,7 @@ namespace bStudioHospital.Model.OPD
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [StringLength(500, ErrorMessage = "{0} should not exceed {1} characters")]
         public string History { get; set; }

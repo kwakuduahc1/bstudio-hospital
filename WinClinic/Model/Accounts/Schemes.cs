@@ -26,12 +26,13 @@ namespace bStudioHospital.Model.Accounts
         [Timestamp]
         public byte[] Concurrency { get; set; }
 
+        public virtual ICollection<Patients> Patients { get; set; }
+
         public virtual ICollection<DrugCodes> DrugCodes { get; set; }
 
         public virtual ICollection<ServiceCodes> ServiceCodes { get; set; }
 
-        public ICollection<DiagnosticCodes> DiagnosticCodes { get; set; }
+        public virtual ICollection<DiagnosticCodes> DiagnosticCodes { get; set; }
 
-        public ICollection<Patients> Patients { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace bStudioHospital.Model.Services
         public Guid ID { get; set; }
 
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [Required]
         public Guid ServiceCodesID { get; set; }

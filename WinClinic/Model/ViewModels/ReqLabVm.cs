@@ -6,7 +6,7 @@ namespace bStudioHospital
     {
         [Required]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [Required]
         public short LabGroupsID { get; set; }

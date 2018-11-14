@@ -17,6 +17,7 @@ namespace bStudioHospital.Model
         [Required]
         public string DrugCode { get; set; }
 
+        [Required]
         public Guid SchemesID { get; set; }
 
         [Required]

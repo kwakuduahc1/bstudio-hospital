@@ -11,10 +11,10 @@ namespace bStudioHospital.Model.Laboratory
         public long PatientLaboratoryServicesID { get; set; }
 
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [Required]
-        public int LaboratoryServicesID { get; set; }
+        public Guid LaboratoryServicesID { get; set; }
 
         [StringLength(200)]
         [DefaultValue("")]

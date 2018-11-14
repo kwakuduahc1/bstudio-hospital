@@ -10,11 +10,11 @@ namespace bStudioHospital.Model.Pharmacy
         [Key]
         public Guid ID { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
+        [Required]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
-        [Required(ErrorMessage = "{0} is required")]
+        [Required]
         public Guid DrugCodesID { get; set; }
 
         [Required(ErrorMessage = "Kindly Indicate the {0} for this drug")]

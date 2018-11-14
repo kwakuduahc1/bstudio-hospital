@@ -6,7 +6,7 @@ namespace bStudioHospital
     public class PatientServicesPaymentVm
     {
         [Required]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [Required]
         public Guid ID { get; set; }

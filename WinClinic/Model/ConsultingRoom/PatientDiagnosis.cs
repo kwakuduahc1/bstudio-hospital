@@ -9,9 +9,8 @@ namespace bStudioHospital.Model.ConsultingRoom
         [Key]
         public Guid ID { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required"), MaxLength(20)]
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        [Required]
+        public string PatientsID { get; set; }
 
         [Required]
         public Guid DiagnosticCodesID { get; set; }

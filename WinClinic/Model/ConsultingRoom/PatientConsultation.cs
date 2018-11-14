@@ -11,7 +11,7 @@ namespace bStudioHospital.Model.ConsultingRoom
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [StringLength(500, ErrorMessage = "{0} should be below {1} characters")]
         [Required(AllowEmptyStrings = false)]

@@ -1,8 +1,11 @@
+using bStudioHospital.Model;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +24,8 @@ namespace WinClinic
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -30,7 +34,7 @@ namespace WinClinic
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery)
         {
             if (env.IsDevelopment())
             {
@@ -51,6 +55,15 @@ namespace WinClinic
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.Use(next => context =>
+            {
+                // We can send the request token as a JavaScript-readable cookie, and Angular will use it by default.
+                var tokens = antiforgery.GetAndStoreTokens(context);
+                context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken,
+                    new CookieOptions() { HttpOnly = false });
+                return next(context);
             });
 
             app.UseSpa(spa =>

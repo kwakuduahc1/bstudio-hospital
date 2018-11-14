@@ -15,6 +15,6 @@ namespace KingsMedicalVillage.Controllers
         public string LaboratoryProcedure { get; set; }
 
         [Required]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
     }
 }

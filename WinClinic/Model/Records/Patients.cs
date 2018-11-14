@@ -1,5 +1,6 @@
 ﻿using bStudioHospital.Model.Accounts;
 using bStudioHospital.Model.ConsultingRoom;
+using bStudioHospital.Model.Laboratory;
 using bStudioHospital.Model.NursingCare;
 using bStudioHospital.Model.Pharmacy;
 using bStudioHospital.Model.Services;
@@ -15,7 +16,7 @@ namespace bStudioHospital.Model.Records
     {
         [Key]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} should be between {1} and {2} characters")]
         public string Surname { get; set; }
@@ -95,5 +96,9 @@ namespace bStudioHospital.Model.Records
         public virtual ICollection<PatientMedications> PatientMedications { get; set; }
 
         public virtual ICollection<PatientAdmissions> PatientAdmissions { get; set; }
+
+        public virtual ICollection<PatientDiagnosis> PatientDiagnoses { get; set; }
+
+        public virtual ICollection<PatientLaboratoryServices> PatientLaboratoryServices { get; set; }
     }
 }

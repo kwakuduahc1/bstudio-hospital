@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bStudioHospital.Model.ViewModels
 {
@@ -8,9 +7,9 @@ namespace bStudioHospital.Model.ViewModels
     {
         public int ID { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
+        [Required]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
         public int DrugCodesID { get; set; }
@@ -42,7 +41,7 @@ namespace bStudioHospital.Model.ViewModels
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         public byte QuantityIssued { get; set; }
 
@@ -57,7 +56,7 @@ namespace bStudioHospital.Model.ViewModels
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         public string DrugName { get; set; }
 
@@ -82,7 +81,7 @@ namespace bStudioHospital.Model.ViewModels
     public class PatientDrugHistory
     {
         [StringLength(20, MinimumLength = 15)]
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         public string DrugName { get; set; }
 
@@ -121,7 +120,7 @@ namespace bStudioHospital.Model.ViewModels
 
         public byte QuantityRequested { get; set; }
 
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
 
         public int QuantityIssued { get; set; }
     }
@@ -130,6 +129,6 @@ namespace bStudioHospital.Model.ViewModels
     {
         public Guid ID { get; set; }
 
-        public string PatientID { get; set; }
+        public string PatientsID { get; set; }
     }
 }

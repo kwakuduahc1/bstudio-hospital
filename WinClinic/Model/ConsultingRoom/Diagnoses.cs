@@ -24,6 +24,6 @@ namespace bStudioHospital.Model.ConsultingRoom
         [MaxLength(30)]
         public string UserName { get; set; }
 
-        public ICollection<DiagnosticCodes> DiagnosticCodes { get; set; }
+        public virtual ICollection<DiagnosticCodes> DiagnosticCodes { get; set; }
     }
 }
