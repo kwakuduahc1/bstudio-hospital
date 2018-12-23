@@ -28,6 +28,7 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\components\records\" />
     <Folder Include="ClientApp\src\app\resolvers\registration\" />
+    <Folder Include="DTOs\Accounts\" />
   </ItemGroup>
 
   <ItemGroup>

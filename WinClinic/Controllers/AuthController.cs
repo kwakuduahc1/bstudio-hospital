@@ -43,8 +43,8 @@ namespace WinClinic.Controllers
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xRBqwa5UtkVhr9w"));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var tokeOptions = new JwtSecurityToken(
-                issuer: _env.IsProduction() ? "http://localhost:8097" : "https://localhost:44365",
-                audience: _env.IsProduction() ? "http://localhost:8097" : "https://localhost:44365",
+                issuer: _env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
+                audience: _env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
                 claims: claims,
                 expires: DateTime.Now.AddMonths(6),
                 signingCredentials: signinCredentials

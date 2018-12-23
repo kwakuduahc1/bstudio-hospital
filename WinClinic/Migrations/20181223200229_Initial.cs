@@ -9,6 +9,46 @@ namespace WinClinic.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Diagnoses",
                 columns: table => new
                 {
@@ -86,19 +126,6 @@ namespace WinClinic.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staff",
-                columns: table => new
-                {
-                    UserName = table.Column<string>(maxLength: 30, nullable: false),
-                    Branch = table.Column<string>(maxLength: 20, nullable: false),
-                    Description = table.Column<string>(maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Staff", x => x.UserName);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Wards",
                 columns: table => new
                 {
@@ -111,6 +138,112 @@ namespace WinClinic.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Wards", x => x.WardName);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,7 +263,7 @@ namespace WinClinic.Migrations
                         column: x => x.LabGroupsID,
                         principalTable: "LabGroups",
                         principalColumn: "LabGroupsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,13 +286,13 @@ namespace WinClinic.Migrations
                         column: x => x.DiagnosesID,
                         principalTable: "Diagnoses",
                         principalColumn: "DiagnosesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DiagnosticCodes_Schemes_SchemesID",
                         column: x => x.SchemesID,
                         principalTable: "Schemes",
                         principalColumn: "SchemesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,13 +315,13 @@ namespace WinClinic.Migrations
                         column: x => x.DrugsID,
                         principalTable: "Drugs",
                         principalColumn: "DrugsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DrugCodes_Schemes_SchemesID",
                         column: x => x.SchemesID,
                         principalTable: "Schemes",
                         principalColumn: "SchemesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,20 +333,11 @@ namespace WinClinic.Migrations
                     OtherNames = table.Column<string>(maxLength: 50, nullable: true),
                     Gender = table.Column<string>(maxLength: 6, nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    Address = table.Column<string>(maxLength: 100, nullable: false),
                     MobileNumber = table.Column<string>(maxLength: 20, nullable: false),
-                    Town = table.Column<string>(maxLength: 200, nullable: false),
-                    Kin = table.Column<string>(maxLength: 100, nullable: false),
-                    KinContact = table.Column<string>(maxLength: 20, nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false),
                     UserName = table.Column<string>(maxLength: 50, nullable: true),
-                    IsDependent = table.Column<bool>(nullable: false),
-                    DependentID = table.Column<string>(maxLength: 20, nullable: true),
-                    Status = table.Column<bool>(nullable: false),
-                    IsCapitated = table.Column<bool>(nullable: false),
-                    SchemesID = table.Column<Guid>(nullable: false),
-                    SchemeNumber = table.Column<string>(maxLength: 20, nullable: true),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    SchemesID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -223,7 +347,7 @@ namespace WinClinic.Migrations
                         column: x => x.SchemesID,
                         principalTable: "Schemes",
                         principalColumn: "SchemesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,7 +369,7 @@ namespace WinClinic.Migrations
                         column: x => x.ServiceTypesID,
                         principalTable: "ServiceTypes",
                         principalColumn: "ServiceTypesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -295,7 +419,7 @@ namespace WinClinic.Migrations
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,7 +444,7 @@ namespace WinClinic.Migrations
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PatientAdmissions_Wards_WardName",
                         column: x => x.WardName,
@@ -348,7 +472,7 @@ namespace WinClinic.Migrations
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -372,7 +496,34 @@ namespace WinClinic.Migrations
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientDetails",
+                columns: table => new
+                {
+                    PatientsID = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(maxLength: 100, nullable: false),
+                    Kin = table.Column<string>(maxLength: 100, nullable: false),
+                    KinContact = table.Column<string>(maxLength: 20, nullable: true),
+                    IsDependent = table.Column<bool>(nullable: false),
+                    DependentID = table.Column<string>(maxLength: 20, nullable: true),
+                    Status = table.Column<bool>(nullable: false),
+                    IsCapitated = table.Column<bool>(nullable: false),
+                    SchemesID = table.Column<Guid>(nullable: false),
+                    SchemeNumber = table.Column<string>(maxLength: 20, nullable: true),
+                    Town = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientDetails", x => x.PatientsID);
+                    table.ForeignKey(
+                        name: "FK_PatientDetails_Patients_PatientsID",
+                        column: x => x.PatientsID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientsID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -395,13 +546,13 @@ namespace WinClinic.Migrations
                         column: x => x.DiagnosticCodesID,
                         principalTable: "DiagnosticCodes",
                         principalColumn: "DiagnosticCodesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PatientDiagnosis_Patients_PatientsID",
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.NoAction, onUpdate: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -436,13 +587,13 @@ namespace WinClinic.Migrations
                         column: x => x.DrugCodesID,
                         principalTable: "DrugCodes",
                         principalColumn: "DrugCodesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PatientDrugs_Patients_PatientsID",
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.NoAction, onUpdate: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -474,7 +625,7 @@ namespace WinClinic.Migrations
                         column: x => x.LaboratoryServicesID,
                         principalTable: "LaboratoryServices",
                         principalColumn: "LaboratoryServicesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PatientLaboratoryServices_Patients_PatientsID",
                         column: x => x.PatientsID,
@@ -505,7 +656,7 @@ namespace WinClinic.Migrations
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -529,13 +680,13 @@ namespace WinClinic.Migrations
                         column: x => x.SchemesID,
                         principalTable: "Schemes",
                         principalColumn: "SchemesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ServiceCodes_Services_ServicesID",
                         column: x => x.ServicesID,
                         principalTable: "Services",
                         principalColumn: "ServicesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -557,7 +708,7 @@ namespace WinClinic.Migrations
                         column: x => x.PatientAdmissionsID,
                         principalTable: "PatientAdmissions",
                         principalColumn: "PatientAdmissionsID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -617,13 +768,57 @@ namespace WinClinic.Migrations
                         column: x => x.ServiceCodesID,
                         principalTable: "ServiceCodes",
                         principalColumn: "ServiceCodesID",
-                        onDelete: ReferentialAction.Cascade, onUpdate: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Schemes",
+                columns: new[] { "SchemesID", "Concurrency", "Description", "Scheme", "Status" },
+                values: new object[] { new Guid("7a45e43c-138f-4d59-8fd8-561da7862834"), null, "National Health Insurance", "NHIS", true });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AdmissionInstructions_PatientAdmissionsID",
                 table: "AdmissionInstructions",
                 column: "PatientAdmissionsID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiagnosticCodes_DiagnosesID",
@@ -757,6 +952,21 @@ namespace WinClinic.Migrations
                 name: "AdmissionInstructions");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "DrugAdministrations");
 
             migrationBuilder.DropTable(
@@ -772,6 +982,9 @@ namespace WinClinic.Migrations
                 name: "PatientConsultations");
 
             migrationBuilder.DropTable(
+                name: "PatientDetails");
+
+            migrationBuilder.DropTable(
                 name: "PatientDiagnosis");
 
             migrationBuilder.DropTable(
@@ -784,10 +997,13 @@ namespace WinClinic.Migrations
                 name: "PatientServices");
 
             migrationBuilder.DropTable(
-                name: "Staff");
+                name: "PatientAdmissions");
 
             migrationBuilder.DropTable(
-                name: "PatientAdmissions");
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "PatientMedications");

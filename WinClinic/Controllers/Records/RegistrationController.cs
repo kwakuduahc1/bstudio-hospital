@@ -23,6 +23,7 @@ namespace KingsMedicalVillage.Controllers.Records
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
             if (await helper.CheckIDExists(patient.PatientsID))
                 return BadRequest(new { Message = $"A patient already uses the id {patient.PatientsID}" });
+            patient.SchemesID = Guid.Parse("7A45E43C-138F-4D59-8FD8-561DA7862834");
             patient.UserName = User.Identity.Name ?? "";
             helper.Register(patient);
             int status = await helper.Save();

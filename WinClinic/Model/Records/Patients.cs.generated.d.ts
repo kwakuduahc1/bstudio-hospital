@@ -8,6 +8,7 @@ declare module Server.Dtos {
 		mobileNumber: string;
 		dateAdded: Date;
 		userName: string;
+		schemesID: any;
 		concurrency: any[];
 		fullName: string;
 		patientDetails: {

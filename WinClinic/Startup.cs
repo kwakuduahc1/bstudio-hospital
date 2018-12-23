@@ -49,8 +49,8 @@ namespace WinClinic
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = env.IsProduction() ? "http://localhost:8097" : "https://localhost:44365",
-                    ValidAudience = env.IsProduction() ? "http://localhost:8097" : "https://localhost:44365",
+                    ValidIssuer = env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
+                    ValidAudience = env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xRBqwa5UtkVhr9w"))
                 };
             });

@@ -79,12 +79,12 @@
       <span [ngClass]="form.controls.mobileNumber.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.mobileNumber.errors?.minlength">The minimum length is {{form.controls.mobileNumber.errors.minlength.requiredLength}} characters: Current is {{form.controls.mobileNumber.errors.minlength.actualLength}}</span>
     </div>
 
-    <div class="offset-md-2">
-      <button [disabled]="form.invalid || isProcessing" type="submit" [ngClass]="form.invalid ? 'btn-danger' : 'btn-success'" class="btn"><span class="glyphicon glyphicon-new-window"> Add</span></button>
+    <div class="col-md-offset-2">
+      <button [disabled]="form.invalid || hand.isProcessing" type="submit" [ngClass]="form.invalid ? 'btn-danger' : 'btn-success'" class="btn"><span class="glyphicon glyphicon-new-window"> Add</span></button>
     </div>
 
     <div class="row">
-      <span [hidden]="!isDismissed" class="alert alert-dismissible" [ngClass]="isError ? 'alert-warning' : 'alert-info'">{{message}} <button class="btn btn-primary btn-sm" (click)="this.isDismissed=!this.isDismissed">Dismiss</button></span>
+      <span [hidden]="!isDismissed" class="alert alert-dismissible" [ngClass]="isError ? 'alert-warning' : 'alert-info'">{{hand.message}} <button class="btn btn-primary btn-sm" (click)="hand.isDismissed=!hand.isDismissed">Dismiss</button></span>
     </div>
   </fieldset>
 </form>

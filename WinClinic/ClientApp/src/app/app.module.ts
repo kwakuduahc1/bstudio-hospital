@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CustomFormsModule } from 'ng2-validation'
 
 import { AppComponent } from './app.component';
 import { RegistrationListComponent } from './components/records/registration/registration-list/registration-list.component';
@@ -37,6 +38,7 @@ import { PatientsResolverService } from './resolvers/patient/patients-resolver.s
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    CustomFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } }

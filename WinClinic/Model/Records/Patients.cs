@@ -6,7 +6,6 @@ using bStudioHospital.Model.Pharmacy;
 using bStudioHospital.Model.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WinClinic.Model.Records;
@@ -42,6 +41,9 @@ namespace bStudioHospital.Model.Records
 
         [StringLength(50, MinimumLength = 10)]
         public string UserName { get; set; }
+
+        [Required]
+        public Guid SchemesID { get; internal set; }
 
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }
