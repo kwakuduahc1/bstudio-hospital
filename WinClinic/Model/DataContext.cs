@@ -3,13 +3,14 @@ namespace bStudioHospital.Model
     using Accounts;
     using bStudioHospital.Model.Laboratory;
     using ConsultingRoom;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using NursingCare;
     using Pharmacy;
     using Records;
     using Services;
 
-    public partial class DataContext : DbContext
+    public partial class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions<DataContext> options)
           : base(options)

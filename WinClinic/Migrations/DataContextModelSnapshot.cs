@@ -649,10 +649,6 @@ namespace WinClinic.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(20);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
                     b.Property<byte[]>("Concurrency")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
@@ -661,23 +657,9 @@ namespace WinClinic.Migrations
 
                     b.Property<DateTime>("DateOfBirth");
 
-                    b.Property<string>("DependentID")
-                        .HasMaxLength(20);
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasMaxLength(6);
-
-                    b.Property<bool>("IsCapitated");
-
-                    b.Property<bool>("IsDependent");
-
-                    b.Property<string>("Kin")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("KinContact")
-                        .HasMaxLength(20);
 
                     b.Property<string>("MobileNumber")
                         .IsRequired()
@@ -686,19 +668,10 @@ namespace WinClinic.Migrations
                     b.Property<string>("OtherNames")
                         .HasMaxLength(50);
 
-                    b.Property<string>("SchemeNumber")
-                        .HasMaxLength(20);
-
-                    b.Property<Guid>("SchemesID");
-
-                    b.Property<bool>("Status");
+                    b.Property<Guid?>("SchemesID");
 
                     b.Property<string>("Surname")
                         .HasMaxLength(50);
-
-                    b.Property<string>("Town")
-                        .IsRequired()
-                        .HasMaxLength(200);
 
                     b.Property<string>("UserName")
                         .HasMaxLength(50);
@@ -789,12 +762,12 @@ namespace WinClinic.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(30);
 
-                    b.Property<string>("Branch")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
                     b.Property<string>("Description")
                         .HasMaxLength(200);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.HasKey("UserName");
 
@@ -821,6 +794,44 @@ namespace WinClinic.Migrations
                     b.HasKey("WardName");
 
                     b.ToTable("Wards");
+                });
+
+            modelBuilder.Entity("WinClinic.Model.Records.PatientDetails", b =>
+                {
+                    b.Property<string>("PatientsID");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("DependentID")
+                        .HasMaxLength(20);
+
+                    b.Property<bool>("IsCapitated");
+
+                    b.Property<bool>("IsDependent");
+
+                    b.Property<string>("Kin")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("KinContact")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("SchemeNumber")
+                        .HasMaxLength(20);
+
+                    b.Property<Guid>("SchemesID");
+
+                    b.Property<bool>("Status");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.HasKey("PatientsID");
+
+                    b.ToTable("PatientDetails");
                 });
 
             modelBuilder.Entity("bStudioHospital.Model.Accounts.ServiceCodes", b =>
@@ -986,8 +997,7 @@ namespace WinClinic.Migrations
                 {
                     b.HasOne("bStudioHospital.Model.Accounts.Schemes", "Schemes")
                         .WithMany("Patients")
-                        .HasForeignKey("SchemesID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SchemesID");
                 });
 
             modelBuilder.Entity("bStudioHospital.Model.Services.PatientServices", b =>
@@ -999,6 +1009,14 @@ namespace WinClinic.Migrations
                     b.HasOne("bStudioHospital.Model.Accounts.ServiceCodes", "ServiceCodes")
                         .WithMany()
                         .HasForeignKey("ServiceCodesID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WinClinic.Model.Records.PatientDetails", b =>
+                {
+                    b.HasOne("bStudioHospital.Model.Records.Patients", "Patients")
+                        .WithOne("PatientDetails")
+                        .HasForeignKey("WinClinic.Model.Records.PatientDetails", "PatientsID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

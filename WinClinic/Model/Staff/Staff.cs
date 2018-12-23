@@ -1,20 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bStudioHospital.Model.Staff
 {
-    public class Staff
+    public class Staff : IdentityUser
     {
-        [Key]
-        [Required(ErrorMessage = "Select a {0}")]
-        [StringLength(30)]
-        public string UserName { get; set; }
-
-
-        [Required(ErrorMessage = "Select a {0}")]
-        [StringLength(20)]
-        public string Branch { get; set; }
-
-        [StringLength(200, ErrorMessage = "{0} should not exceed {1} characters")]
-        public string Description { get; set; }
+        [Required]
+        [StringLength(15, MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [NotMapped]
+        public string Password { get; set; }
     }
 }

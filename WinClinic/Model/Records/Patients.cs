@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WinClinic.Model.Records;
 
 namespace bStudioHospital.Model.Records
 {
@@ -31,24 +32,10 @@ namespace bStudioHospital.Model.Records
         [Required(ErrorMessage = "{0} is required")]
         public DateTime DateOfBirth { get; set; }
 
-        [Required(ErrorMessage = "{0} is required"), MaxLength(100)]
-        public string Address { get; set; }
-
         [Phone(ErrorMessage = "Provide a valid phone number")]
         [StringLength(20, MinimumLength = 10, ErrorMessage = "Mobile number should be 10 numbers long")]
         [Required]
         public string MobileNumber { get; set; }
-
-        [StringLength(200, ErrorMessage = "{0} must not exceed {1} characters")]
-        [Required]
-        public string Town { get; set; }
-
-        [Required, MaxLength(100)]
-        public string Kin { get; set; }
-
-        [Phone(ErrorMessage = "You must supply a valid phone number")]
-        [StringLength(20, MinimumLength = 10, ErrorMessage = "Mobile number should be 10 characters long")]
-        public string KinContact { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:D}")]
         public DateTime DateAdded { get; set; }
@@ -56,30 +43,13 @@ namespace bStudioHospital.Model.Records
         [StringLength(50, MinimumLength = 10)]
         public string UserName { get; set; }
 
-        [DefaultValue(false)]
-        public bool IsDependent { get; set; }
-
-        [StringLength(20, MinimumLength = 15)]
-        public string DependentID { get; set; }
-
-        [DefaultValue(true)]
-        public bool Status { get; set; }
-
-        [DefaultValue(false)]
-        public bool IsCapitated { get; set; }
-
-        [Required]
-        public Guid SchemesID { get; set; }
-
-        [StringLength(20, MinimumLength = 5)]
-        public string SchemeNumber { get; set; }
-
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }
 
         [ScaffoldColumn(false), NotMapped]
         public string FullName => $"{Surname} {OtherNames}";
 
+        public virtual PatientDetails PatientDetails { get; set; }
 
         public virtual ICollection<PatientAttendance> PatientAttendance { get; set; }
 

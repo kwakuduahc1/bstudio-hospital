@@ -1,0 +1,90 @@
+<h1>Register new patients</h1>
+<form class="form-horizontal" name="form" id="form" [formGroup]="form" (submit)="add(form.value)">
+  <fieldset>
+    <legend>Fill in details of the patient</legend>
+    <!-- Patients ID -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="patientsID">Identifier</label>
+      <div class="col-md-4" [ngClass]="form.controls.patientsID?.errors ? 'has-error' : 'has-success'">
+        <input type="text" class="form-control" formControlName="patientsID" id="patientsID" placeholder="index number/staff id">
+      </div>
+      <span [ngClass]="form.controls.patientsID.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.maxlength">The maximum length is {{form.controls.patientsID.errors.maxlength.requiredLength}} characters: Current is {{form.controls.patientsID.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.patientsID.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.required">Unique identifier is required</span>
+      <span [ngClass]="form.controls.patientsID.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.minlength">The minimum length is {{form.controls.patientsID.errors.minlength.requiredLength}} characters: Current is {{form.controls.patientsID.errors.minlength.actualLength}}</span>
+    </div>
+    <!-- Surname -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="surname">Surname</label>
+      <div class="col-md-4" [ngClass]="form.controls.surname?.errors ? 'has-error' : 'has-success'">
+        <input type="text" class="form-control" formControlName="surname" id="surname" placeholder="Surname">
+      </div>
+      <span [ngClass]="form.controls.surname.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.surname.errors?.maxlength">The maximum length is {{form.controls.surname.errors.maxlength.requiredLength}} characters: Current is {{form.controls.surname.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.surname.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.surname.errors?.required">Surname is required</span>
+      <span [ngClass]="form.controls.surname.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.surname.errors?.minlength">The minimum length is {{form.controls.surname.errors.minlength.requiredLength}} characters: Current is {{form.controls.surname.errors.minlength.actualLength}}</span>
+    </div>
+
+    <!-- Other names -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="otherNames">Other Names</label>
+      <div class="col-md-4" [ngClass]="form.controls.otherNames?.errors ? 'has-error' : 'has-success'">
+        <input type="text" class="form-control" formControlName="otherNames" id="otherNames" placeholder="Other Names">
+      </div>
+      <span [ngClass]="form.controls.otherNames.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.otherNames.errors?.maxlength">The maximum length is {{form.controls.otherNames.errors.maxlength.requiredLength}} characters: Current is {{form.controls.otherNames.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.otherNames.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.otherNames.errors?.required">Other Names is required</span>
+      <span [ngClass]="form.controls.otherNames.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.otherNames.errors?.minlength">The minimum length is {{form.controls.otherNames.errors.minlength.requiredLength}} characters: Current is {{form.controls.otherNames.errors.minlength.actualLength}}</span>
+    </div>
+
+    <!-- Date of birth -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="dateOfBirth">Date of Birth</label>
+      <div class="col-md-4" [ngClass]="form.controls.dateOfBirth?.errors ? 'has-error' : 'has-success'">
+        <input type="date" class="form-control" formControlName="dateOfBirth" id="dateOfBirth" placeholder="Date of Birth">
+      </div>
+      <span [ngClass]="form.controls.dateOfBirth.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.dateOfBirth.errors?.required">Date of Birth is required</span>
+      <span [ngClass]="form.controls.dateOfBirth.errors?.maxDate ? 'text-danger' : ''" *ngIf="form.controls.dateOfBirth.errors?.maxDate">Set a date lower than today</span>
+    </div>
+
+    <!-- Gender -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="gender">Gender</label>
+      <div class="col-md-4" [ngClass]="form.controls.gender?.errors ? 'has-error' : 'has-success'">
+        <select class="form-control" formControlName="gender" id="gender">
+          <option *ngFor="let g of ['Female','Male']" [ngValue]="g">{{g}}</option>
+        </select>
+      </div>
+      <span [ngClass]="form.controls.gender.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.gender.errors?.maxlength">The maximum length is {{form.controls.gender.errors.maxlength.requiredLength}} characters: Current is {{form.controls.gender.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.gender.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.gender.errors?.required">Select gender</span>
+      <span [ngClass]="form.controls.gender.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.gender.errors?.minlength">The minimum length is {{form.controls.gender.errors.minlength.requiredLength}} characters: Current is {{form.controls.gender.errors.minlength.actualLength}}</span>
+    </div>
+
+    <!-- Town -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="town">Town</label>
+      <div class="col-md-4" [ngClass]="form.controls.town?.errors ? 'has-error' : 'has-success'">
+        <input type="text" name="town" class="form-control" id="town" formControlName="town" placeholder="the place the patient lives" />
+      </div>
+      <span [ngClass]="form.controls.town.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.town.errors?.maxlength">The maximum length is {{form.controls.town.errors.maxlength.requiredLength}} characters: Current is {{form.controls.town.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.town.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.town.errors?.required">Town is required</span>
+      <span [ngClass]="form.controls.town.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.town.errors?.minlength">The minimum length is {{form.controls.town.errors.minlength.requiredLength}} characters: Current is {{form.controls.town.errors.minlength.actualLength}}</span>
+    </div>
+
+    <!-- Mobile Number -->
+    <div class="form-group form-row">
+      <label class="col-md-2 control-label" for="obileNumber">Mobile Number</label>
+      <div class="col-md-4" [ngClass]="form.controls.mobileNumber?.errors ? 'has-error' : 'has-success'">
+        <input type="text" name="mobileNumber" id="mobileNumber" formControlName="mobileNumber" class="form-control" placeholder="Mobile phone number" />
+      </div>
+      <span [ngClass]="form.controls.mobileNumber.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.mobileNumber.errors?.maxlength">The maximum length is {{form.controls.mobileNumber.errors.maxlength.requiredLength}} characters: Current is {{form.controls.mobileNumber.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.mobileNumber.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.mobileNumber.errors?.required">Mobile number is required</span>
+      <span [ngClass]="form.controls.mobileNumber.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.mobileNumber.errors?.minlength">The minimum length is {{form.controls.mobileNumber.errors.minlength.requiredLength}} characters: Current is {{form.controls.mobileNumber.errors.minlength.actualLength}}</span>
+    </div>
+
+    <div class="offset-md-2">
+      <button [disabled]="form.invalid || isProcessing" type="submit" [ngClass]="form.invalid ? 'btn-danger' : 'btn-success'" class="btn"><span class="glyphicon glyphicon-new-window"> Add</span></button>
+    </div>
+
+    <div class="row">
+      <span [hidden]="!isDismissed" class="alert alert-dismissible" [ngClass]="isError ? 'alert-warning' : 'alert-info'">{{message}} <button class="btn btn-primary btn-sm" (click)="this.isDismissed=!this.isDismissed">Dismiss</button></span>
+    </div>
+  </fieldset>
+</form>
