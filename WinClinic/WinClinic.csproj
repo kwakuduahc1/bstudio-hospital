@@ -40,6 +40,10 @@
       <Generator>DtsGenerator</Generator>
       <LastGenOutput>Staff.cs.generated.d.ts</LastGenOutput>
     </Compile>
+    <Compile Update="Model\ViewModels\AttendanceVm.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>AttendanceVm.cs.generated.d.ts</LastGenOutput>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

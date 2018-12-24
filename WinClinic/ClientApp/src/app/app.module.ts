@@ -19,6 +19,8 @@ import { OpdHttpService } from './http/opd-http.service';
 import { RegisterHttpService } from './http/register-http.service';
 import { FindPatientResolverService } from './resolvers/patient/find-patient-resolver.service';
 import { PatientsResolverService } from './resolvers/patient/patients-resolver.service';
+import { AttendanceHttpService } from './http/attendance-http-service';
+import { AttendanceResolverService } from './resolvers/attendance/attendance.service';
 
 @NgModule({
   declarations: [
@@ -41,14 +43,17 @@ import { PatientsResolverService } from './resolvers/patient/patients-resolver.s
     CustomFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } }
+      { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } },
+      { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } }
     ])
   ],
   providers: [
     OpdHttpService,
     RegisterHttpService,
     FindPatientResolverService,
-    PatientsResolverService
+    PatientsResolverService,
+    AttendanceHttpService,
+    AttendanceResolverService
   ],
   bootstrap: [AppComponent]
 })

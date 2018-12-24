@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IAttendanceVm } from '../../../../model/IAttendace';
+import { ActivatedRoute } from '@angular/router';
+import { AttendanceHttpService } from '../../../../http/attendance-http-service';
 
 @Component({
   selector: 'app-attendance-list',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AttendanceListComponent implements OnInit {
 
-  constructor() { }
+  list: IAttendanceVm[];
+  constructor(route: ActivatedRoute,private http: AttendanceHttpService) {
+    this.list = route.snapshot.data['list'];
+  }
 
   ngOnInit() {
   }
 
+  refresh() {
+    this.http.list().subscribe(res => this.list = res);
+  }
 }

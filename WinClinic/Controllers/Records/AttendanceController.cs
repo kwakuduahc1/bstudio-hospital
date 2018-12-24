@@ -20,7 +20,7 @@ namespace KingsMedicalVillage.Controllers.Records
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PatientID", "VisitType")]PatientAttendance attendance)
+        public async Task<IActionResult> Create([FromBody]PatientAttendance attendance)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
@@ -33,6 +33,6 @@ namespace KingsMedicalVillage.Controllers.Records
         }
 
         [HttpGet]
-        public async Task<IEnumerable> List() => await helper.Attendances();
+        public async Task<IEnumerable> List(byte num) => await helper.Attendances(num);
     }
 }

@@ -1,33 +1,53 @@
-<div class='main-nav'>
-  <div class='navbar navbar-inverse'>
-    <div class='navbar-header'>
-      <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
-        <span class='sr-only'>Toggle navigation</span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-      </button>
-      <a class='navbar-brand' [routerLink]='["/"]'>Win-Clinic</a>
-    </div>
-    <div class='clearfix'></div>
-    <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-      <ul class='nav navbar-nav'>
-        <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-          <a [routerLink]='["/"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-home'></span> Home
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/registration"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-folder-open'></span> Registration
-          </a>
-        </li>
-        <li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-th-list'></span> Fetch data
-          </a>
-        </li>
-      </ul>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" [routerLink]="['/']"><img class="" src="" /> Power</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/about']" title="view all request that are pending">About<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Administrator
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" [routerLink]="['/items']">Items</a>
+          <div class="divider"></div>
+          <a class="dropdown-item" [routerLink]="['/approvals']">Approvals</a>
+          <div class="divider"></div>
+          <a class="dropdown-item" [routerLink]="['/register']">Register</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Requests
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" [routerLink]="['/request']">New Request</a>
+          <div class="divider"></div>
+          <a class="dropdown-item" [routerLink]="['/pending']" title="view all request that are pending">Pending</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Factory
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" [routerLink]="['/jobs']">Jobs</a>
+          <div class="divider"></div>
+          <a class="dropdown-item" [routerLink]="['/server']" title="view all request that are pending">Pending</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/login']">Login</a>>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <button class="btn btn-outline-primary" (click)="signout()" type="submit">Sign Out</button>
+      </li>
+    </ul>
   </div>
-</div>
+</nav>

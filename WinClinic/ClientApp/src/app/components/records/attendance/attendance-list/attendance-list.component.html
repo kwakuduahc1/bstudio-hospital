@@ -1,3 +1,25 @@
-<p>
-  attendance-list works!
-</p>
+<h1>OPD Attendance</h1>
+<h2>Add New</h2>
+<app-attendance-add></app-attendance-add>
+<h2 class="h2">List</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Patient</th>
+      <th>Identifier</th>
+      <th>Visit Type</th>
+      <th>Date Visited</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of list">
+      <td>{{a.fullName}}</td>
+      <td>{{a.patientsID}}</td>
+      <td>{{a.visitType}}</td>
+      <td>{{a.dateSeen |date}}</td>
+      <td>
+        <button class="btn btn-secondary" [routerLink]="['/vitals', a.patientsID]">Vitals</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
