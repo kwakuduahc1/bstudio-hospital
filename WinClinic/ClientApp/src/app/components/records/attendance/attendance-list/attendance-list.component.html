@@ -1,6 +1,6 @@
-<h1>OPD Attendance</h1>
+<h1 class="h1 text-md-center">OPD Attendance</h1>
 <h2>Add New</h2>
-<app-attendance-add></app-attendance-add>
+<app-attendance-add (onAadded)="refresh()"></app-attendance-add>
 <h2 class="h2">List</h2>
 <table class="table table-striped">
   <thead>

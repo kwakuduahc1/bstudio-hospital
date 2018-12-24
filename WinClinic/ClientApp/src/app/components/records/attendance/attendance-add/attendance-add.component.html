@@ -1,32 +1,41 @@
-<form class="form-horizontal" name="form" id="form" [formGroup]="form" (submit)="add(form.value)">
+<form class="form-horizontal" name="form" id="form" [formGroup]="form" (submit)="find(form.controls.patientsID.value)">
   <fieldset>
     <legend>Fill in details of the patient</legend>
     <!-- Patients ID -->
     <div class="form-group form-row">
-      <label class="col-md-2 control-label" for="patientsID">Identifier</label>
-      <div class="col-md-4" [ngClass]="form.controls.patientsID?.errors ? 'has-error' : 'has-success'">
+      <label class="col-sm-1 control-label" for="patientsID">Identifier</label>
+      <div class="col-sm-4" [ngClass]="form.controls.patientsID?.errors ? 'has-error' : 'has-success'">
         <input type="text" class="form-control" formControlName="patientsID" id="patientsID" placeholder="index number/staff id">
       </div>
-      <span [ngClass]="form.controls.patientsID.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.maxlength">The maximum length is {{form.controls.patientsID.errors.maxlength.requiredLength}} characters: Current is {{form.controls.patientsID.errors.maxlength.actualLength}}</span>
-      <span [ngClass]="form.controls.patientsID.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.required">Unique identifier is required</span>
-      <span [ngClass]="form.controls.patientsID.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.minlength">The minimum length is {{form.controls.patientsID.errors.minlength.requiredLength}} characters: Current is {{form.controls.patientsID.errors.minlength.actualLength}}</span>
-    </div>
-    <!-- Surname -->
-    <div class="form-group form-row">
-      <label class="col-md-2 control-label" for="visitType">Visit Type</label>
-      <div class="col-md-4" [ngClass]="form.controls.visitType?.errors ? 'has-error' : 'has-success'">
-        <input type="text" class="form-control" formControlName="visitType" id="visitType" placeholder="Surname">
+      <div class="col-sm-2">
+        <button class="btn" [ngClass]="form.valid ? 'btn-outline-success' : 'btn-outline-danger'" [disabled]="form.invalid || hand.processing">Find</button>
       </div>
-      <span [ngClass]="form.controls.visitType.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.visitType.errors?.maxlength">The maximum length is {{form.controls.visitType.errors.maxlength.requiredLength}} characters: Current is {{form.controls.visitType.errors.maxlength.actualLength}}</span>
-      <span [ngClass]="form.controls.visitType.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.visitType.errors?.required">Surname is required</span>
-      <span [ngClass]="form.controls.visitType.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.visitType.errors?.minlength">The minimum length is {{form.controls.visitType.errors.minlength.requiredLength}} characters: Current is {{form.controls.visitType.errors.minlength.actualLength}}</span>
+      <div class="row">
+        <span [ngClass]="form.controls.patientsID.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.maxlength">The maximum length is {{form.controls.patientsID.errors.maxlength.requiredLength}} characters: Current is {{form.controls.patientsID.errors.maxlength.actualLength}}</span>
+        <span [ngClass]="form.controls.patientsID.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.required">Unique identifier is required</span>
+        <span [ngClass]="form.controls.patientsID.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.patientsID.errors?.minlength">The minimum length is {{form.controls.patientsID.errors.minlength.requiredLength}} characters: Current is {{form.controls.patientsID.errors.minlength.actualLength}}</span>
+      </div>
     </div>
   </fieldset>
 </form>
-<div class="card">
-  <div class="card-header h3">Patient Information</div>
+<div class="card text-white bg-secondary mb-3" style="max-width: 18rem;" *ngIf="pat && form.valid">
+  <div class="card-header">Patient Information</div>
   <div class="card-body">
-    <div class="card-text">Name  : {{pat.fullName}}</div>
-    <div class="card-text">Phone : {{pat.mobileNumber}}</div>
+    <div class="card-text">Name  : {{pat!.fullName}}</div>
+    <div class="card-text">Phone : {{pat!.mobileNumber}}</div>
+    <div class="card-text">DOB   : {{pat.dateOfBirth}}</div>
+    <form [formGroup]="att_form" (submit)="add(att_form.controls.visitType.value)">
+      <div class="input-group">
+          <select class="form-control" formControlName="visitType" id="visitType">
+            <option *ngFor="let v of visits" [ngValue]="v">{{v}}</option>
+          </select>
+          <button class="btn" [ngClass]="att_form.valid ? 'btn-outline-success' : 'btn-outline-danger'" [disabled]="att_form.invalid">Save</button>
+        </div>
+      <div class="card-text">
+        <span [ngClass]="att_form.controls.visitType.errors?.maxlength ? 'text-danger' : ''" *ngIf="att_form.controls.visitType.errors?.maxlength">The maximum length is {{att_form.controls.visitType.errors.maxlength.requiredLength}} characters: Current is {{att_form.controls.visitType.errors.maxlength.actualLength}}</span>
+        <span [ngClass]="att_form.controls.visitType.errors?.required ? 'text-danger' : ''" *ngIf="att_form.controls.visitType.errors?.required">Surname is required</span>
+        <span [ngClass]="att_form.controls.visitType.errors?.minlength ? 'text-danger' : ''" *ngIf="att_form.controls.visitType.errors?.minlength">The minimum length is {{att_form.controls.visitType.errors.minlength.requiredLength}} characters: Current is {{att_form.controls.visitType.errors.minlength.actualLength}}</span>
+      </div>
+    </form>
   </div>
 </div>

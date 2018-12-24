@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" [routerLink]="['/']"><img class="" src="" /> Power</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" [routerLink]="['/']"><img class="" src="" /> Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -10,12 +10,12 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Administrator
+          Records
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" [routerLink]="['/items']">Items</a>
+          <a class="dropdown-item" [routerLink]="['/registration']">Registration</a>
           <div class="divider"></div>
-          <a class="dropdown-item" [routerLink]="['/approvals']">Approvals</a>
+          <a class="dropdown-item" [routerLink]="['/attendance']">Attendance</a>
           <div class="divider"></div>
           <a class="dropdown-item" [routerLink]="['/register']">Register</a>
         </div>
@@ -41,7 +41,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/login']">Login</a>>
+        <a class="nav-link" [routerLink]="['/login']">Login</a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">

@@ -11,15 +11,15 @@ export class AttendanceHttpService {
     return this.http.get<IAttendanceVm[]>(`/Attendance/List?num=${num}`);
   }
 
-  add(pat: IPatients): Observable<IAttendance> {
+  add(pat: IAttendance): Observable<IAttendance> {
     return this.http.post<IAttendance>(`/Attendance/Create`, pat);
   }
 
-  edit(pat: IPatients): Observable<IAttendance> {
+  edit(pat: IAttendance): Observable<IAttendance> {
     return this.http.post<IAttendance>(`/Attendance/Edit`, pat);
   }
 
-  delete(pat: IPatients): Observable<IAttendance> {
+  delete(pat: IAttendance): Observable<IAttendance> {
     return this.http.post<IAttendance>(`/Attendance/Delete`, pat);
   }
 
@@ -31,5 +31,8 @@ export class AttendanceHttpService {
     return this.http.get<IAttendanceVm[]>(`/Attendance/Search?name=${qry}`);
   }
 
+  findPat(id: string): Observable<IPatients> {
+    return this.http.get<IPatients>(`/Attendance/Patient?id=${id}`);
+  }
   constructor(private http: HttpClient) { }
 }

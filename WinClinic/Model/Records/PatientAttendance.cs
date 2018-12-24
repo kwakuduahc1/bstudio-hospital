@@ -15,12 +15,11 @@ namespace bStudioHospital.Model.Records
 
         [Required]
         [StringLength(15)]
-        [DefaultValue("Acute Case")]
+        [DefaultValue("Acute")]
         public string VisitType { get; set; }
 
         public DateTime DateSeen { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string UserName { get; set; }
 

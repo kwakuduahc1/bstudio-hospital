@@ -18,6 +18,14 @@ namespace KingsMedicalVillage.Controllers.Records
             helper = new RecordsHelper(dbContextOptions);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Patient(string id)
+        {
+            Patients pat = await helper.Find(id);
+            if (pat == null)
+                return NotFound(new { Message = "Patient was not found" });
+            return Ok(new { pat.FullName, pat.Gender, pat.MobileNumber, pat.PatientsID, pat.DateOfBirth });
+        }
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromBody]PatientAttendance attendance)
@@ -27,6 +35,7 @@ namespace KingsMedicalVillage.Controllers.Records
             var patient = await helper.Find(attendance.PatientsID);
             if (patient == null)
                 return BadRequest(new { Message = $"{patient.PatientsID} is not a valid OPD number" });
+            attendance.UserName = User.Identity.Name;
             helper.AddAttendance(patient, attendance.VisitType);
             await helper.Save();
             return Created($"/Attendance/FInd?id={attendance.ID}", attendance);
