@@ -76,9 +76,10 @@ namespace WinClinic.DTOs.Records
         public async Task<List<Patients>> Search(string name) => await db.Patients
             .Where(x =>
             EF.Functions.Like(x.Surname, $"%{name}%") ||
-            EF.Functions.Like(x.OtherNames, $"{name}") ||
+            EF.Functions.Like(x.OtherNames, $"%{name}%") ||
             EF.Functions.Like(x.MobileNumber, $"%{name}%") ||
             EF.Functions.Like(x.PatientsID, $"%{name}%"))
+            .Include(x => x.Schemes)
             .ToListAsync();
     }
 }

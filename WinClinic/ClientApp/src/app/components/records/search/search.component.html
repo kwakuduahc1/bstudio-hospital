@@ -1,0 +1,43 @@
+<h1 class="text-center">Search for a patient</h1>
+<form class="form-horizontal" name="form" id="form" [formGroup]="form" (submit)="search(form.controls.query.value)">
+  <fieldset>
+    <legend>Fill in details of the patient</legend>
+    <!-- Search term -->
+    <div class="form-group form-row">
+      <label class="col-sm-1 control-label" for="patientsID">Identifier</label>
+      <div class="col-sm-4" [ngClass]="form.controls.query?.errors ? 'has-error' : 'has-success'">
+        <input type="text" class="form-control" formControlName="query" id="query" placeholder="index number/staff id">
+      </div>
+      <div class="col-sm-2">
+        <button class="btn" [ngClass]="form.valid ? 'btn-outline-success' : 'btn-outline-danger'" [disabled]="form.invalid || hand.processing">Find</button>
+      </div>
+    </div>
+    <div class="offset-sm-1">
+      <span [ngClass]="form.controls.query.errors?.maxlength ? 'text-danger' : ''" *ngIf="form.controls.query.errors?.maxlength">The maximum length is {{form.controls.query.errors.maxlength.requiredLength}} characters: Current is {{form.controls.query.errors.maxlength.actualLength}}</span>
+      <span [ngClass]="form.controls.query.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.query.errors?.required">Unique identifier is required</span>
+      <span [ngClass]="form.controls.query.errors?.minlength ? 'text-danger' : ''" *ngIf="form.controls.query.errors?.minlength">The minimum length is {{form.controls.query.errors.minlength.requiredLength}} characters: Current is {{form.controls.query.errors.minlength.actualLength}}</span>
+    </div>
+  </fieldset>
+</form>
+
+<h2>Search results</h2>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Name</th>
+      <th>OPD Number</th>
+      <th>Gender</th>
+      <th>Date of birth</th>
+      <th>Scheme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of list">
+      <td>{{p.fullName}}</td>
+      <td>{{p.patientsID}}</td>
+      <td>{{p.gender}}</td>
+      <td>{{p.dateOfBirth |date}}</td>
+      <td>{{p.scheme}}</td>
+    </tr>
+  </tbody>
+</table>

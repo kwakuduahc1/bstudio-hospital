@@ -37,7 +37,11 @@ namespace KingsMedicalVillage.Controllers.Records
         public async Task<IEnumerable> SchemeList(Guid id, byte num, byte off) => await helper.SchemeList(id, num, off);
 
         [HttpGet]
-        public async Task<IEnumerable> Search(string name) => await helper.Search(name);
+        public async Task<IEnumerable> Search(string name)
+        {
+            var list = await helper.Search(name);
+            return list.Select(x => new { x.DateOfBirth, x.FullName, x.Gender, x.PatientsID, x.Schemes.Scheme });
+        }
         //[HttpGet]
         //public async Task<PartialViewResult> Search(string Name)
         //{

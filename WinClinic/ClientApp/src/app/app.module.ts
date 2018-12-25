@@ -24,6 +24,8 @@ import { AttendanceResolverService } from './resolvers/attendance/attendance.ser
 import { AddOpdComponent } from './components/opd/add-opd/add-opd.component';
 import { VitalsResolverService } from './resolvers/vitals/vitals-resolver.service';
 import { ListOpdComponent } from './components/opd/list-opd/list-opd.component';
+import { AboutComponent } from './components/about/about.component';
+import { SearchComponent } from './components/records/search/search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ListOpdComponent } from './components/opd/list-opd/list-opd.component';
     AttendanceAddComponent,
     AttendanceDetailsComponent,
     AddOpdComponent,
-    ListOpdComponent
+    ListOpdComponent,
+    AboutComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -48,6 +52,8 @@ import { ListOpdComponent } from './components/opd/list-opd/list-opd.component';
     CustomFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'about', component: AboutComponent },
+      { path: 'search', component: SearchComponent },
       { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } },
       { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } },
       { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } }
