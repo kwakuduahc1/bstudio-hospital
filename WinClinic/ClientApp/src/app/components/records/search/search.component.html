@@ -19,25 +19,26 @@
     </div>
   </fieldset>
 </form>
-
-<h2>Search results</h2>
-<table class="table table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th>Name</th>
-      <th>OPD Number</th>
-      <th>Gender</th>
-      <th>Date of birth</th>
-      <th>Scheme</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let p of list">
-      <td>{{p.fullName}}</td>
-      <td>{{p.patientsID}}</td>
-      <td>{{p.gender}}</td>
-      <td>{{p.dateOfBirth |date}}</td>
-      <td>{{p.scheme}}</td>
-    </tr>
-  </tbody>
-</table>
+<div [hidden]="list.length<1 || form.invalid">
+  <h2>Search results</h2>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>OPD Number</th>
+        <th>Gender</th>
+        <th>Date of birth</th>
+        <th>Scheme</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of list">
+        <td>{{p.fullName}}</td>
+        <td>{{p.patientsID}}</td>
+        <td>{{p.gender}}</td>
+        <td>{{p.dateOfBirth |date}}</td>
+        <td>{{p.scheme}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
