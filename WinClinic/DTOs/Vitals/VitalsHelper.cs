@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WinClinic.Model.ViewModels;
 
 namespace WinClinic.DTOs.Records
 {
@@ -23,6 +22,12 @@ namespace WinClinic.DTOs.Records
         /// <returns></returns>
         public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.PatientsID == id));
 
+        /// <summary>
+        /// Ensures the patient has visited the records department at least once today
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<bool> CheckVisit(string id) => Task.Run(async () => await db.PatientAttendance.AnyAsync(x => x.PatientsID == id && x.DateSeen.Date == DateTime.Now.Date));
 
         /// <summary>
         /// Add new vital signs
@@ -51,6 +56,6 @@ namespace WinClinic.DTOs.Records
 
         public Task<OPD> Find(Guid id) => Task.Run(async () => await db.OpdHistory.FindAsync(id));
 
-        public Task<Patients> Patient(string id) => Task.Run(async () => await db.Patients.SingleOrDefaultAsync(x => x.PatientsID == id));
+        public Task<Patients> Patient(string id) => Task.Run(async () => await db.Patients.Include(x => x.Schemes).SingleOrDefaultAsync(x => x.PatientsID == id));
     }
 }

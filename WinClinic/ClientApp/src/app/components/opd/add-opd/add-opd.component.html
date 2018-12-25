@@ -1,3 +1,127 @@
-<p>
-  add-opd works!
-</p>
+<form class="form-horizontal" name="form" id="form" [formGroup]="opd" (submit)="find(opd.controls.patientsID.value)">
+  <fieldset>
+    <legend>Fill in details of the patient</legend>
+    <!-- Patients ID -->
+    <div class="form-group form-row">
+      <label class="col-sm-1 control-label" for="patientsID">Identifier</label>
+      <div class="col-sm-4" [ngClass]="opd.controls.patientsID?.errors ? 'has-error' : 'has-success'">
+        <input type="text" class="form-control" formControlName="patientsID" id="patientsID" placeholder="index number/staff id">
+      </div>
+      <div class="col-sm-2">
+        <button class="btn" [ngClass]="opd.valid ? 'btn-outline-success' : 'btn-outline-danger'" [disabled]="opd.invalid || hand.processing">Find</button>
+      </div>
+      <div class="row">
+        <span [ngClass]="opd.controls.patientsID.errors?.maxlength ? 'text-danger' : ''" *ngIf="opd.controls.patientsID.errors?.maxlength">The maximum length is {{opd.controls.patientsID.errors.maxlength.requiredLength}} characters: Current is {{opd.controls.patientsID.errors.maxlength.actualLength}}</span>
+        <span [ngClass]="opd.controls.patientsID.errors?.required ? 'text-danger' : ''" *ngIf="opd.controls.patientsID.errors?.required">Unique identifier is required</span>
+        <span [ngClass]="opd.controls.patientsID.errors?.minlength ? 'text-danger' : ''" *ngIf="opd.controls.patientsID.errors?.minlength">The minimum length is {{opd.controls.patientsID.errors.minlength.requiredLength}} characters: Current is {{opd.controls.patientsID.errors.minlength.actualLength}}</span>
+      </div>
+    </div>
+  </fieldset>
+</form>
+<div class="row" *ngIf="pat && opd.valid">
+  <div class="col-sm-4">
+    <div class="card text-white bg-secondary">
+      <div class="card-header">Patient Information</div>
+      <div class="card-body">
+        <div class="card-text">Name     : {{pat!.fullName}}</div>
+        <div class="card-text">DOB      : {{pat!.dateOfBirth | date}}</div>
+        <div class="card-text">Scheme   : {{pat.scheme}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <form name="form" id="form" [formGroup]="form" (submit)="add(form.value)">
+      <fieldset>
+        <legend>Add vital signs recorded</legend>
+      </fieldset>
+      <!--Temperature, pulse & respiration-->
+      <div class="form-group form-row">
+        <label class="col-md-1 col-form-label-sm" for="temperature" aria-label="temperature paid by the student">Temp</label>
+        <div class="col-md-2" aria-labelledby="temperature" [ngClass]="form.controls.temperature?.errors ? 'has-error' : 'has-success'">
+          <input type="number"
+                 class="form-control"
+                 id="temperature"
+                 title="Temperature recorded"
+                 formControlName="temperature"
+                 placeholder="temperature recorded">
+        </div>
+        <span [ngClass]="form.controls.temperature.errors?.max ? 'text-danger' : ''" *ngIf="form.controls.temperature.errors?.max">The maximum  {{form.controls.temperature.errors.max.max}}</span>
+        <span [ngClass]="form.controls.temperature.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.temperature.errors?.required">Add the temperature</span>
+        <span [ngClass]="form.controls.temperature.errors?.min ? 'text-danger' : ''" *ngIf="form.controls.temperature.errors?.min">The minimum is {{form.controls.temperature.errors.min.min}}</span>
+        <label class="col-md-1 col-form-label" for="pulse" aria-label="pulse paid by the student">Pulse</label>
+        <div class="col-md-2" aria-labelledby="pulse" [ngClass]="form.controls.pulse?.errors ? 'has-error' : 'has-success'">
+          <input type="number"
+                 class="form-control"
+                 id="pulse"
+                 title="Pulse recorded"
+                 formControlName="pulse"
+                 placeholder="pulse recorded">
+        </div>
+        <span [ngClass]="form.controls.pulse.errors?.max ? 'text-danger' : ''" *ngIf="form.controls.pulse.errors?.max">The maximum  {{form.controls.pulse.errors.max.max}}</span>
+        <span [ngClass]="form.controls.pulse.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.pulse.errors?.required">Add the pulse</span>
+        <span [ngClass]="form.controls.pulse.errors?.min ? 'text-danger' : ''" *ngIf="form.controls.pulse.errors?.min">The minimum is {{form.controls.pulse.errors.min.min}}</span>
+      </div>
+      <!--Weight and respiration-->
+      <div class="form-group form-row">
+        <label class="col-md-1 col-form-label" for="respiration" aria-label="respiration recorded">Respiration</label>
+        <div class="col-md-2" aria-labelledby="respiration" [ngClass]="form.controls.respiration?.errors ? 'has-error' : 'has-success'">
+          <input type="number"
+                 class="form-control"
+                 id="respiration"
+                 title="Respiration recorded"
+                 formControlName="respiration"
+                 placeholder="Respiration recorded">
+        </div>
+        <span [ngClass]="form.controls.respiration.errors?.max ? 'text-danger' : ''" *ngIf="form.controls.respiration.errors?.max">The maximum  {{form.controls.respiration.errors.max.max}}</span>
+        <span [ngClass]="form.controls.respiration.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.respiration.errors?.required">Add the respiration</span>
+        <span [ngClass]="form.controls.respiration.errors?.min ? 'text-danger' : ''" *ngIf="form.controls.respiration.errors?.min">The minimum is {{form.controls.respiration.errors.min.min}}</span>
+        <label class="col-md-1 col-form-label" for="weight" aria-label="weight of the patient">Weight</label>
+        <div class="col-md-2" aria-labelledby="weight" [ngClass]="form.controls.weight?.errors ? 'has-error' : 'has-success'">
+          <input type="number"
+                 class="form-control"
+                 id="weight"
+                 title="Weight recorded"
+                 formControlName="weight"
+                 placeholder="Weight recorded">
+        </div>
+        <span [ngClass]="form.controls.weight.errors?.max ? 'text-danger' : ''" *ngIf="form.controls.weight.errors?.max">The maximum  {{form.controls.weight.errors.max.max}}</span>
+        <span [ngClass]="form.controls.weight.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.weight.errors?.required">Add the weight</span>
+        <span [ngClass]="form.controls.weight.errors?.min ? 'text-danger' : ''" *ngIf="form.controls.weight.errors?.min">The minimum is {{form.controls.weight.errors.min.min}}</span>
+      </div>
+      <!-- systol & diastol-->
+      <div class="form-group form-row">
+        <label class="col-md-1 col-form-label" for="systolic" aria-label="systolic recorded">Systolic</label>
+        <div class="col-md-2" aria-labelledby="systolic" [ngClass]="form.controls.systolic?.errors ? 'has-error' : 'has-success'">
+          <input type="number"
+                 class="form-control"
+                 id="systolic"
+                 title="Pulse recorded"
+                 formControlName="systolic"
+                 placeholder="systolic recorded">
+        </div>
+        <span [ngClass]="form.controls.systolic.errors?.max ? 'text-danger' : ''" *ngIf="form.controls.systolic.errors?.max">The maximum  {{form.controls.systolic.errors.max.max}}</span>
+        <span [ngClass]="form.controls.systolic.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.systolic.errors?.required">Add the systolic</span>
+        <span [ngClass]="form.controls.systolic.errors?.min ? 'text-danger' : ''" *ngIf="form.controls.systolic.errors?.min">The minimum is {{form.controls.systolic.errors.min.min}}</span>
+        <label class="col-md-1 col-form-label" for="diastolic" aria-label="diastolic recorded">Diastolic</label>
+        <div class="col-md-2" aria-labelledby="diastolic" [ngClass]="form.controls.diastolic?.errors ? 'has-error' : 'has-success'">
+          <input type="number"
+                 class="form-control"
+                 id="diastolic"
+                 title="Diastolic recorded"
+                 formControlName="diastolic"
+                 placeholder="Diastolic recorded">
+        </div>
+        <span [ngClass]="form.controls.diastolic.errors?.max ? 'text-danger' : ''" *ngIf="form.controls.diastolic.errors?.max">The maximum  {{form.controls.diastolic.errors.max.max}}</span>
+        <span [ngClass]="form.controls.diastolic.errors?.required ? 'text-danger' : ''" *ngIf="form.controls.diastolic.errors?.required">Add the diastolic</span>
+        <span [ngClass]="form.controls.diastolic.errors?.min ? 'text-danger' : ''" *ngIf="form.controls.diastolic.errors?.min">The minimum is {{form.controls.diastolic.errors.min.min}}</span>
+      </div>
+      <div class="offset-md-1 btn-grou">
+        <button [disabled]="form.invalid || hand.isProcessing" type="submit" [ngClass]="form.invalid ? 'btn-danger' : 'btn-success'" class="btn">Add</button>
+      </div>
+
+      <div class="row">
+        <span [hidden]="!hand.isDismissed" class="alert alert-dismissible" [ngClass]="hand.isError ? 'alert-warning' : 'alert-info'">{{hand.message}} <button class="btn btn-primary btn-sm" (click)="this.hand.isDismissed=!this.hand.isDismissed">Dismiss</button></span>
+      </div>
+    </form>
+  </div>
+</div>

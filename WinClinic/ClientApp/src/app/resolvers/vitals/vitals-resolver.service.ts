@@ -6,8 +6,8 @@ import { IOpd } from '../../model/IOpd';
 
 @Injectable()
 export class VitalsResolverService implements Resolve<Observable<IOpd[]>> {
-  resolve(route: ActivatedRouteSnapshot): Observable<IOpd[]> {
-    return this.http.list(route.paramMap.get('id') as string);
+  resolve(): Observable<IOpd[]> {
+    return this.http.list();
   }
   constructor(private http: OpdHttpService) { }
 }

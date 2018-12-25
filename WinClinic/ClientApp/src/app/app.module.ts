@@ -21,7 +21,9 @@ import { FindPatientResolverService } from './resolvers/patient/find-patient-res
 import { PatientsResolverService } from './resolvers/patient/patients-resolver.service';
 import { AttendanceHttpService } from './http/attendance-http-service';
 import { AttendanceResolverService } from './resolvers/attendance/attendance.service';
-import { AddOpdComponent } from './componenets/opd/add-opd/add-opd.component';
+import { AddOpdComponent } from './components/opd/add-opd/add-opd.component';
+import { VitalsResolverService } from './resolvers/vitals/vitals-resolver.service';
+import { ListOpdComponent } from './components/opd/list-opd/list-opd.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { AddOpdComponent } from './componenets/opd/add-opd/add-opd.component';
     AttendanceListComponent,
     AttendanceAddComponent,
     AttendanceDetailsComponent,
-    AddOpdComponent
+    AddOpdComponent,
+    ListOpdComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,7 +50,7 @@ import { AddOpdComponent } from './componenets/opd/add-opd/add-opd.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } },
       { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } },
-      { path: 'vital-signs', component: AddOpdComponent }
+      { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } }
     ])
   ],
   providers: [
@@ -56,7 +59,9 @@ import { AddOpdComponent } from './componenets/opd/add-opd/add-opd.component';
     FindPatientResolverService,
     PatientsResolverService,
     AttendanceHttpService,
-    AttendanceResolverService
+    AttendanceResolverService,
+    VitalsResolverService,
+    OpdHttpService
   ],
   bootstrap: [AppComponent]
 })

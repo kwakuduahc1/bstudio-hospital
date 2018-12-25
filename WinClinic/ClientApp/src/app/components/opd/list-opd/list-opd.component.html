@@ -1,0 +1,29 @@
+<h1 class="text-md-center text-primary">Vital Signs Table</h1>
+<bs-add-opd (reload)="refresh()"></bs-add-opd>
+<h2>Vital Signs Recorded</h2>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Name</th>
+      <th>Temp</th>
+      <th>Resp</th>
+      <th>Pulse</th>
+      <th>BP</th>
+      <th>Weight</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of list">
+      <td>{{v.fullName}}</td>
+      <td>{{v.temperature}}</td>
+      <td>{{v.respiration}}</td>
+      <td>{{v.pulse}}</td>
+      <td>{{v.systolic}}/{{v.diastolic}}</td>
+      <td>{{v.weight}}</td>
+      <td>
+        <button class="btn btn-outline-primary" [routerLink]="['/edit-vitals',v.id]">Edit</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
