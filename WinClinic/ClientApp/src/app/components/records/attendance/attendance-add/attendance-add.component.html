@@ -23,7 +23,7 @@
   <div class="card-body">
     <div class="card-text">Name  : {{pat!.fullName}}</div>
     <div class="card-text">Phone : {{pat!.mobileNumber}}</div>
-    <div class="card-text">DOB   : {{pat.dateOfBirth}}</div>
+    <div class="card-text">DOB   : {{pat.dateOfBirth |date}}</div>
     <form [formGroup]="att_form" (submit)="add(att_form.controls.visitType.value)">
       <div class="input-group">
           <select class="form-control" formControlName="visitType" id="visitType">

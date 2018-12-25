@@ -21,6 +21,7 @@ import { FindPatientResolverService } from './resolvers/patient/find-patient-res
 import { PatientsResolverService } from './resolvers/patient/patients-resolver.service';
 import { AttendanceHttpService } from './http/attendance-http-service';
 import { AttendanceResolverService } from './resolvers/attendance/attendance.service';
+import { AddOpdComponent } from './componenets/opd/add-opd/add-opd.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AttendanceResolverService } from './resolvers/attendance/attendance.ser
     RegistrationDetailsComponent,
     AttendanceListComponent,
     AttendanceAddComponent,
-    AttendanceDetailsComponent
+    AttendanceDetailsComponent,
+    AddOpdComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,7 +46,8 @@ import { AttendanceResolverService } from './resolvers/attendance/attendance.ser
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } },
-      { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } }
+      { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } },
+      { path: 'vital-signs', component: AddOpdComponent }
     ])
   ],
   providers: [

@@ -10,7 +10,7 @@ export class OpdHttpService implements IHttpMethods<IOpd> {
   }
 
   list(id: string, num: number = 5): Observable<IOpd[]> {
-    return this.http.get<IOpd[]>(`/Opd/History?id=${id}&num=${num}`);
+    return this.http.get<IOpd[]>(`/Opd/List?id=${id}&num=${num}`);
   }
 
   add(pat: IOpd): Observable<IOpd> {
