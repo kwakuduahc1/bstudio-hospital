@@ -1,6 +1,8 @@
 ﻿using bStudioHospital.Model;
+using bStudioHospital.Model.ConsultingRoom;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,6 +34,18 @@ namespace WinClinic.Controllers.OPD
         {
             var hist = await db.ConHistory(id);
             return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.ID, x.PatientsID });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateConsult([FromBody]PatientConsultation cons)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
+            cons.DateAdded = DateTime.Now;
+            cons.UserName = User.Identity.Name;
+            db.AddConsult(cons);
+            await db.Save();
+            return Ok();
         }
 
     }

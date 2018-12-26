@@ -51,7 +51,7 @@ namespace WinClinic.Controllers.OPD
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
             if (!await db.CheckVisit(opd.PatientsID))
                 return BadRequest(new { Message = "Patient has not visited the records today" });
-                db.Add(opd);
+            db.Add(opd);
             await db.Save();
             return Created($"/OPD/Find?id={opd.ID}", opd);
         }

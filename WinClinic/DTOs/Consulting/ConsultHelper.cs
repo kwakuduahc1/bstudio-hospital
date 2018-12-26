@@ -68,6 +68,11 @@ namespace WinClinic.DTOs.Consulting
             return drugs;
         }
 
+        /// <summary>
+        /// Get patient services history
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Task<List<PatientServices>> PatientServices(string id) => Task.Run(async () => await db.PatientServices.Where(x => x.PatientsID == id).Include(x => x.ServiceCodes).ThenInclude(x => x.Services).ToListAsync());
 
         public async Task<List<ServiceCodes>> SchemeServices(string id)
@@ -89,5 +94,7 @@ namespace WinClinic.DTOs.Consulting
         //    var drugs = await db.DrugCodes.Include(x => x.Drugs).Where(x => x.SchemesID == pt.SchemesID).ToListAsync();
         //    return drugs;
         //}
+
+        public void AddConsult(PatientConsultation patientConsultation) => db.Add(patientConsultation);
     }
 }

@@ -4,25 +4,25 @@ import { HttpClient } from '@angular/common/http';
 import { ServerUrl } from './UrlService';
 import { IConsultation } from '../../model/consult/IConsult';
 
-const url = "/";
+const url = ServerUrl;
 @Injectable()
 export class ConsultHttpService {
 
 
   add(item: IConsultation): Observable<IConsultation> {
-    return this.http.post<IConsultation>(`${url}Consult/Create`, item);
+    return this.http.post<IConsultation>(`${url}Consulting/CreateConsult`, item);
   }
 
   edit(item: IConsultation): Observable<IConsultation> {
-    return this.http.put<IConsultation>(`${url}Consult/Edit`, item);
+    return this.http.put<IConsultation>(`${url}Consulting/Edit`, item);
   }
 
   delete(item: IConsultation): Observable<IConsultation> {
-    return this.http.post<IConsultation>(`${url}Consult/Delete`, item);
+    return this.http.post<IConsultation>(`${url}Consulting/Delete`, item);
   }
 
   find(id: string): Observable<IConsultation> {
-    return this.http.get<IConsultation>(`${url}Consult/Find?id=${id}`)
+    return this.http.get<IConsultation>(`${url}Consulting/Find?id=${id}`)
   }
 
   search(qry: string): Observable<IConsultation[]> {

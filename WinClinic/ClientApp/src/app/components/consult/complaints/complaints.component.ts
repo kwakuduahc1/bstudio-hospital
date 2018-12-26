@@ -16,18 +16,22 @@ export class ComplaintsComponent implements OnInit {
   form: FormGroup;
   hand: bsHandler = new bsHandler();
   s_s: string[] = ['Fever', 'Nausea', 'Vomiting', 'Cough', 'Abdominal pains', 'Headache', 'Malaise', 'Palor', 'Conjunctivitis', 'Diarrhea', 'Sneezing', 'Inflammation', 'Palpitation', 'Dizziness', 'Hallucination', 'Illusions', 'Toothache', 'Frequent micturation', 'Blood in stool', 'Dyspnea'];
-  selected: string[]=[];
-  constructor(route: ActivatedRoute, http: ConsultHttpService, fb: FormBuilder, pat: PatientService) {
+  selected: string[] = [];
+  pid: string;
+  constructor(route: ActivatedRoute,private http: ConsultHttpService, fb: FormBuilder, pat: PatientService) {
     this.hist = route.snapshot.data['history'];
+    this.pid = route.parent.snapshot.paramMap.get('id');
+    console.log(this.pid);
     this.form = fb.group({
       complaints: ["", Validators.compose([Validators.required, Validators.maxLength(500), Validators.minLength(3)])],
-  });
+    });
   }
 
   add_ss(ss: string) {
     let ix = this.s_s.findIndex(x => x === ss);
     this.selected.unshift(ss);
     this.s_s.splice(ix, 1);
+    this.form.reset();
   }
 
   rem_ss(ss: string) {
@@ -36,12 +40,11 @@ export class ComplaintsComponent implements OnInit {
     this.selected.splice(ix, 1);
   }
 
-  add(con: string) {
-    if (!this.con.selected.some(x => x === con)) {
-      this.con.selected.unshift(con);
-      this.con.form.reset();
-    }
-    else alert('Complains already added');
+  add(con:IConsultation) {
+    this.selected.map(x => this.s_s.unshift(x));
+    this.selected.splice(0, this.selected.length);
+    this.form.reset();
+    this.hist.unshift(con);
   }
 
   consult() {
@@ -51,8 +54,8 @@ export class ComplaintsComponent implements OnInit {
     }
     else if (confirm('Have you reviewed the data?')) {
       var ss = this.selected.join();
-      let hist: IConsultation = { complaints: ss, patientsID: this.con.patient.patientsID } as IConsultation;
-      this.add(hist);
+      let hist: IConsultation = { complaints: ss, patientsID: this.pid, physicianNotes: '', userName: '', dateAdded:new Date() } as IConsultation;
+      this.http.add(hist).subscribe(() => this.add(hist), err => this.hand.onError(err));
     }
   }
 

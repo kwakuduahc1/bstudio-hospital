@@ -7,7 +7,7 @@
     </ul>
   </div>
   <div class="col-sm-8">
-    <form class="form-horizontal" name="form" id="form" [formGroup]="form" (submit)="add(form.controls['complaints'].value)">
+    <form class="form-horizontal" name="form" id="form" [formGroup]="form" (submit)="add_ss(form.controls['complaints'].value)">
       <fieldset>
         <legend>Add complaints not in the list (separate list with comma ",")</legend>
         <!-- Complaints -->
@@ -29,8 +29,11 @@
         </div>
       </fieldset>
     </form>
-    <ul class="list-group">
-      <li *ngFor="let s of selected" class="text-info list-group-item">{{s}} <button class="btn btn-sm btn-outline-primary" (click)="rem_ss(s)">Remove</button></li>
+    <ul class="list-group" [hidden]="selected.length < 1">
+      <li *ngFor="let s of selected" class="list-group-item">{{s}} <button class="btn btn-sm btn-outline-primary" (click)="rem_ss(s)">Remove</button></li>
+      <li class="list-group-item">
+        <button class="btn" [ngClass]="selected.length < 1 ? 'btn-outline-danger' : ' btn-outline-success'" (click)="consult()" [disabled]="selected.length<1">Save</button>
+      </li>
     </ul>
     <h4>Previous Complaints</h4>
     <table class="table table-responsive table-striped table-borderless">
