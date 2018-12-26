@@ -26,6 +26,8 @@ import { VitalsResolverService } from './resolvers/vitals/vitals-resolver.servic
 import { ListOpdComponent } from './components/opd/list-opd/list-opd.component';
 import { AboutComponent } from './components/about/about.component';
 import { SearchComponent } from './components/records/search/search.component';
+import { ConsultHomeComponent } from './components/consult/consult-home/consult-home.component';
+import { VitalsComponent } from './components/consult/vitals/vitals.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { SearchComponent } from './components/records/search/search.component';
     AddOpdComponent,
     ListOpdComponent,
     AboutComponent,
-    SearchComponent
+    SearchComponent,
+    ConsultHomeComponent,
+    VitalsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,7 +60,12 @@ import { SearchComponent } from './components/records/search/search.component';
       { path: 'search', component: SearchComponent },
       { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } },
       { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } },
-      { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } }
+      { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } },
+      {
+        path: 'consult', component: ConsultHomeComponent, children: [
+          { path: 'vitals', component: VitalsComponent }
+        ]
+      }
     ])
   ],
   providers: [
