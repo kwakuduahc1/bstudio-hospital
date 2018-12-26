@@ -24,7 +24,7 @@ namespace KingsMedicalVillage.Controllers.Records
             Patients pat = await helper.Find(id);
             if (pat == null)
                 return NotFound(new { Message = "Patient was not found" });
-            return Ok(new { pat.FullName, pat.Gender, pat.MobileNumber, pat.PatientsID, pat.DateOfBirth });
+            return Ok(new { pat.FullName, pat.Gender, pat.MobileNumber, pat.PatientsID, pat.DateOfBirth, pat.Schemes.Scheme });
         }
         [HttpPost]
         //[ValidateAntiForgeryToken]

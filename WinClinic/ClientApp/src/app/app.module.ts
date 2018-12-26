@@ -28,6 +28,24 @@ import { AboutComponent } from './components/about/about.component';
 import { SearchComponent } from './components/records/search/search.component';
 import { ConsultHomeComponent } from './components/consult/consult-home/consult-home.component';
 import { VitalsComponent } from './components/consult/vitals/vitals.component';
+import { PendingComponent } from './components/consult/pending/pending.component';
+import { DiagnosesResolver } from './resolvers/consulting/diagnoses-resolver';
+import { DiagnosesHttpService } from './http/consulting/diagnoses-http.service';
+import { DiscountsResolver } from './resolvers/consulting/dIscounts-resolver';
+import { DiscountsHttpService } from './http/consulting/discounts-http.service';
+import { SummarytHttpService } from './http/consulting/summary-http.service';
+import { DatesResolver } from './resolvers/consulting/dates-resolver';
+import { LoginGuard } from './guards/LoginGuard';
+import { StatusProvider } from './providers/StatusProvider';
+import { RouteProvider } from './providers/RouteProvider';
+import { VitalsResolver } from './resolvers/consulting/vitals-resolver';
+import { FindParentPatientResolver } from './resolvers/consulting/find-patient-resolver';
+import { PatientSummaryResolver } from './resolvers/consulting/patient-summary-resolver';
+import { FilesResolver } from './resolvers/consulting/files-resolver';
+import { PatientServicesResolver } from './resolvers/consulting/patient-services-resolver';
+import { ServicesResolver } from './resolvers/consulting/services-resolver';
+import { DrugsResolver } from './resolvers/consulting/drugs-resolver';
+import { PatientLabsResolver } from './resolvers/consulting/patient-labs-resolver';
 
 @NgModule({
   declarations: [
@@ -46,7 +64,8 @@ import { VitalsComponent } from './components/consult/vitals/vitals.component';
     AboutComponent,
     SearchComponent,
     ConsultHomeComponent,
-    VitalsComponent
+    VitalsComponent,
+    PendingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,8 +80,9 @@ import { VitalsComponent } from './components/consult/vitals/vitals.component';
       { path: 'registration', component: RegistrationListComponent, resolve: { patients: PatientsResolverService } },
       { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } },
       { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } },
+      { path: 'pending', component: PendingComponent },
       {
-        path: 'consult', component: ConsultHomeComponent, children: [
+        path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent }
         ]
       }
@@ -76,7 +96,24 @@ import { VitalsComponent } from './components/consult/vitals/vitals.component';
     AttendanceHttpService,
     AttendanceResolverService,
     VitalsResolverService,
-    OpdHttpService
+    OpdHttpService,
+    PatientLabsResolver,
+    DrugsResolver,
+    ServicesResolver,
+    PatientServicesResolver,
+    FilesResolver,
+    PatientSummaryResolver,
+    FindParentPatientResolver,
+    VitalsResolver,
+    RouteProvider,
+    StatusProvider,
+    LoginGuard,
+    DatesResolver,
+    SummarytHttpService,
+    DiscountsHttpService,
+    DiscountsResolver,
+    DiagnosesHttpService,
+    DiagnosesResolver
   ],
   bootstrap: [AppComponent]
 })

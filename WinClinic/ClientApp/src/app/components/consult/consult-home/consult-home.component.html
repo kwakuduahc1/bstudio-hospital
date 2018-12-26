@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-sm-2">
     <ul class="list-group">
-      <li class="list-group-item list-group-item-primary">Areas</li>
+      <li class="list-group-item list-group-item-dark text-light">Section</li>
       <li *ngFor="let p of paths; let ix = index" class="list-group-item border-0" [ngClass]="p.clicked ? 'list-group-item-success' : 'list-group-item-light'" [routerLink]="[p.url]" (click)="clicked(ix)" style="cursor:grab">{{p.path}}</li>
     </ul>
   </div>

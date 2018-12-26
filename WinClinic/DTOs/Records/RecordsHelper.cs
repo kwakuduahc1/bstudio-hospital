@@ -69,7 +69,7 @@ namespace WinClinic.DTOs.Records
         /// <returns>List of patients based on scheme type</returns>
         public Task<List<Patients>> SchemeList(Guid id, byte num, byte off) => Task.Run(async () => await db.Patients.Where(x => x.PatientDetails.SchemesID == id).OrderByDescending(x => x.DateAdded).Skip(off).Take(num).ToListAsync());
 
-        public Task<Patients> Find(string id) => Task.Run(async () => await db.Patients.FindAsync(id));
+        public Task<Patients> Find(string id) => Task.Run(async () => await db.Patients.Include(x => x.Schemes).SingleOrDefaultAsync(x => x.PatientsID == id));
 
         public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.ID, PatientsID = x.PatientsID, VisitType = x.VisitType }).ToListAsync());
 
