@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { OpdHttpService } from '../../http/opd-http.service';
-import { IOpd } from '../../model/IOpd';
+import { Injectable } from "@angular/core";
+import { Resolve, ActivatedRouteSnapshot } from "@angular/router";
+import { Observable } from "rxjs";
+import { IPending } from "../../model/consult/IPending";
+import { HttpService } from "../../http/consulting/http.service";
 
 @Injectable()
-export class ConsultVitalsResolver implements Resolve<Observable<IOpd[]>> {
-  resolve(): Observable<IOpd[]> {
-    return this.http.list();
+export class ConsultVitalsResolver implements Resolve<Observable<IPending[]>> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IPending[]> {
+    return this.http.vitals(route.parent!.paramMap.get('id') as string);
   }
-  constructor(private http: OpdHttpService) { }
+
+  constructor(private http: HttpService) { }
 }

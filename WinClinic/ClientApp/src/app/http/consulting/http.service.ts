@@ -39,11 +39,12 @@ export class HttpService {
   }
 
   vitals(id: string): Observable<any[]> {
-    return this.http.get<any[]>(`${url}Opd/History?id=${id}&num=3`);
+    return this.http.get<any[]>(`${url}Consulting/Vitals?id=${id}`);
   }
 
   login(st: any): Observable<IStaff> {
     return this.http.post<IStaff>(`${url}Staff/Login`, st)
   }
+
   constructor(private http: HttpClient) { }
 }

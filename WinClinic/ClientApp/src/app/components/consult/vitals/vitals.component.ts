@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IOpd } from '../../../model/IOpd';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'bs-vitals',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VitalsComponent implements OnInit {
 
-  constructor() { }
+  vitals: IOpd[];
+  constructor(route: ActivatedRoute) {
+    this.vitals = route.snapshot.data['vitals']
+  }
 
   ngOnInit() {
   }

@@ -38,7 +38,6 @@ import { DatesResolver } from './resolvers/consulting/dates-resolver';
 import { LoginGuard } from './guards/LoginGuard';
 import { StatusProvider } from './providers/StatusProvider';
 import { RouteProvider } from './providers/RouteProvider';
-import { VitalsResolver } from './resolvers/consulting/vitals-resolver';
 import { FindParentPatientResolver } from './resolvers/consulting/find-patient-resolver';
 import { PatientSummaryResolver } from './resolvers/consulting/patient-summary-resolver';
 import { FilesResolver } from './resolvers/consulting/files-resolver';
@@ -46,6 +45,12 @@ import { PatientServicesResolver } from './resolvers/consulting/patient-services
 import { ServicesResolver } from './resolvers/consulting/services-resolver';
 import { DrugsResolver } from './resolvers/consulting/drugs-resolver';
 import { PatientLabsResolver } from './resolvers/consulting/patient-labs-resolver';
+import { ConsultVitalsResolver } from './resolvers/consulting/consult-vitals-resolver';
+import { HttpService } from './http/consulting/http.service';
+import { ComplaintsComponent } from './components/consult/complaints/complaints.component';
+import { HistoryResolver } from './resolvers/consulting/history-resolver';
+import { PatientService } from './providers/patient-service';
+import { ConsultHttpService } from './http/consulting/consult-http.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +70,8 @@ import { PatientLabsResolver } from './resolvers/consulting/patient-labs-resolve
     SearchComponent,
     ConsultHomeComponent,
     VitalsComponent,
-    PendingComponent
+    PendingComponent,
+    ComplaintsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -83,12 +89,16 @@ import { PatientLabsResolver } from './resolvers/consulting/patient-labs-resolve
       { path: 'pending', component: PendingComponent },
       {
         path: 'consult/:id', component: ConsultHomeComponent, children: [
-          { path: 'vitals', component: VitalsComponent }
+          { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver } },
+          { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver } }
         ]
       }
     ])
   ],
   providers: [
+    PatientService,
+    HistoryResolver,
+    ConsultHttpService,
     OpdHttpService,
     RegisterHttpService,
     FindPatientResolverService,
@@ -104,7 +114,6 @@ import { PatientLabsResolver } from './resolvers/consulting/patient-labs-resolve
     FilesResolver,
     PatientSummaryResolver,
     FindParentPatientResolver,
-    VitalsResolver,
     RouteProvider,
     StatusProvider,
     LoginGuard,
@@ -113,7 +122,9 @@ import { PatientLabsResolver } from './resolvers/consulting/patient-labs-resolve
     DiscountsHttpService,
     DiscountsResolver,
     DiagnosesHttpService,
-    DiagnosesResolver
+    DiagnosesResolver,
+    HttpService,
+    ConsultVitalsResolver
   ],
   bootstrap: [AppComponent]
 })

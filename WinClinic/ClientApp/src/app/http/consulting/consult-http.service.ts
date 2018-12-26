@@ -29,8 +29,8 @@ export class ConsultHttpService {
     throw new Error("Method not implemented.");
   }
 
-  list(id: string, num: number = 10): Observable<IConsultation[]> {
-    return this.http.get<IConsultation[]>(`${url}Consult/History?id=${id}&num=${num}`);
+  list(id: string): Observable<IConsultation[]> {
+    return this.http.get<IConsultation[]>(`${url}Consulting/ConsultHistory?id=${id}`);
   }
 
   constructor(private http: HttpClient) { }

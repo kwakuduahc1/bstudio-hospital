@@ -1,3 +1,22 @@
-<p>
-  vitals works!
-</p>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Date</th>
+      <th>Temp</th>
+      <th>Resp</th>
+      <th>Pulse</th>
+      <th>BP</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of vitals">
+      <td>{{v.dateSeen |date}}</td>
+      <td>{{v.temperature}}</td>
+      <td>{{v.respiration}}</td>
+      <td>{{v.pulse}}</td>
+      <td>{{v.systolic}}/{{v.diastolic}}</td>
+      <td>{{v.weight}}</td>
+    </tr>
+  </tbody>
+</table>

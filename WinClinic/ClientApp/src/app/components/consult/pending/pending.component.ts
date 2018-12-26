@@ -5,6 +5,7 @@ import { IPatients } from '../../../model/IPatients';
 import { bsHandler } from '../../../providers/bsHandler';
 import { AttendanceHttpService } from '../../../http/attendance-http-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PatientService } from '../../../providers/patient-service';
 
 @Component({
   selector: 'bs-pending',
@@ -15,7 +16,7 @@ export class PendingComponent implements OnInit {
   hand: bsHandler;
   opd: FormGroup;
   pat: IPatients | undefined;
-  constructor(title: Title, fb: FormBuilder, private http: AttendanceHttpService) {
+  constructor(title: Title, fb: FormBuilder, private http: AttendanceHttpService, private patSer: PatientService) {
     title.setTitle("Begin Consulting");
     this.hand = new bsHandler();
     this.opd = fb.group({
@@ -24,7 +25,7 @@ export class PendingComponent implements OnInit {
   }
 
   find(id: string) {
-    this.http.findPat(id).subscribe(res => this.pat = res, (err: HttpErrorResponse) => this.hand.onError(err));
+    this.http.findPat(id).subscribe(res => this.pat = this.patSer.patient = res, (err: HttpErrorResponse) => this.hand.onError(err));
   }
 
   ngOnInit() {
