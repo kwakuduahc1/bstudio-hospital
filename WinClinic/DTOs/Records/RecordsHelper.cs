@@ -32,7 +32,7 @@ namespace WinClinic.DTOs.Records
             PatientsID = patient.PatientsID,
             UserName = patient.UserName,
             VisitType = visit,
-            ID = Guid.NewGuid()
+            PatientAttendanceID= Guid.NewGuid()
         });
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace WinClinic.DTOs.Records
 
         public Task<Patients> Find(string id) => Task.Run(async () => await db.Patients.Include(x => x.Schemes).SingleOrDefaultAsync(x => x.PatientsID == id));
 
-        public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.ID, PatientsID = x.PatientsID, VisitType = x.VisitType }).ToListAsync());
+        public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.PatientAttendanceID, PatientsID = x.PatientsID, VisitType = x.VisitType }).ToListAsync());
 
         public async Task<List<Patients>> Search(string name) => await db.Patients
             .Where(x =>

@@ -56,7 +56,7 @@ namespace bStudioHospital.Model.Services
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }
 
-        public virtual Patients Patients { get; set; }
+        public virtual PatientAttendance PatientAttendance { get; set; }
 
         public virtual ServiceCodes ServiceCodes { get; set; }
     }

@@ -9,9 +9,8 @@ namespace bStudioHospital.Model.OPD
         [Key]
         public Guid ID { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        [Required]
+        public Guid PatientAttendanceID { get; set; }
 
         [StringLength(500, ErrorMessage = "{0} should not exceed {1} characters")]
         public string History { get; set; }
@@ -47,6 +46,6 @@ namespace bStudioHospital.Model.OPD
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }
 
-        public virtual Patients Patients { get; set; }
+        public virtual PatientAttendance PatientAttendance { get; set; }
     }
 }

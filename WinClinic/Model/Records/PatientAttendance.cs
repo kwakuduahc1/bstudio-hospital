@@ -7,7 +7,7 @@ namespace bStudioHospital.Model.Records
     public class PatientAttendance
     {
         [Key]
-        public Guid ID { get; set; }
+        public Guid PatientAttendanceID { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 15)]
@@ -19,6 +19,10 @@ namespace bStudioHospital.Model.Records
         public string VisitType { get; set; }
 
         public DateTime DateSeen { get; set; }
+
+        [Required]
+        [StringLength(20, MinimumLength = 6)]
+        public string SessionName { get; set; }
 
         [MaxLength(50)]
         public string UserName { get; set; }

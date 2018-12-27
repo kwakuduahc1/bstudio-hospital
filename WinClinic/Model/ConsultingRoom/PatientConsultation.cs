@@ -9,9 +9,8 @@ namespace bStudioHospital.Model.ConsultingRoom
         [Key]
         public Guid ID { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "{0} is required")]
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        [Required]
+        public Guid PatientAttendanceID { get; set; }
 
         [StringLength(500, ErrorMessage = "{0} should be below {1} characters")]
         [Required(AllowEmptyStrings = false)]
@@ -30,6 +29,6 @@ namespace bStudioHospital.Model.ConsultingRoom
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }
 
-        public virtual Patients Patient { get; set; }
+        public virtual PatientAttendance PatientAttendance { get; set; }
     }
 }

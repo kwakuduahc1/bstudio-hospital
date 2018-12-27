@@ -10,7 +10,7 @@ namespace bStudioHospital.Model.ConsultingRoom
         public Guid ID { get; set; }
 
         [Required]
-        public string PatientsID { get; set; }
+        public Guid PatientAttendanceID { get; set; }
 
         [Required]
         public Guid DiagnosticCodesID { get; set; }
@@ -28,6 +28,6 @@ namespace bStudioHospital.Model.ConsultingRoom
 
         public virtual DiagnosticCodes DiagnosticCodes { get; set; }
 
-        public virtual Patients Patients { get; set; }
+        public virtual PatientAttendance PatientAttendance { get; set; }
     }
 }

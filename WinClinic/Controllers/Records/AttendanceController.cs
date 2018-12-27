@@ -38,7 +38,7 @@ namespace KingsMedicalVillage.Controllers.Records
             attendance.UserName = User.Identity.Name;
             helper.AddAttendance(patient, attendance.VisitType);
             await helper.Save();
-            return Created($"/Attendance/FInd?id={attendance.ID}", attendance);
+            return Created($"/Attendance/FInd?id={attendance.PatientAttendanceID}", attendance);
         }
 
         [HttpGet]

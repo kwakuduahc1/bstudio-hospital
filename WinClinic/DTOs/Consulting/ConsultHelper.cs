@@ -36,23 +36,23 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<OPD>> Opd(string id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientsID == id).OrderByDescending(x => x.DateSeen).Take(20).ToListAsync());
+        public Task<List<OPD>> Opd(string id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientAttendance.PatientsID == id).OrderByDescending(x => x.DateSeen).Take(20).ToListAsync());
 
         /// <summary>
-        /// Gets the list of patients
+        /// Gets the list of patients vital signs
         /// </summary>
         /// <param name="num">The number to fetch</param>
         /// <param name="off">The number to skip or offset</param>
         /// <returns>List of patients</returns>
-        public Task<List<OPD>> Vitals(string id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientsID == id).OrderByDescending(x => x.DateSeen).Take(15).ToListAsync());
+        public Task<List<OPD>> Vitals(string id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientAttendance.PatientsID == id).OrderByDescending(x => x.DateSeen).Take(15).ToListAsync());
 
-        public Task<List<PatientConsultation>> ConHistory(string id) => Task.Run(() => db.PatientConsultations.Where(x => x.PatientsID == id).OrderByDescending(x => x.DateAdded).Take(10).ToListAsync());
+        public Task<List<PatientConsultation>> ConHistory(string id) => Task.Run(() => db.PatientConsultations.Where(x => x.PatientAttendance.PatientsID == id).OrderByDescending(x => x.DateAdded).Take(10).ToListAsync());
         /// <summary>
         /// Get last 20 drugs taken by patient
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<PatientDrugs>> PatientDrugs(string id) => Task.Run(async () => await db.PatientDrugs.Where(x => x.PatientsID == id).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).ToListAsync());
+        public Task<List<PatientDrugs>> PatientDrugs(string id) => Task.Run(async () => await db.PatientDrugs.Where(x => x.PatientAttendance.PatientsID == id).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).ToListAsync());
 
         /// <summary>
         /// Get all the drugs that can be given to patients of a scheme

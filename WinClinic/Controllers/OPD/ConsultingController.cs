@@ -33,7 +33,7 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> ConsultHistory(string id)
         {
             var hist = await db.ConHistory(id);
-            return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.ID, x.PatientsID });
+            return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.ID, x.PatientAttendance.PatientsID });
         }
 
         [HttpPost]

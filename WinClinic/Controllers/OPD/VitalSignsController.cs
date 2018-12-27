@@ -23,7 +23,7 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> List(byte num, byte off)
         {
             var list = await db.List(num, off);
-            return list.Select(x => new { x.Patients.FullName, x.Temperature, x.Systolic, x.Diastolic, x.Respiration, x.Weight, x.DateSeen, x.Pulse, x.ID, x.UserName });
+            return list.Select(x => new { x.PatientAttendance.Patients.FullName, x.Temperature, x.Systolic, x.Diastolic, x.Respiration, x.Weight, x.DateSeen, x.Pulse, x.ID, x.UserName });
         }
 
         [HttpGet]
@@ -49,7 +49,7 @@ namespace WinClinic.Controllers.OPD
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
-            if (!await db.CheckVisit(opd.PatientsID))
+            if (!await db.CheckVisit(opd.PatientAttendanceID))
                 return BadRequest(new { Message = "Patient has not visited the records today" });
             db.Add(opd);
             await db.Save();

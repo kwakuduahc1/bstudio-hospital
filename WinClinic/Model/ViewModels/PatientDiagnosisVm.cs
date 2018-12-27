@@ -27,7 +27,7 @@ namespace bStudioHospital
                 ID = Guid.NewGuid(),
                 DateAdded = DateTime.Now,
                 DiagnosticCodesID = DiagnosticCodesID,
-                PatientsID = PatientsID
+         //       PatientsID = PatientsID
             };
         }
     }

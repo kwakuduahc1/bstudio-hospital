@@ -27,7 +27,7 @@ namespace WinClinic.DTOs.Records
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<bool> CheckVisit(string id) => Task.Run(async () => await db.PatientAttendance.AnyAsync(x => x.PatientsID == id && x.DateSeen.Date == DateTime.Now.Date));
+        public Task<bool> CheckVisit(Guid id) => Task.Run(async () => await db.PatientAttendance.AnyAsync(x => x.PatientAttendanceID == id && x.DateSeen.Date == DateTime.Now.Date));
 
         /// <summary>
         /// Add new vital signs
@@ -52,7 +52,7 @@ namespace WinClinic.DTOs.Records
         /// <param name="num">The number to fetch</param>
         /// <param name="off">The number to skip or offset</param>
         /// <returns>List of patients</returns>
-        public Task<List<OPD>> List(byte num, byte off) => Task.Run(async () => await db.OpdHistory.OrderByDescending(x => x.DateSeen).Skip(off).Take(num).Include(x => x.Patients).ToListAsync());
+        public Task<List<OPD>> List(byte num, byte off) => Task.Run(async () => await db.OpdHistory.OrderByDescending(x => x.DateSeen).Skip(off).Take(num).Include(x => x.PatientAttendance).ToListAsync());
 
         public Task<OPD> Find(Guid id) => Task.Run(async () => await db.OpdHistory.FindAsync(id));
 

@@ -10,8 +10,8 @@ namespace bStudioHospital.Model.Laboratory
         [Key]
         public long PatientLaboratoryServicesID { get; set; }
 
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        [Required]
+        public Guid PatientAttendanceID { get; set; }
 
         [Required]
         public Guid LaboratoryServicesID { get; set; }
@@ -50,7 +50,7 @@ namespace bStudioHospital.Model.Laboratory
         [Timestamp, ConcurrencyCheck]
         public byte[] Concurrency { get; set; }
 
-        public virtual Patients Patients { get; set; }
+        public virtual PatientAttendance PatientAttendance { get; set; }
 
         public virtual LaboratoryServices LaboratoryService { get; set; }
 

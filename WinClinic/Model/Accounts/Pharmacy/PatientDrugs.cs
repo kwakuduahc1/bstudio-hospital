@@ -11,8 +11,7 @@ namespace bStudioHospital.Model.Pharmacy
         public Guid ID { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        public Guid PatientAttendanceID { get; set; }
 
         [Required]
         public Guid DrugCodesID { get; set; }
@@ -63,7 +62,7 @@ namespace bStudioHospital.Model.Pharmacy
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }
 
-        public virtual Patients Patients { get; set; }
+        public virtual PatientAttendance PatientAttendance { get; set; }
 
         public virtual DrugCodes Drugcodes { get; set; }
     }
