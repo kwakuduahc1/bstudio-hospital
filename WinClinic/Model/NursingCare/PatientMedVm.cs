@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.NursingCare
+namespace WinClinic.Model.NursingCare
 {
     public class PatientMedVm
     {

@@ -1,13 +1,13 @@
-﻿using bStudioHospital.Model.Records;
+﻿using WinClinic.Model.Records;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.ConsultingRoom
+namespace WinClinic.Model.ConsultingRoom
 {
     public class PatientDiagnosis
     {
         [Key]
-        public Guid ID { get; set; }
+        public Guid PatientDiagnosisID { get; set; }
 
         [Required]
         public Guid PatientAttendanceID { get; set; }

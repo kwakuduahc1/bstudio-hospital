@@ -1,9 +1,9 @@
-﻿using bStudioHospital.Model.Records;
+﻿using WinClinic.Model.Records;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.Pharmacy
+namespace WinClinic.Model.Pharmacy
 {
     public class PatientDrugs
     {

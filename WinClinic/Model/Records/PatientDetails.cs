@@ -1,4 +1,4 @@
-﻿using bStudioHospital.Model.Records;
+﻿using WinClinic.Model.Records;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

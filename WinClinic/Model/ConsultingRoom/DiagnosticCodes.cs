@@ -1,10 +1,10 @@
-﻿using bStudioHospital.Model.Accounts;
+﻿using WinClinic.Model.Accounts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.ConsultingRoom
+namespace WinClinic.Model.ConsultingRoom
 {
     public class DiagnosticCodes
     {

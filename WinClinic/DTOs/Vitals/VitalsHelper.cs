@@ -1,6 +1,6 @@
-﻿using bStudioHospital.Model;
-using bStudioHospital.Model.OPD;
-using bStudioHospital.Model.Records;
+﻿using WinClinic.Model;
+using WinClinic.Model.OPD;
+using WinClinic.Model.Records;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

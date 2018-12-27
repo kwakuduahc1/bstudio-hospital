@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bStudioHospital.Model.Laboratory
+namespace WinClinic.Model.Laboratory
 {
     public class LabGroups
     {

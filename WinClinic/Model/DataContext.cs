@@ -1,7 +1,7 @@
-namespace bStudioHospital.Model
+namespace WinClinic.Model
 {
     using Accounts;
-    using bStudioHospital.Model.Laboratory;
+    using WinClinic.Model.Laboratory;
     using ConsultingRoom;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;

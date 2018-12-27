@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.ViewModels
+namespace WinClinic.Model.ViewModels
 {
     public class PhysicianDrugRequisition
     {

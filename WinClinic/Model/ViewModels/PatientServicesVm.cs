@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital
+namespace WinClinic
 {
     public class PatientServicesPaymentVm
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.Records
+namespace WinClinic.Model.Records
 {
     public class PatientAttendance
     {

@@ -1,10 +1,10 @@
-﻿using bStudioHospital.Model;
-using bStudioHospital.Model.Accounts;
-using bStudioHospital.Model.ConsultingRoom;
-using bStudioHospital.Model.OPD;
-using bStudioHospital.Model.Pharmacy;
-using bStudioHospital.Model.Records;
-using bStudioHospital.Model.Services;
+﻿using WinClinic.Model;
+using WinClinic.Model.Accounts;
+using WinClinic.Model.ConsultingRoom;
+using WinClinic.Model.OPD;
+using WinClinic.Model.Pharmacy;
+using WinClinic.Model.Records;
+using WinClinic.Model.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

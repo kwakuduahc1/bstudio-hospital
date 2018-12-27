@@ -1,5 +1,5 @@
-﻿using bStudioHospital.Model;
-using bStudioHospital.Model.Staff;
+﻿using WinClinic.Model;
+using WinClinic.Model.Staff;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

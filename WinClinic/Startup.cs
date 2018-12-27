@@ -1,5 +1,5 @@
-using bStudioHospital.Model;
-using bStudioHospital.Model.Staff;
+using WinClinic.Model;
+using WinClinic.Model.Staff;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

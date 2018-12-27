@@ -1,17 +1,18 @@
-﻿using bStudioHospital.Model.Accounts;
-using bStudioHospital.Model.Records;
+﻿using WinClinic.Model.Accounts;
+using WinClinic.Model.Records;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.Services
+namespace WinClinic.Model.Services
 {
     public class PatientServices
     {
-        public Guid ID { get; set; }
+        public Guid PatientServicesID { get; set; }
 
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        [Required]
+        public Guid PatientAttendanceID { get; set; }
+
 
         [Required]
         public Guid ServiceCodesID { get; set; }

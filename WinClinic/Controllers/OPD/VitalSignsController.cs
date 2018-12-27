@@ -1,4 +1,4 @@
-﻿using bStudioHospital.Model;
+﻿using WinClinic.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,7 +6,7 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using WinClinic.DTOs.Records;
-using bsopd = bStudioHospital.Model.OPD;
+using bsopd = WinClinic.Model.OPD;
 
 namespace WinClinic.Controllers.OPD
 {

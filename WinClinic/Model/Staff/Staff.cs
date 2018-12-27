@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace bStudioHospital.Model.Staff
+namespace WinClinic.Model.Staff
 {
     public class Staff : IdentityUser
     {

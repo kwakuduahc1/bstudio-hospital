@@ -1,4 +1,4 @@
-namespace bStudioHospital.Model
+namespace WinClinic.Model
 {
     using Accounts;
     using Pharmacy;

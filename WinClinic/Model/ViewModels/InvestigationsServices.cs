@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace bStudioHospital.Model.ViewModels
+namespace WinClinic.Model.ViewModels
 {
     //public class PatientLaboratoryServices
     //{

@@ -1,5 +1,5 @@
-﻿using bStudioHospital.Model;
-using bStudioHospital.Model.Records;
+﻿using WinClinic.Model;
+using WinClinic.Model.Records;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

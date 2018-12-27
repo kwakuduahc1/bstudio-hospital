@@ -1,8 +1,8 @@
-﻿using bStudioHospital.Model.ConsultingRoom;
+﻿using WinClinic.Model.ConsultingRoom;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital
+namespace WinClinic
 {
     public class PatientDiagnosisVm
     {
@@ -24,7 +24,7 @@ namespace bStudioHospital
         {
             return new PatientDiagnosis
             {
-                ID = Guid.NewGuid(),
+                PatientDiagnosisID = Guid.NewGuid(),
                 DateAdded = DateTime.Now,
                 DiagnosticCodesID = DiagnosticCodesID,
          //       PatientsID = PatientsID

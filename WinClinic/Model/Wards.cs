@@ -1,9 +1,9 @@
-﻿using bStudioHospital.Model.NursingCare;
+﻿using WinClinic.Model.NursingCare;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model
+namespace WinClinic.Model
 {
     public class Wards
     {

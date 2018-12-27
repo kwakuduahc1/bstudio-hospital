@@ -1,11 +1,11 @@
-﻿using bStudioHospital.Model.ConsultingRoom;
-using bStudioHospital.Model.Records;
+﻿using WinClinic.Model.ConsultingRoom;
+using WinClinic.Model.Records;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.NursingCare
+namespace WinClinic.Model.NursingCare
 {
     public class PatientAdmissions
     {

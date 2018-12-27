@@ -1,4 +1,4 @@
-namespace bStudioHospital.Model.Pharmacy
+namespace WinClinic.Model.Pharmacy
 {
     using System;
     using System.Collections.Generic;

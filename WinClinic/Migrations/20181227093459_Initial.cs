@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace WinClinic.Migrations
 {
@@ -336,8 +336,8 @@ namespace WinClinic.Migrations
                     MobileNumber = table.Column<string>(maxLength: 20, nullable: false),
                     DateAdded = table.Column<DateTime>(nullable: false),
                     UserName = table.Column<string>(maxLength: 50, nullable: true),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    SchemesID = table.Column<Guid>(nullable: true)
+                    SchemesID = table.Column<Guid>(nullable: true),
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -347,7 +347,7 @@ namespace WinClinic.Migrations
                         column: x => x.SchemesID,
                         principalTable: "Schemes",
                         principalColumn: "SchemesID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetDefault, onUpdate: ReferentialAction.SetDefault);
                 });
 
             migrationBuilder.CreateTable(
@@ -394,35 +394,6 @@ namespace WinClinic.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OpdHistory",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    PatientsID = table.Column<string>(maxLength: 20, nullable: false),
-                    History = table.Column<string>(maxLength: 500, nullable: true),
-                    FirstAid = table.Column<string>(maxLength: 500, nullable: true),
-                    Systolic = table.Column<double>(nullable: false),
-                    Diastolic = table.Column<double>(nullable: false),
-                    Temperature = table.Column<double>(nullable: false),
-                    Weight = table.Column<double>(nullable: false),
-                    Pulse = table.Column<double>(nullable: false),
-                    Respiration = table.Column<double>(nullable: false),
-                    DateSeen = table.Column<DateTime>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 50, nullable: true),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OpdHistory", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_OpdHistory_Patients_PatientsID",
-                        column: x => x.PatientsID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PatientAdmissions",
                 columns: table => new
                 {
@@ -457,42 +428,19 @@ namespace WinClinic.Migrations
                 name: "PatientAttendance",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
                     PatientsID = table.Column<string>(maxLength: 20, nullable: false),
                     VisitType = table.Column<string>(maxLength: 15, nullable: false),
                     DateSeen = table.Column<DateTime>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 50, nullable: false),
+                    SessionName = table.Column<string>(maxLength: 20, nullable: false),
+                    UserName = table.Column<string>(maxLength: 50, nullable: true),
                     Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PatientAttendance", x => x.ID);
+                    table.PrimaryKey("PK_PatientAttendance", x => x.PatientAttendanceID);
                     table.ForeignKey(
                         name: "FK_PatientAttendance_Patients_PatientsID",
-                        column: x => x.PatientsID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PatientConsultations",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    PatientsID = table.Column<string>(maxLength: 20, nullable: false),
-                    Complaints = table.Column<string>(maxLength: 500, nullable: false),
-                    Examination = table.Column<string>(maxLength: 500, nullable: true),
-                    PhysicianNotes = table.Column<string>(maxLength: 500, nullable: true),
-                    DateAdded = table.Column<DateTime>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PatientConsultations", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_PatientConsultations_Patients_PatientsID",
                         column: x => x.PatientsID,
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
@@ -524,114 +472,6 @@ namespace WinClinic.Migrations
                         principalTable: "Patients",
                         principalColumn: "PatientsID",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PatientDiagnosis",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    PatientsID = table.Column<string>(nullable: false),
-                    DiagnosticCodesID = table.Column<Guid>(nullable: false),
-                    Description = table.Column<string>(maxLength: 200, nullable: true),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
-                    DateAdded = table.Column<DateTime>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 30, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PatientDiagnosis", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_PatientDiagnosis_DiagnosticCodes_DiagnosticCodesID",
-                        column: x => x.DiagnosticCodesID,
-                        principalTable: "DiagnosticCodes",
-                        principalColumn: "DiagnosticCodesID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PatientDiagnosis_Patients_PatientsID",
-                        column: x => x.PatientsID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PatientDrugs",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(nullable: false),
-                    PatientsID = table.Column<string>(maxLength: 20, nullable: false),
-                    DrugCodesID = table.Column<Guid>(nullable: false),
-                    Frequency = table.Column<byte>(nullable: false),
-                    NumberOfDays = table.Column<byte>(nullable: false),
-                    Receipt = table.Column<string>(maxLength: 20, nullable: true),
-                    QuantityRequested = table.Column<byte>(nullable: false),
-                    QuantityIssued = table.Column<byte>(nullable: false),
-                    DatePaid = table.Column<DateTime>(nullable: false),
-                    IsPaid = table.Column<bool>(nullable: false),
-                    ReceivingOficcer = table.Column<string>(maxLength: 30, nullable: true),
-                    IsServed = table.Column<bool>(nullable: false),
-                    DateServed = table.Column<DateTime>(nullable: false),
-                    ServingOficcer = table.Column<string>(maxLength: 30, nullable: true),
-                    DateRequested = table.Column<DateTime>(nullable: false),
-                    AmountPaid = table.Column<decimal>(nullable: false),
-                    RequestingOficcer = table.Column<string>(maxLength: 30, nullable: true),
-                    IsCompleted = table.Column<bool>(nullable: false),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PatientDrugs", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_PatientDrugs_DrugCodes_DrugCodesID",
-                        column: x => x.DrugCodesID,
-                        principalTable: "DrugCodes",
-                        principalColumn: "DrugCodesID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PatientDrugs_Patients_PatientsID",
-                        column: x => x.PatientsID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PatientLaboratoryServices",
-                columns: table => new
-                {
-                    PatientLaboratoryServicesID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PatientsID = table.Column<string>(maxLength: 20, nullable: true),
-                    LaboratoryServicesID = table.Column<Guid>(nullable: false),
-                    Results = table.Column<string>(maxLength: 200, nullable: true),
-                    RequestingOfficer = table.Column<string>(maxLength: 30, nullable: true),
-                    DateRequested = table.Column<DateTime>(nullable: false),
-                    IsServed = table.Column<bool>(nullable: false),
-                    Notes = table.Column<string>(maxLength: 100, nullable: true),
-                    AccountsOfficer = table.Column<string>(maxLength: 30, nullable: true),
-                    Amount = table.Column<decimal>(nullable: false),
-                    IsPaid = table.Column<bool>(nullable: false),
-                    DatePaid = table.Column<DateTime>(nullable: true),
-                    LabOfficer = table.Column<string>(maxLength: 30, nullable: true),
-                    DateServed = table.Column<DateTime>(nullable: false),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PatientLaboratoryServices", x => x.PatientLaboratoryServicesID);
-                    table.ForeignKey(
-                        name: "FK_PatientLaboratoryServices_LaboratoryServices_LaboratoryServicesID",
-                        column: x => x.LaboratoryServicesID,
-                        principalTable: "LaboratoryServices",
-                        principalColumn: "LaboratoryServicesID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PatientLaboratoryServices_Patients_PatientsID",
-                        column: x => x.PatientsID,
-                        principalTable: "Patients",
-                        principalColumn: "PatientsID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -712,6 +552,202 @@ namespace WinClinic.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OpdHistory",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
+                    History = table.Column<string>(maxLength: 500, nullable: true),
+                    FirstAid = table.Column<string>(maxLength: 500, nullable: true),
+                    Systolic = table.Column<double>(nullable: false),
+                    Diastolic = table.Column<double>(nullable: false),
+                    Temperature = table.Column<double>(nullable: false),
+                    Weight = table.Column<double>(nullable: false),
+                    Pulse = table.Column<double>(nullable: false),
+                    Respiration = table.Column<double>(nullable: false),
+                    DateSeen = table.Column<DateTime>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 50, nullable: true),
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    PatientsID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpdHistory", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_OpdHistory_PatientAttendance_PatientAttendanceID",
+                        column: x => x.PatientAttendanceID,
+                        principalTable: "PatientAttendance",
+                        principalColumn: "PatientAttendanceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OpdHistory_Patients_PatientsID",
+                        column: x => x.PatientsID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientsID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientConsultations",
+                columns: table => new
+                {
+                    PatientConsultationID = table.Column<Guid>(nullable: false),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
+                    Complaints = table.Column<string>(maxLength: 500, nullable: false),
+                    Examination = table.Column<string>(maxLength: 500, nullable: true),
+                    PhysicianNotes = table.Column<string>(maxLength: 500, nullable: true),
+                    DateAdded = table.Column<DateTime>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    PatientsID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientConsultations", x => x.PatientConsultationID);
+                    table.ForeignKey(
+                        name: "FK_PatientConsultations_PatientAttendance_PatientAttendanceID",
+                        column: x => x.PatientAttendanceID,
+                        principalTable: "PatientAttendance",
+                        principalColumn: "PatientAttendanceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientConsultations_Patients_PatientsID",
+                        column: x => x.PatientsID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientsID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientDiagnosis",
+                columns: table => new
+                {
+                    PatientDiagnosisID = table.Column<Guid>(nullable: false),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
+                    DiagnosticCodesID = table.Column<Guid>(nullable: false),
+                    Description = table.Column<string>(maxLength: 200, nullable: true),
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    DateAdded = table.Column<DateTime>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 30, nullable: true),
+                    PatientsID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientDiagnosis", x => x.PatientDiagnosisID);
+                    table.ForeignKey(
+                        name: "FK_PatientDiagnosis_DiagnosticCodes_DiagnosticCodesID",
+                        column: x => x.DiagnosticCodesID,
+                        principalTable: "DiagnosticCodes",
+                        principalColumn: "DiagnosticCodesID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientDiagnosis_PatientAttendance_PatientAttendanceID",
+                        column: x => x.PatientAttendanceID,
+                        principalTable: "PatientAttendance",
+                        principalColumn: "PatientAttendanceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientDiagnosis_Patients_PatientsID",
+                        column: x => x.PatientsID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientsID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientDrugs",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
+                    DrugCodesID = table.Column<Guid>(nullable: false),
+                    Frequency = table.Column<byte>(nullable: false),
+                    NumberOfDays = table.Column<byte>(nullable: false),
+                    Receipt = table.Column<string>(maxLength: 20, nullable: true),
+                    QuantityRequested = table.Column<byte>(nullable: false),
+                    QuantityIssued = table.Column<byte>(nullable: false),
+                    DatePaid = table.Column<DateTime>(nullable: false),
+                    IsPaid = table.Column<bool>(nullable: false),
+                    ReceivingOficcer = table.Column<string>(maxLength: 30, nullable: true),
+                    IsServed = table.Column<bool>(nullable: false),
+                    DateServed = table.Column<DateTime>(nullable: false),
+                    ServingOficcer = table.Column<string>(maxLength: 30, nullable: true),
+                    DateRequested = table.Column<DateTime>(nullable: false),
+                    AmountPaid = table.Column<decimal>(nullable: false),
+                    RequestingOficcer = table.Column<string>(maxLength: 30, nullable: true),
+                    IsCompleted = table.Column<bool>(nullable: false),
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    PatientsID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientDrugs", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_PatientDrugs_DrugCodes_DrugCodesID",
+                        column: x => x.DrugCodesID,
+                        principalTable: "DrugCodes",
+                        principalColumn: "DrugCodesID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientDrugs_PatientAttendance_PatientAttendanceID",
+                        column: x => x.PatientAttendanceID,
+                        principalTable: "PatientAttendance",
+                        principalColumn: "PatientAttendanceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientDrugs_Patients_PatientsID",
+                        column: x => x.PatientsID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientsID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientLaboratoryServices",
+                columns: table => new
+                {
+                    PatientLaboratoryServicesID = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
+                    LaboratoryServicesID = table.Column<Guid>(nullable: false),
+                    Results = table.Column<string>(maxLength: 200, nullable: true),
+                    RequestingOfficer = table.Column<string>(maxLength: 30, nullable: true),
+                    DateRequested = table.Column<DateTime>(nullable: false),
+                    IsServed = table.Column<bool>(nullable: false),
+                    Notes = table.Column<string>(maxLength: 100, nullable: true),
+                    AccountsOfficer = table.Column<string>(maxLength: 30, nullable: true),
+                    Amount = table.Column<decimal>(nullable: false),
+                    IsPaid = table.Column<bool>(nullable: false),
+                    DatePaid = table.Column<DateTime>(nullable: true),
+                    LabOfficer = table.Column<string>(maxLength: 30, nullable: true),
+                    DateServed = table.Column<DateTime>(nullable: false),
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    PatientsID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientLaboratoryServices", x => x.PatientLaboratoryServicesID);
+                    table.ForeignKey(
+                        name: "FK_PatientLaboratoryServices_LaboratoryServices_LaboratoryServicesID",
+                        column: x => x.LaboratoryServicesID,
+                        principalTable: "LaboratoryServices",
+                        principalColumn: "LaboratoryServicesID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientLaboratoryServices_PatientAttendance_PatientAttendanceID",
+                        column: x => x.PatientAttendanceID,
+                        principalTable: "PatientAttendance",
+                        principalColumn: "PatientAttendanceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientLaboratoryServices_Patients_PatientsID",
+                        column: x => x.PatientsID,
+                        principalTable: "Patients",
+                        principalColumn: "PatientsID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DrugAdministrations",
                 columns: table => new
                 {
@@ -737,8 +773,8 @@ namespace WinClinic.Migrations
                 name: "PatientServices",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(nullable: false),
-                    PatientsID = table.Column<string>(maxLength: 20, nullable: true),
+                    PatientServicesID = table.Column<Guid>(nullable: false),
+                    PatientAttendanceID = table.Column<Guid>(nullable: false),
                     ServiceCodesID = table.Column<Guid>(nullable: false),
                     NumberOfDays = table.Column<byte>(nullable: false),
                     Frequency = table.Column<byte>(nullable: false),
@@ -752,11 +788,18 @@ namespace WinClinic.Migrations
                     DateServed = table.Column<DateTime>(nullable: false),
                     ServingOficcer = table.Column<string>(nullable: true),
                     DateRequested = table.Column<DateTime>(nullable: false),
-                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    Concurrency = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    PatientsID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PatientServices", x => x.ID);
+                    table.PrimaryKey("PK_PatientServices", x => x.PatientServicesID);
+                    table.ForeignKey(
+                        name: "FK_PatientServices_PatientAttendance_PatientAttendanceID",
+                        column: x => x.PatientAttendanceID,
+                        principalTable: "PatientAttendance",
+                        principalColumn: "PatientAttendanceID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PatientServices_Patients_PatientsID",
                         column: x => x.PatientsID,
@@ -856,6 +899,11 @@ namespace WinClinic.Migrations
                 column: "WardName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OpdHistory_PatientAttendanceID",
+                table: "OpdHistory",
+                column: "PatientAttendanceID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpdHistory_PatientsID",
                 table: "OpdHistory",
                 column: "PatientsID");
@@ -876,6 +924,11 @@ namespace WinClinic.Migrations
                 column: "PatientsID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PatientConsultations_PatientAttendanceID",
+                table: "PatientConsultations",
+                column: "PatientAttendanceID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PatientConsultations_PatientsID",
                 table: "PatientConsultations",
                 column: "PatientsID");
@@ -884,6 +937,11 @@ namespace WinClinic.Migrations
                 name: "IX_PatientDiagnosis_DiagnosticCodesID",
                 table: "PatientDiagnosis",
                 column: "DiagnosticCodesID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientDiagnosis_PatientAttendanceID",
+                table: "PatientDiagnosis",
+                column: "PatientAttendanceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PatientDiagnosis_PatientsID",
@@ -896,6 +954,11 @@ namespace WinClinic.Migrations
                 column: "DrugCodesID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PatientDrugs_PatientAttendanceID",
+                table: "PatientDrugs",
+                column: "PatientAttendanceID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PatientDrugs_PatientsID",
                 table: "PatientDrugs",
                 column: "PatientsID");
@@ -904,6 +967,11 @@ namespace WinClinic.Migrations
                 name: "IX_PatientLaboratoryServices_LaboratoryServicesID",
                 table: "PatientLaboratoryServices",
                 column: "LaboratoryServicesID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientLaboratoryServices_PatientAttendanceID",
+                table: "PatientLaboratoryServices",
+                column: "PatientAttendanceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PatientLaboratoryServices_PatientsID",
@@ -919,6 +987,11 @@ namespace WinClinic.Migrations
                 name: "IX_Patients_SchemesID",
                 table: "Patients",
                 column: "SchemesID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientServices_PatientAttendanceID",
+                table: "PatientServices",
+                column: "PatientAttendanceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PatientServices_PatientsID",
@@ -976,9 +1049,6 @@ namespace WinClinic.Migrations
                 name: "OpdHistory");
 
             migrationBuilder.DropTable(
-                name: "PatientAttendance");
-
-            migrationBuilder.DropTable(
                 name: "PatientConsultations");
 
             migrationBuilder.DropTable(
@@ -1018,13 +1088,13 @@ namespace WinClinic.Migrations
                 name: "LaboratoryServices");
 
             migrationBuilder.DropTable(
+                name: "PatientAttendance");
+
+            migrationBuilder.DropTable(
                 name: "ServiceCodes");
 
             migrationBuilder.DropTable(
                 name: "Wards");
-
-            migrationBuilder.DropTable(
-                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "Diagnoses");
@@ -1034,6 +1104,9 @@ namespace WinClinic.Migrations
 
             migrationBuilder.DropTable(
                 name: "LabGroups");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "Services");

@@ -1,10 +1,10 @@
-﻿using bStudioHospital.Model.Records;
+﻿using WinClinic.Model.Records;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.NursingCare
+namespace WinClinic.Model.NursingCare
 {
     /// <summary>
     /// Nurse enters the medications which have been prescribed by the

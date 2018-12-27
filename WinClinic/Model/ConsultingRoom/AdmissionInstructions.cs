@@ -1,12 +1,8 @@
-﻿using bStudioHospital.Model.NursingCare;
+﻿using WinClinic.Model.NursingCare;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace bStudioHospital.Model.ConsultingRoom
+namespace WinClinic.Model.ConsultingRoom
 {
     public class AdmissionInstructions
     {
@@ -22,6 +18,6 @@ namespace bStudioHospital.Model.ConsultingRoom
         [Timestamp]
         public byte[] Concurrency { get; set; }
 
-        public virtual PatientAdmissions PatientAdmissions{get;set;}
+        public virtual PatientAdmissions PatientAdmissions { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace bStudioHospital.Model.Laboratory
+namespace WinClinic.Model.Laboratory
 {
     public class LaboratoryServices
     {

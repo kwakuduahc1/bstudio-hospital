@@ -1,5 +1,5 @@
-﻿using bStudioHospital.Model;
-using bStudioHospital.Model.ConsultingRoom;
+﻿using WinClinic.Model;
+using WinClinic.Model.ConsultingRoom;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,7 +33,7 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> ConsultHistory(string id)
         {
             var hist = await db.ConHistory(id);
-            return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.ID, x.PatientAttendance.PatientsID });
+            return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.PatientConsultationID, x.PatientAttendance.PatientsID });
         }
 
         [HttpPost]

@@ -1,14 +1,14 @@
-﻿using bStudioHospital.Model;
-using bStudioHospital.Model.Accounts;
-using bStudioHospital.Model.ConsultingRoom;
-using bStudioHospital.Model.OPD;
-using bStudioHospital.Model.Pharmacy;
-using bStudioHospital.Model.Records;
-using bStudioHospital.Model.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinClinic.Model;
+using WinClinic.Model.Accounts;
+using WinClinic.Model.ConsultingRoom;
+using WinClinic.Model.OPD;
+using WinClinic.Model.Pharmacy;
+using WinClinic.Model.Records;
+using WinClinic.Model.Services;
 
 namespace WinClinic.DTOs.Consulting
 {
@@ -73,7 +73,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<PatientServices>> PatientServices(string id) => Task.Run(async () => await db.PatientServices.Where(x => x.PatientsID == id).Include(x => x.ServiceCodes).ThenInclude(x => x.Services).ToListAsync());
+        public Task<List<PatientServices>> PatientServices(string id) => Task.Run(async () => await db.PatientServices.Where(x => x.PatientAttendance.PatientsID == id).Include(x => x.ServiceCodes).ThenInclude(x => x.Services).ToListAsync());
 
         public async Task<List<ServiceCodes>> SchemeServices(string id)
         {
@@ -89,7 +89,7 @@ namespace WinClinic.DTOs.Consulting
             var pat = await db.Patients.FindAsync(id);
             if (pat == null)
                 return null;
-           return await Task.Run(async () => await db.DrugCodes.Where(x => x.SchemesID == pat.SchemesID).Include(x => x.Drugs).ToListAsync());
+            return await Task.Run(async () => await db.DrugCodes.Where(x => x.SchemesID == pat.SchemesID).Include(x => x.Drugs).ToListAsync());
         }
 
         //public async Task<List<DrugCodes>> SchemeDrugs(string id)
