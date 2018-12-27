@@ -52,10 +52,10 @@ namespace WinClinic.DTOs.Records
         /// <param name="num">The number to fetch</param>
         /// <param name="off">The number to skip or offset</param>
         /// <returns>List of patients</returns>
-        public Task<List<OPD>> List(byte num, byte off) => Task.Run(async () => await db.OpdHistory.OrderByDescending(x => x.DateSeen).Skip(off).Take(num).Include(x => x.PatientAttendance).ToListAsync());
+        public Task<List<OPD>> List(byte num, byte off) => Task.Run(async () => await db.OpdHistory.OrderByDescending(x => x.DateSeen).Skip(off).Take(num).Include(x => x.PatientAttendance).ThenInclude(x => x.Patients).ToListAsync());
 
         public Task<OPD> Find(Guid id) => Task.Run(async () => await db.OpdHistory.FindAsync(id));
 
-        public Task<PatientAttendance> Patient(string id) => Task.Run(async () => await db.PatientAttendance.Include(x => x.Patients).ThenInclude(x => x.Schemes).OrderByDescending(x => x.DateSeen).FirstOrDefaultAsync(x => x.PatientsID == id && x.IsActive ));
+        public Task<PatientAttendance> Patient(string id) => Task.Run(async () => await db.PatientAttendance.Include(x => x.Patients).ThenInclude(x => x.Schemes).OrderByDescending(x => x.DateSeen).FirstOrDefaultAsync(x => x.PatientsID == id && x.IsActive));
     }
 }

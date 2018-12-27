@@ -20,4 +20,5 @@ export interface IPatients {
   concurrency: number[];
   fullName: string;
   scheme: string;
+  patientAttendanceID: string;
 }

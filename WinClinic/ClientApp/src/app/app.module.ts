@@ -91,7 +91,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
       { path: 'pending', component: PendingComponent },
       {
         path: 'consult/:id', component: ConsultHomeComponent, children: [
-          { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver } },
+          { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
         ]
       },

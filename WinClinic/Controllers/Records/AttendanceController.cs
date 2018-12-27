@@ -1,11 +1,12 @@
-﻿using WinClinic.Model;
-using WinClinic.Model.Records;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using WinClinic.DTOs.Records;
+using WinClinic.Model;
+using WinClinic.Model.Records;
+using WinClinic.Model.ViewModels;
 
 namespace KingsMedicalVillage.Controllers.Records
 {
@@ -21,10 +22,10 @@ namespace KingsMedicalVillage.Controllers.Records
         [HttpGet]
         public async Task<IActionResult> Patient(string id)
         {
-            Patients pat = await helper.Find(id);
+            PatientsVm pat = await helper.Find(id);
             if (pat == null)
                 return NotFound(new { Message = "Patient was not found" });
-            return Ok(new { pat.FullName, pat.Gender, pat.MobileNumber, pat.PatientsID, pat.DateOfBirth, pat.Schemes.Scheme });
+            return Ok(pat);
         }
 
         [HttpPost]
@@ -37,8 +38,9 @@ namespace KingsMedicalVillage.Controllers.Records
             if (patient == null)
                 return BadRequest(new { Message = $"{patient.PatientsID} is not a valid OPD number" });
             attendance.UserName = User.Identity.Name;
-            await helper.ClosePreviousesAsync(patient);
-           helper.AddAttendance(patient, attendance.VisitType);
+            attendance.IsActive = true;
+            await helper.ClosePreviousesAsync(patient.PatientsID);
+            helper.AddAttendance(patient.PatientsID, attendance.UserName, attendance.VisitType);
             await helper.Save();
             return Created($"/Attendance/FInd?id={attendance.PatientAttendanceID}", attendance);
         }
@@ -46,7 +48,7 @@ namespace KingsMedicalVillage.Controllers.Records
         [HttpGet]
         public async Task<IEnumerable> List(byte num)
         {
-            var list =  await helper.Attendances(num);
+            var list = await helper.Attendances(num);
             return list.Select(x => new { x.DateSeen, x.FullName, x.ID, x.PatientsID, x.VisitType, x.SessionName });
         }
     }

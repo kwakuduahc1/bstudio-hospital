@@ -53,7 +53,7 @@ export class ComplaintsComponent implements OnInit {
     }
     else if (confirm('Have you reviewed the data?')) {
       var ss = this.selected.join();
-      let hist: IConsultation = { complaints: ss, patientsID: this.pat.patientsID, physicianNotes: '', userName: '', dateAdded: new Date() } as IConsultation;
+      let hist: IConsultation = { patientAttendanceID: this.pat.patientAttendanceID, complaints: ss, patientsID: this.pat.patientsID, physicianNotes: '', userName: '', dateAdded: new Date() } as IConsultation;
       this.http.add(hist).subscribe(() => this.add(hist), err => this.hand.onError(err));
     }
   }

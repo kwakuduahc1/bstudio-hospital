@@ -19,7 +19,7 @@ export class HttpService {
   }
 
   find(id: string): Observable<IPatients> {
-    return this.http.get<IPatients>(`${url}Registration/Find?id=${id}`);
+    return this.http.get<IPatients>(`${url}Attendance/Patient?id=${id}`);
   }
 
   labGroups(): Observable<ILabGroups[]> {

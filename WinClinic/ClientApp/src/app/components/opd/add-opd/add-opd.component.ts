@@ -23,12 +23,12 @@ export class AddOpdComponent implements OnInit {
     });
 
     this.form = fb.group({
-      systolic: ["", Validators.compose([Validators.min(60.0), Validators.max(250.0), Validators.required])],
-      diastolic: ["", Validators.compose([Validators.min(40.0), Validators.max(160.0), Validators.required])],
-      temperature: ["", Validators.compose([Validators.min(33.0), Validators.max(45.0), Validators.required])],
-      weight: ["", Validators.compose([Validators.required, Validators.min(2.0), Validators.max(200.0)])],
-      pulse: ["", Validators.compose([Validators.min(30.0), Validators.max(150.0), Validators.required])],
-      respiration: ["", Validators.compose([Validators.min(16.0), Validators.max(26.0), Validators.required])]
+      systolic: [120, Validators.compose([Validators.min(60.0), Validators.max(250.0), Validators.required])],
+      diastolic: [80, Validators.compose([Validators.min(40.0), Validators.max(160.0), Validators.required])],
+      temperature: [36.4, Validators.compose([Validators.min(33.0), Validators.max(45.0), Validators.required])],
+      weight: [80, Validators.compose([Validators.required, Validators.min(2.0), Validators.max(200.0)])],
+      pulse: [160, Validators.compose([Validators.min(30.0), Validators.max(150.0), Validators.required])],
+      respiration: [22, Validators.compose([Validators.min(16.0), Validators.max(26.0), Validators.required])]
     });
     this.hand = new bsHandler();
   }
@@ -41,6 +41,7 @@ export class AddOpdComponent implements OnInit {
     if (confirm(`Do you want to add vitals signs for this ${this.pat!.fullName}`)) {
       this.hand.beginProc();
       vs.patientsID = this.pat.patientsID;
+      vs.patientAttendanceID = this.pat.patientAttendanceID;
       this.http.add(vs).subscribe(() => {
         this.reload.emit();
         this.form.reset();

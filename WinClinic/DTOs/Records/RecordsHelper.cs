@@ -27,26 +27,27 @@ namespace WinClinic.DTOs.Records
         /// Add patient attendance
         /// </summary>
         /// <param name="patient"></param>
-        public void AddAttendance(Patients patient, string visit)
+        public void AddAttendance(string pid, string uname, string visit)
         {
             db.Add(new PatientAttendance
             {
                 DateSeen = DateTime.Now,
-                PatientsID = patient.PatientsID,
-                UserName = patient.UserName,
+                PatientsID = pid,
+                UserName = uname,
                 VisitType = visit,
                 SessionName = RandomString(new Random().Next(6, 10)),
-                PatientAttendanceID = Guid.NewGuid()
+                PatientAttendanceID = Guid.NewGuid(),
+                IsActive = true,
             });
         }
 
-        public async Task ClosePreviousesAsync(Patients patient)
+        public async Task ClosePreviousesAsync(string pid)
         {
-            var atts = await db.PatientAttendance.Where(x => x.PatientsID == patient.PatientsID && !x.IsActive).ToListAsync();
+            var atts = await db.PatientAttendance.Where(x => x.PatientsID == pid && x.IsActive).ToListAsync();
             if (atts.Any())
                 atts.ForEach(x =>
                 {
-                    x.IsActive = true;
+                    x.IsActive = false;
                     x.DateClosed = DateTime.Now;
                     db.Entry(x).State = EntityState.Modified;
                 });
@@ -59,7 +60,7 @@ namespace WinClinic.DTOs.Records
         {
             patient.DateAdded = DateTime.Now;
             db.Patients.Add(patient);
-            AddAttendance(patient, "Acute");
+            AddAttendance(patient.PatientsID, patient.UserName, "Acute");
         }
 
         /// <summary>
@@ -85,7 +86,10 @@ namespace WinClinic.DTOs.Records
         /// <returns>List of patients based on scheme type</returns>
         public Task<List<Patients>> SchemeList(Guid id, byte num, byte off) => Task.Run(async () => await db.Patients.Where(x => x.PatientDetails.SchemesID == id).OrderByDescending(x => x.DateAdded).Skip(off).Take(num).ToListAsync());
 
-        public Task<Patients> Find(string id) => Task.Run(async () => await db.Patients.Include(x => x.Schemes).SingleOrDefaultAsync(x => x.PatientsID == id));
+        public Task<PatientsVm> Find(string id)
+        {
+            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
+        }
 
         /// <summary>
         /// Get list of patients visiting the clinic today

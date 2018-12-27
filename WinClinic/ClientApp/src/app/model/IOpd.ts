@@ -11,4 +11,5 @@ export interface IOpd {
   dateSeen: Date;
   userName: string;
   concurrency: number[];
+  patientAttendanceID: string;
 }

@@ -23,7 +23,7 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> List(byte num, byte off)
         {
             var list = await db.List(num, off);
-            return list.Select(x => new { x.PatientAttendance.Patients.FullName, x.Temperature, x.Systolic, x.Diastolic, x.Respiration, x.Weight, x.DateSeen, x.Pulse, x.ID, x.UserName });
+            return list.Select(x => new { x.PatientAttendance.Patients.FullName, x.Temperature, x.Systolic, x.Diastolic, x.Respiration, x.Weight, x.DateSeen, x.Pulse, x.ID, x.UserName, x.PatientAttendanceID, x.PatientAttendance.SessionName }).ToList();
         }
 
         [HttpGet]
