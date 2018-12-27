@@ -1,14 +1,8 @@
-﻿using WinClinic.Model.Accounts;
-using WinClinic.Model.ConsultingRoom;
-using WinClinic.Model.Laboratory;
-using WinClinic.Model.NursingCare;
-using WinClinic.Model.Pharmacy;
-using WinClinic.Model.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WinClinic.Model.Records;
+using WinClinic.Model.Accounts;
 
 namespace WinClinic.Model.Records
 {

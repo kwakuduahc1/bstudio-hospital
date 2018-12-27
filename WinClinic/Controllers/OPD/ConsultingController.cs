@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WinClinic.DTOs.Consulting;
@@ -57,5 +58,26 @@ namespace WinClinic.Controllers.OPD
             return Ok(drugs?.Select(x => new { x.Drugs?.DrugName, x.DrugsID, x.DrugCodesID }));
         }
 
+        [HttpGet]
+        public async Task<IEnumerable> DiagnosesHistory(string id) => await db.DiagnosesHistory(id);
+
+        [HttpGet]
+        public async Task<IEnumerable> SchemeDiagnoses(string id) => await db.SchemeDiagnosisAsync(id);
+
+        [HttpPost]
+        public async Task<IActionResult> Diagnose([FromBody]List<PatientDiagnosis> diagnoses)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
+            diagnoses.ForEach(x =>
+            {
+                x.UserName = User.Identity.Name;
+                x.PatientDiagnosisID = Guid.NewGuid();
+                x.DateAdded = DateTime.Now;
+            });
+            db.Diagnose(diagnoses);
+            await db.Save();
+            return Ok();
+        }
     }
 }

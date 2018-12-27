@@ -32,6 +32,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Model\ConsultingRoom\Diagnoses.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>Diagnoses.cs.generated.d.ts</LastGenOutput>
+    </Compile>
+    <Compile Update="Model\ConsultingRoom\DiagnosticCodes.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>DiagnosticCodes.cs.generated.d.ts</LastGenOutput>
+    </Compile>
+    <Compile Update="Model\ConsultingRoom\PatientDiagnosis.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>PatientDiagnosis.cs.generated.d.ts</LastGenOutput>
+    </Compile>
     <Compile Update="Model\Records\Patients.cs">
       <Generator>DtsGenerator</Generator>
       <LastGenOutput>Patients.cs.generated.d.ts</LastGenOutput>

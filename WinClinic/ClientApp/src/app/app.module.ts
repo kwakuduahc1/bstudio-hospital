@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CustomFormsModule } from 'ng2-validation'
+import { NgPipesModule } from 'ngx-pipes';
 
 import { AppComponent } from './app.component';
 import { RegistrationListComponent } from './components/records/registration/registration-list/registration-list.component';
@@ -29,7 +30,6 @@ import { SearchComponent } from './components/records/search/search.component';
 import { ConsultHomeComponent } from './components/consult/consult-home/consult-home.component';
 import { VitalsComponent } from './components/consult/vitals/vitals.component';
 import { PendingComponent } from './components/consult/pending/pending.component';
-import { DiagnosesResolver } from './resolvers/consulting/diagnoses-resolver';
 import { DiagnosesHttpService } from './http/consulting/diagnoses-http.service';
 import { DiscountsResolver } from './resolvers/consulting/dIscounts-resolver';
 import { DiscountsHttpService } from './http/consulting/discounts-http.service';
@@ -52,6 +52,9 @@ import { HistoryResolver } from './resolvers/consulting/history-resolver';
 import { PatientService } from './providers/patient-service';
 import { ConsultHttpService } from './http/consulting/consult-http.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { DiagnosisComponent } from './components/consult/diagnosis/diagnosis.component';
+import { PatientDiagnosesResolver } from './resolvers/consulting/patient-diagnoses-resolver';
+import { DiagnosesListResolver } from './resolvers/consulting/diagnoses-list-resolver';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     VitalsComponent,
     PendingComponent,
     ComplaintsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    DiagnosisComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -81,6 +85,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     ReactiveFormsModule,
     FormsModule,
     CustomFormsModule,
+    NgPipesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'about', component: AboutComponent },
@@ -93,12 +98,14 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
         path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
+          { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } }
         ]
       },
       { path: '**', component: NotFoundComponent }
     ])
   ],
   providers: [
+    DiagnosesListResolver,
     PatientService,
     HistoryResolver,
     ConsultHttpService,
@@ -125,7 +132,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     DiscountsHttpService,
     DiscountsResolver,
     DiagnosesHttpService,
-    DiagnosesResolver,
+    PatientDiagnosesResolver,
     HttpService,
     ConsultVitalsResolver
   ],

@@ -6,7 +6,7 @@
       <li *ngFor="let p of paths; let ix = index" class="list-group-item border-0" [ngClass]="p.clicked ? 'list-group-item-success' : 'list-group-item-light'" [routerLink]="[p.url]" (click)="clicked(ix)" style="cursor:grab">{{p.path}}</li>
     </ul>
   </div>
-  <div class="col-sm-8 border-dark">
+  <div class="col-sm-10 border-dark">
     <router-outlet></router-outlet>
   </div>
 </div>

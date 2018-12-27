@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,6 +69,11 @@ namespace WinClinic.DTOs.Consulting
             return drugs;
         }
 
+        internal void Diagnose(List<PatientDiagnosis> diagnoses)
+        {
+            this.db.AddRange(diagnoses);
+        }
+
         /// <summary>
         /// Get patient services history
         /// </summary>
@@ -102,5 +108,25 @@ namespace WinClinic.DTOs.Consulting
         //}
 
         public void AddConsult(PatientConsultation patientConsultation) => db.Add(patientConsultation);
+
+        /// <summary>
+        /// Get the diagnostic history of a patient
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<List<PatientDiagnosis>> DiagnosesHistory(string id) => Task.Run(async () => await db.PatientDiagnosis.Where(x => x.PatientAttendance.PatientsID == id).ToListAsync());
+
+        /// <summary>
+        /// Get the list of possible diagnosis for a scheme
+        /// </summary>
+        /// <param name="id">The unique identifier for the patient</param>
+        /// <returns></returns>
+        public async Task<List<DiagnosticCodes>> SchemeDiagnosisAsync(string id)
+        {
+            var pt = await db.Patients.FindAsync(id);
+            if (pt == null)
+                return null;
+            return await Task.Run(async () => await db.DiagnosticCodes.Where(x => x.SchemesID == pt.SchemesID).ToListAsync());
+}
     }
 }

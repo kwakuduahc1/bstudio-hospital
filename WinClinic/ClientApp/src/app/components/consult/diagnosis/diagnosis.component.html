@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-sm-7">
+    <table class="table table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th colspan="4">
+            <input type="search" [(ngModel)]="search" ngModelOptions="{'standAlone':'true'}" class="form-control" placeholder="filter items" />
+          </th>
+        </tr>
+        <tr>
+          <th>Diagnosis</th>
+          <th>GDRG/ICD</th>
+          <th>Tariff</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let l of diags |filterBy:['description']:search  |sample : 20">
+          <td>{{l.description}}</td>
+          <td>{{l.gdrg}}/{{l.icdCode}}</td>
+          <td>{{l.tariff}}</td>
+          <td>
+            <button (click)="select(l)" class="btn btn-outline-info">Select</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-4">
+    <ul class="list-group" [hidden]="pt_diags.length<1">
+      <li class="list-group-item list-group-item-primary">Selected Diagnosis</li>
+      <li class="list-group-item" *ngFor="let l of pt_diags; let ind=index">{{l.description}} <button class="btn btn-dark btn-sm" (click)="remove(ind)">Remove</button></li>
+      <li class="list-group list-group-item-action">
+        <button (click)="diagnose()" class="btn btn-outline-success">Diagnose</button>
+      </li>
+    </ul>
+    <h4 class="h4">Previous Diagnosis</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Diagnosis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of list">
+          <td>{{d.dateAdded |date}}</td>
+          <td>{{d.description}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

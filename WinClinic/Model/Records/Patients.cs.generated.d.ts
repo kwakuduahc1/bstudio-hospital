@@ -1,5 +1,5 @@
 declare module Server.Dtos {
-	interface Patientvm {
+	interface Patients {
 		patientsID: string;
 		surname: string;
 		otherNames: string;
@@ -23,7 +23,7 @@ declare module Server.Dtos {
 			schemesID: any;
 			schemeNumber: string;
 			town: string;
-			patients: Server.Dtos.Patientvm;
+			patients: Server.Dtos.Patients;
 		};
 		patientAttendance: any[];
 		schemes: {
@@ -32,7 +32,7 @@ declare module Server.Dtos {
 			description: string;
 			status: boolean;
 			concurrency: any[];
-			patients: Server.Dtos.Patientvm[];
+			patients: Server.Dtos.Patients[];
 			drugCodes: any[];
 			serviceCodes: any[];
 			diagnosticCodes: any[];
