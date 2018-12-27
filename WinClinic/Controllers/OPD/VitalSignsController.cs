@@ -1,11 +1,11 @@
-﻿using WinClinic.Model;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using WinClinic.DTOs.Records;
+using WinClinic.Model;
 using bsopd = WinClinic.Model.OPD;
 
 namespace WinClinic.Controllers.OPD
@@ -32,7 +32,7 @@ namespace WinClinic.Controllers.OPD
             var pat = await db.Patient(id);
             if (pat == null)
                 return NotFound(new { Message = $"{id} does not match any known record" });
-            return Ok(new { pat.FullName, pat.PatientsID, pat.Schemes.Scheme, pat.DateOfBirth });
+            return Ok(new { pat.Patients.FullName, pat.PatientsID, pat.Patients.Schemes.Scheme, pat.Patients.DateOfBirth, pat.PatientAttendanceID });
         }
 
         [HttpGet]

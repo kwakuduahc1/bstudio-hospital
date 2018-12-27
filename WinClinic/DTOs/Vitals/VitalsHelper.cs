@@ -1,11 +1,11 @@
-﻿using WinClinic.Model;
-using WinClinic.Model.OPD;
-using WinClinic.Model.Records;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinClinic.Model;
+using WinClinic.Model.OPD;
+using WinClinic.Model.Records;
 
 namespace WinClinic.DTOs.Records
 {
@@ -56,6 +56,6 @@ namespace WinClinic.DTOs.Records
 
         public Task<OPD> Find(Guid id) => Task.Run(async () => await db.OpdHistory.FindAsync(id));
 
-        public Task<Patients> Patient(string id) => Task.Run(async () => await db.Patients.Include(x => x.Schemes).SingleOrDefaultAsync(x => x.PatientsID == id));
+        public Task<PatientAttendance> Patient(string id) => Task.Run(async () => await db.PatientAttendance.Include(x => x.Patients).ThenInclude(x => x.Schemes).OrderByDescending(x => x.DateSeen).FirstOrDefaultAsync(x => x.PatientsID == id && x.IsActive ));
     }
 }

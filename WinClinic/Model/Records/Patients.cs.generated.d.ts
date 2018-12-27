@@ -26,10 +26,6 @@ declare module Server.Dtos {
 			patients: Server.Dtos.Patients;
 		};
 		patientAttendance: any[];
-		opdHistory: any[];
-		patientServices: any[];
-		patientDrugs: any[];
-		patientConsultation: any[];
 		schemes: {
 			schemesID: any;
 			scheme: string;
@@ -41,9 +37,5 @@ declare module Server.Dtos {
 			serviceCodes: any[];
 			diagnosticCodes: any[];
 		};
-		patientMedications: any[];
-		patientAdmissions: any[];
-		patientDiagnoses: any[];
-		patientLaboratoryServices: any[];
 	}
 }

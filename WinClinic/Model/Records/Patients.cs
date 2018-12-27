@@ -55,22 +55,6 @@ namespace WinClinic.Model.Records
 
         public virtual ICollection<PatientAttendance> PatientAttendance { get; set; }
 
-        public virtual ICollection<OPD.OPD> OpdHistory { get; set; }
-
-        public virtual ICollection<PatientServices> PatientServices { get; set; }
-
-        public virtual ICollection<PatientDrugs> PatientDrugs { get; set; }
-
-        public virtual ICollection<PatientConsultation> PatientConsultation { get; set; }
-
         public virtual Schemes Schemes { get; set; }
-
-        public virtual ICollection<PatientMedications> PatientMedications { get; set; }
-
-        public virtual ICollection<PatientAdmissions> PatientAdmissions { get; set; }
-
-        public virtual ICollection<PatientDiagnosis> PatientDiagnoses { get; set; }
-
-        public virtual ICollection<PatientLaboratoryServices> PatientLaboratoryServices { get; set; }
     }
 }
