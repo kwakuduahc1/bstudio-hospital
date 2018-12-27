@@ -1,12 +1,12 @@
-﻿using WinClinic.Model;
-using WinClinic.Model.ConsultingRoom;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using WinClinic.DTOs.Consulting;
+using WinClinic.Model;
+using WinClinic.Model.ConsultingRoom;
 
 namespace WinClinic.Controllers.OPD
 {
@@ -49,10 +49,12 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> SchemeDrugs(string id)
+        public async Task<IActionResult> SchemeDrugs(string id)
         {
             var drugs = await db.SchemeDrugs(id);
-            return drugs.Select(x => new { x.Drugs.DrugName, x.DrugsID, x.DrugCodesID });
+            if (drugs == null)
+                return BadRequest(new { Message = "Invalid operation. No drugs were returned for this patient" });
+            return Ok(drugs?.Select(x => new { x.Drugs?.DrugName, x.DrugsID, x.DrugCodesID }));
         }
 
     }

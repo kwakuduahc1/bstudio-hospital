@@ -24,6 +24,11 @@ namespace WinClinic.Model.Records
         [StringLength(20, MinimumLength = 6)]
         public string SessionName { get; set; }
 
+        [DefaultValue(true)]
+        public bool IsActive { get; set; }
+
+        public DateTime DateClosed { get; set; }
+
         [MaxLength(50)]
         public string UserName { get; set; }
 

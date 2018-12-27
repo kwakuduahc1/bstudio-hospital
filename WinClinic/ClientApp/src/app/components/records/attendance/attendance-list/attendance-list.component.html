@@ -6,14 +6,17 @@
   <thead>
     <tr>
       <th>Patient</th>
+      <th>Session</th>
       <th>Identifier</th>
       <th>Visit Type</th>
       <th>Date Visited</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let a of list">
       <td>{{a.fullName}}</td>
+      <td>{{a.sessionName}}</td>
       <td>{{a.patientsID}}</td>
       <td>{{a.visitType}}</td>
       <td>{{a.dateSeen |date}}</td>

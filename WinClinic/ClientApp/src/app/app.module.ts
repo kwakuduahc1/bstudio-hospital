@@ -51,6 +51,7 @@ import { ComplaintsComponent } from './components/consult/complaints/complaints.
 import { HistoryResolver } from './resolvers/consulting/history-resolver';
 import { PatientService } from './providers/patient-service';
 import { ConsultHttpService } from './http/consulting/consult-http.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { ConsultHttpService } from './http/consulting/consult-http.service';
     ConsultHomeComponent,
     VitalsComponent,
     PendingComponent,
-    ComplaintsComponent
+    ComplaintsComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -90,9 +92,10 @@ import { ConsultHttpService } from './http/consulting/consult-http.service';
       {
         path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver } },
-          { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver } }
+          { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
         ]
-      }
+      },
+      { path: '**', component: NotFoundComponent }
     ])
   ],
   providers: [

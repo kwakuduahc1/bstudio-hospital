@@ -3,8 +3,8 @@ import { ConsultHttpService } from '../../../http/consulting/consult-http.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IConsultation } from '../../../model/consult/IConsult';
-import { PatientService } from '../../../providers/patient-service';
 import { bsHandler } from '../../../providers/bsHandler';
+import { IPatients } from '../../../model/IPatients';
 
 @Component({
   selector: 'bs-complaints',
@@ -17,11 +17,10 @@ export class ComplaintsComponent implements OnInit {
   hand: bsHandler = new bsHandler();
   s_s: string[] = ['Fever', 'Nausea', 'Vomiting', 'Cough', 'Abdominal pains', 'Headache', 'Malaise', 'Palor', 'Conjunctivitis', 'Diarrhea', 'Sneezing', 'Inflammation', 'Palpitation', 'Dizziness', 'Hallucination', 'Illusions', 'Toothache', 'Frequent micturation', 'Blood in stool', 'Dyspnea'];
   selected: string[] = [];
-  pid: string;
-  constructor(route: ActivatedRoute,private http: ConsultHttpService, fb: FormBuilder, pat: PatientService) {
+  pat: IPatients;
+  constructor(route: ActivatedRoute, private http: ConsultHttpService, fb: FormBuilder) {
     this.hist = route.snapshot.data['history'];
-    this.pid = route.parent.snapshot.paramMap.get('id');
-    console.log(this.pid);
+    this.pat = route.snapshot.data['patient']
     this.form = fb.group({
       complaints: ["", Validators.compose([Validators.required, Validators.maxLength(500), Validators.minLength(3)])],
     });
@@ -40,7 +39,7 @@ export class ComplaintsComponent implements OnInit {
     this.selected.splice(ix, 1);
   }
 
-  add(con:IConsultation) {
+  add(con: IConsultation) {
     this.selected.map(x => this.s_s.unshift(x));
     this.selected.splice(0, this.selected.length);
     this.form.reset();
@@ -54,7 +53,7 @@ export class ComplaintsComponent implements OnInit {
     }
     else if (confirm('Have you reviewed the data?')) {
       var ss = this.selected.join();
-      let hist: IConsultation = { complaints: ss, patientsID: this.pid, physicianNotes: '', userName: '', dateAdded:new Date() } as IConsultation;
+      let hist: IConsultation = { complaints: ss, patientsID: this.pat.patientsID, physicianNotes: '', userName: '', dateAdded: new Date() } as IConsultation;
       this.http.add(hist).subscribe(() => this.add(hist), err => this.hand.onError(err));
     }
   }

@@ -7,6 +7,7 @@ export interface IAttendance {
   dateSeen: Date;
   userName: string;
   concurrency: number[];
+  sessionName: string;
 }
 
 export interface IAttendanceVm {
@@ -14,5 +15,6 @@ export interface IAttendanceVm {
   dateSeen: Date;
   visitType: string;
   patientsID: string;
-  id: any;
+  id: string;
+  sessionName: string;
 }

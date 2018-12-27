@@ -1,12 +1,12 @@
-﻿using WinClinic.Model;
-using WinClinic.Model.Records;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using WinClinic.DTOs.Records;
+using WinClinic.Model;
+using WinClinic.Model.Records;
 
 namespace KingsMedicalVillage.Controllers.Records
 {

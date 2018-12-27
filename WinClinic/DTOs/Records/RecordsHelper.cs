@@ -1,11 +1,12 @@
-﻿using WinClinic.Model;
-using WinClinic.Model.Records;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinClinic.Model;
+using WinClinic.Model.Records;
 using WinClinic.Model.ViewModels;
+using static WinClinic.DTOs.RandomStringGenerator;
 
 namespace WinClinic.DTOs.Records
 {
@@ -26,15 +27,30 @@ namespace WinClinic.DTOs.Records
         /// Add patient attendance
         /// </summary>
         /// <param name="patient"></param>
-        public void AddAttendance(Patients patient, string visit) => db.Add(new PatientAttendance
+        public void AddAttendance(Patients patient, string visit)
         {
-            DateSeen = DateTime.Now,
-            PatientsID = patient.PatientsID,
-            UserName = patient.UserName,
-            VisitType = visit,
-            PatientAttendanceID= Guid.NewGuid()
-        });
+            db.Add(new PatientAttendance
+            {
+                DateSeen = DateTime.Now,
+                PatientsID = patient.PatientsID,
+                UserName = patient.UserName,
+                VisitType = visit,
+                SessionName = RandomString(new Random().Next(6, 10)),
+                PatientAttendanceID = Guid.NewGuid()
+            });
+        }
 
+        public async Task ClosePreviousesAsync(Patients patient)
+        {
+            var atts = await db.PatientAttendance.Where(x => x.PatientsID == patient.PatientsID && !x.IsActive).ToListAsync();
+            if (atts.Any())
+                atts.ForEach(x =>
+                {
+                    x.IsActive = true;
+                    x.DateClosed = DateTime.Now;
+                    db.Entry(x).State = EntityState.Modified;
+                });
+        }
         /// <summary>
         /// Register new patient
         /// </summary>
@@ -71,7 +87,12 @@ namespace WinClinic.DTOs.Records
 
         public Task<Patients> Find(string id) => Task.Run(async () => await db.Patients.Include(x => x.Schemes).SingleOrDefaultAsync(x => x.PatientsID == id));
 
-        public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.PatientAttendanceID, PatientsID = x.PatientsID, VisitType = x.VisitType }).ToListAsync());
+        /// <summary>
+        /// Get list of patients visiting the clinic today
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Include(x => x.Patients).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.PatientAttendanceID, PatientsID = x.PatientsID, VisitType = x.VisitType, SessionName = x.SessionName }).ToListAsync());
 
         public async Task<List<Patients>> Search(string name) => await db.Patients
             .Where(x =>

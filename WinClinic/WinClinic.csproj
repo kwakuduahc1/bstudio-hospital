@@ -57,6 +57,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Staff.cs</DependentUpon>
     </None>
+    <None Update="Model\ViewModels\AttendanceVm.cs.generated.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AttendanceVm.cs</DependentUpon>
+    </None>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
