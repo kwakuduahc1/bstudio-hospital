@@ -48,5 +48,12 @@ namespace WinClinic.Controllers.OPD
             return Ok();
         }
 
+        [HttpGet]
+        public async Task<IEnumerable> SchemeDrugs(string id)
+        {
+            var drugs = await db.SchemeDrugs(id);
+            return drugs.Select(x => new { x.Drugs.DrugName, x.DrugsID, x.DrugCodesID });
+        }
+
     }
 }

@@ -84,7 +84,13 @@ namespace WinClinic.DTOs.Consulting
             return services;
         }
 
-        //public Task<List<PatientDrugs>> PatientDrugs(string id) => Task.Run(async () => await db.PatientDrugs.Where(x => x.PatientsID == id).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).ToListAsync());
+        public async Task<List<DrugCodes>> ScehemDrugs(string id)
+        {
+            var pat = await db.Patients.FindAsync(id);
+            if (pat == null)
+                return null;
+           return await Task.Run(async () => await db.DrugCodes.Where(x => x.SchemesID == pat.SchemesID).Include(x => x.Drugs).ToListAsync());
+        }
 
         //public async Task<List<DrugCodes>> SchemeDrugs(string id)
         //{
