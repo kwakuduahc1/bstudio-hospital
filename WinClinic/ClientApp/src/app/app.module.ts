@@ -55,6 +55,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DiagnosisComponent } from './components/consult/diagnosis/diagnosis.component';
 import { PatientDiagnosesResolver } from './resolvers/consulting/patient-diagnoses-resolver';
 import { DiagnosesListResolver } from './resolvers/consulting/diagnoses-list-resolver';
+import { LabsComponent } from './components/consult/labs/labs.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { DiagnosesListResolver } from './resolvers/consulting/diagnoses-list-res
     PendingComponent,
     ComplaintsComponent,
     NotFoundComponent,
-    DiagnosisComponent
+    DiagnosisComponent,
+    LabsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -98,7 +100,8 @@ import { DiagnosesListResolver } from './resolvers/consulting/diagnoses-list-res
         path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
-          { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } }
+          { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } },
+          { path: 'labs', component: LabsComponent }
         ]
       },
       { path: '**', component: NotFoundComponent }
