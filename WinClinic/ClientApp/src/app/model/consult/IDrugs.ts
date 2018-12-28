@@ -1,6 +1,6 @@
 export interface IDrugs {
   drugsID: number;
-  drug: string;
+  drugName: string;
   price: number;
   description: string;
   concurrency: number[];

@@ -1,3 +1,12 @@
-<p>
-  drugs works!
-</p>
+<div class="row">
+  <div class="col-sm-3">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-primary">Available Drugs</li>
+      <li class="list-group-item list-group-item-success">
+        <input type="text" class="form-control" [(ngModel)]="search" ngModelOptions="{'standAlone':'true'}" placeholder="filter drugs" />
+      </li>
+      <li class="list-group-item" *ngFor="let d of drugs |filterBy:['drugName']:search  |sample : 20" style="cursor:grab" (click)="select(d)">{{d.drugName}}</li>
+      <li class="list-group-item list-group-item-action"><button (click)="request()" class="btn btn-success">Request</button></li>
+    </ul>
+  </div>
+</div>

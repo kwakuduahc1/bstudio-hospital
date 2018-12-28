@@ -60,6 +60,7 @@ import { LabsResolver } from './resolvers/consulting/labs-resolver';
 import { LabsHttpService } from './http/consulting/labs-http.service';
 import { DrugsComponent } from './components/consult/drugs/drugs.component';
 import { PatientDrugsResolver } from './resolvers/consulting/patient-drugs-resolver';
+import { DrugsHttpService } from './http/consulting/drugs-http.service';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,10 @@ import { PatientDrugsResolver } from './resolvers/consulting/patient-drugs-resol
     ConsultVitalsResolver,
     LabsResolver,
     PatientLabsResolver,
-    LabsHttpService
+    LabsHttpService,
+    PatientDrugsResolver,
+    DrugsResolver,
+    DrugsHttpService
   ],
   bootstrap: [AppComponent]
 })

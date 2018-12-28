@@ -21,4 +21,5 @@ export interface IPatientDrugs {
   quantity: number;
   isEdit: boolean;
   edit: number;
+  patientAttendanceID: string;
 }

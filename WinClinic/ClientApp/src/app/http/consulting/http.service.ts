@@ -15,7 +15,7 @@ const url = ServerUrl;
 export class HttpService {
 
   list(): Observable<IPending[]> {
-    return this.http.get<IPending[]>(`${url}Consult/Pending`);
+    return this.http.get<IPending[]>(`${url}Consulting/Pending`);
   }
 
   find(id: string): Observable<IPatients> {
@@ -26,16 +26,16 @@ export class HttpService {
     return this.http.get<ILabGroups[]>(`${url}Consulting/SchemeLabs`);
   }
 
-  drugs(): Observable<IDrugs[]> {
-    return this.http.get<IDrugs[]>(`${url}Consult/Drugs`);
+  drugs(id:string): Observable<IDrugs[]> {
+    return this.http.get<IDrugs[]>(`${url}Consulting/SchemeDrugs?id=${id}`);
   }
 
   services(): Observable<IServices[]> {
-    return this.http.get<IServices[]>(`${url}Consult/Services`);
+    return this.http.get<IServices[]>(`${url}Consulting/Services`);
   }
 
   summary(id: string): Observable<ISummary[]> {
-    return this.http.get<ISummary[]>(`${url}Consult/Summary?id=${id}`);
+    return this.http.get<ISummary[]>(`${url}Consulting/Summary?id=${id}`);
   }
 
   vitals(id: string): Observable<any[]> {

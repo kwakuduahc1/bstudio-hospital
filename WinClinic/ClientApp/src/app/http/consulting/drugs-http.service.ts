@@ -10,15 +10,15 @@ export class DrugsHttpService {
 
 
   add(item: IPatientDrugs[]): Observable<IPatientDrugs[]> {
-    return this.http.post<IPatientDrugs[]>(`${url}Consult/RequestDrugs`, item);
+    return this.http.post<IPatientDrugs[]>(`${url}Consulting/RequestDrugs`, item);
   }
 
   edit(item: IPatientDrugs): Observable<IPatientDrugs> {
-    return this.http.post<IPatientDrugs>(`${url}Consult/EditRequestDrugs`, item);
+    return this.http.post<IPatientDrugs>(`${url}Consulting/EditRequestDrugs`, item);
   }
 
   delete(item: IPatientDrugs): Observable<IPatientDrugs> {
-    return this.http.post<IPatientDrugs>(`${url}Consult/DeleteDrug`, item);
+    return this.http.post<IPatientDrugs>(`${url}Consulting/DeleteDrug`, item);
   }
 
   find(id: string): Observable<IPatientDrugs> {
@@ -30,7 +30,11 @@ export class DrugsHttpService {
   }
 
   list(id: string, num: number = 50): Observable<IPatientDrugs[]> {
-    return this.http.get<IPatientDrugs[]>(`${url}Consult/CurrentDrugHistory?id=${id}&num=${num}`);
+    return this.http.get<IPatientDrugs[]>(`${url}Consulting/PatientDrugs?id=${id}&num=${num}`);
+  }
+
+  current(id: string, num: number = 50): Observable<IPatientDrugs[]> {
+    return this.http.get<IPatientDrugs[]>(`${url}Consulting/CurrentDrugs?id=${id}`);
   }
 
   constructor(private http: HttpClient) { }

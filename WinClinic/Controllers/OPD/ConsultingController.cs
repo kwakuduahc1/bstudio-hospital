@@ -50,15 +50,6 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IActionResult> SchemeDrugs(string id)
-        {
-            var drugs = await db.SchemeDrugs(id);
-            if (drugs == null)
-                return BadRequest(new { Message = "Invalid operation. No drugs were returned for this patient" });
-            return Ok(drugs.Select(x => new { x.Drugs.DrugName, x.DrugsID, x.DrugCodesID }));
-        }
-
-        [HttpGet]
         public async Task<IEnumerable> DiagnosesHistory(string id) => await db.DiagnosesHistory(id);
 
         [HttpGet]
@@ -102,6 +93,18 @@ namespace WinClinic.Controllers.OPD
             db.RequestLabs(labs);
             await db.Save();
             return Accepted();
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable> CurrentDrugs(string id) => await db.PatientDrugs(id);
+
+        [HttpGet]
+        public async Task<IActionResult> SchemeDrugs(string id)
+        {
+            var drugs = await db.SchemeDrugs(id);
+            if (drugs == null)
+                return BadRequest(new { Message = "Invalid operation. No drugs were returned for this patient" });
+            return Ok(drugs.Select(x => new { x.Drugs.DrugName, x.DrugsID, x.DrugCodesID }));
         }
     }
 }

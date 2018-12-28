@@ -7,7 +7,7 @@ import { DrugsHttpService } from "../../http/consulting/drugs-http.service";
 @Injectable()
 export class PatientDrugsResolver implements Resolve<Observable<IPatientDrugs[]>> {
   resolve(route: ActivatedRouteSnapshot): Observable<IPatientDrugs[]> {
-    return this.http.list(route.parent!.paramMap.get('id') as string);
+    return this.http.current(route.parent!.paramMap.get('id') as string);
   }
 
   constructor(private http: DrugsHttpService) { }
