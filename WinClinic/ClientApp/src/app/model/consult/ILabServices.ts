@@ -9,4 +9,5 @@ export interface ILaboratoryServices {
   patientLaboratoryServices: any[];
   labGroups: ILabGroups;
   labGroup: string;
+  groupName: string;
 }

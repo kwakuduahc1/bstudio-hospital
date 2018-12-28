@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WinClinic
 {
@@ -13,5 +14,10 @@ namespace WinClinic
 
         [Required]
         public string GroupName { get; set; }
+
+        [Required]
+        public Guid PatientAttendanceID { get; set; }
+
+        public string UserName { get; set; }
     }
 }

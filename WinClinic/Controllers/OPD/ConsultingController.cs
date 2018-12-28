@@ -79,5 +79,26 @@ namespace WinClinic.Controllers.OPD
             await db.Save();
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IEnumerable> SchemeLabs()
+        {
+            var list = await db.SchemeLabs();
+            return list.Select(x => new { x.Cost, x.GroupName, x.LabGroupsID }).OrderBy(x => x.GroupName).ToList();
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable> LabHistory(string id) => await db.LaboratoryHistory(id);
+
+        [HttpPost]
+        public async Task<IActionResult> RequestLabs([FromBody] List<ReqLabVm> labs)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
+            labs.ForEach(x => x.UserName = User.Identity.Name);
+            db.RequestLabs(labs);
+            await db.Save();
+            return Accepted();
+        }
     }
 }

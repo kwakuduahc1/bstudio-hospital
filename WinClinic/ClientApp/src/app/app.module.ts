@@ -56,6 +56,8 @@ import { DiagnosisComponent } from './components/consult/diagnosis/diagnosis.com
 import { PatientDiagnosesResolver } from './resolvers/consulting/patient-diagnoses-resolver';
 import { DiagnosesListResolver } from './resolvers/consulting/diagnoses-list-resolver';
 import { LabsComponent } from './components/consult/labs/labs.component';
+import { LabsResolver } from './resolvers/consulting/labs-resolver';
+import { LabsHttpService } from './http/consulting/labs-http.service';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,7 @@ import { LabsComponent } from './components/consult/labs/labs.component';
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
           { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } },
-          { path: 'labs', component: LabsComponent }
+          { path: 'labs', component: LabsComponent, resolve: { labs: LabsResolver, history: PatientLabsResolver, patient:FindParentPatientResolver } }
         ]
       },
       { path: '**', component: NotFoundComponent }
@@ -137,7 +139,10 @@ import { LabsComponent } from './components/consult/labs/labs.component';
     DiagnosesHttpService,
     PatientDiagnosesResolver,
     HttpService,
-    ConsultVitalsResolver
+    ConsultVitalsResolver,
+    LabsResolver,
+    PatientLabsResolver,
+    LabsHttpService
   ],
   bootstrap: [AppComponent]
 })

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WinClinic.Model;
 using WinClinic.Model.Accounts;
 using WinClinic.Model.ConsultingRoom;
+using WinClinic.Model.Laboratory;
 using WinClinic.Model.OPD;
 using WinClinic.Model.Pharmacy;
 using WinClinic.Model.Records;
@@ -127,6 +128,60 @@ namespace WinClinic.DTOs.Consulting
             if (pt == null)
                 return null;
             return await Task.Run(async () => await db.DiagnosticCodes.Where(x => x.SchemesID == pt.SchemesID).ToListAsync());
-}
+        }
+
+        /// <summary>
+        /// Get all the lab procedures
+        /// </summary>
+        /// <returns>LaboratoryServices</returns>
+        public async Task<List<LabGroups>> SchemeLabs()
+        {
+            return await Task.Run(async () => await db.LabGroups.ToListAsync());
+        }
+
+        /// <summary>
+        /// Get the lab history for a patient
+        /// </summary>
+        /// <param name="id">The unique identifier for a patient</param>
+        /// <returns></returns>
+        public async Task<List<PatientLaboratoryServices>> LaboratoryHistory(string id)
+        {
+            var pt = await db.Patients.FindAsync(id);
+            if (pt == null)
+                return null;
+            return await Task.Run(async () => await db.PatientLaboratoryServices.Where(x => x.PatientAttendance.PatientsID == pt.PatientsID).Include(x => x.LaboratoryService).ThenInclude(x => x.LabGroup).ToListAsync());
+        }
+
+        public void RequestLabs(List<ReqLabVm> labs)
+        {
+            var list = GenerateLabs(labs);
+            db.PatientLaboratoryServices.AddRange(list);
+        }
+
+        List<PatientLaboratoryServices> GenerateLabs(List<ReqLabVm> labs)
+        {
+            var list = new List<LaboratoryServices>();
+            labs.ForEach(async x =>
+            {
+                var _list = await db.LaboratoryServices.Where(t => t.LabGroupsID == x.LabGroupsID).ToListAsync();
+                list.AddRange(_list);
+            });
+            var pts = new List<PatientLaboratoryServices>(list.Count);
+            list.ForEach(x =>
+            {
+                pts.Add(new PatientLaboratoryServices
+                {
+                    Amount = 0,
+                    DateRequested = DateTime.Now,
+                    IsPaid = false,
+                    IsServed = false,
+                    PatientAttendanceID = labs[0].PatientAttendanceID,
+                    Notes = "",
+                    LabOfficer = labs[0].UserName,
+                    LaboratoryServicesID = x.LaboratoryServicesID
+                });
+            });
+            return pts;
+        }
     }
 }

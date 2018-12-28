@@ -1,3 +1,15 @@
-<p>
-  labs works!
-</p>
+<div class="row">
+  <div class="col-sm-4">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-action" style="cursor:grabbing">Labs</li>
+      <li class="list-group-item" (click)="select(l)" *ngFor="let l of labs" style="cursor:grab">{{l.groupName}}</li>
+    </ul>
+  </div>
+  <div class="col-sm-3">
+    <ul class="list-group" [hidden]="pt_labs.length < 1">
+      <li class="list-group-item list-group-item-primary">Requested Labs</li>
+      <li class="list-group-item" *ngFor="let pl of pt_labs">{{pl.lab}}</li>
+      <li class="list-group-item list-group-item-action"><button (click)="request()" class="btn btn-success">Request</button></li>
+    </ul>
+  </div>
+</div>

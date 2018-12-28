@@ -10,15 +10,15 @@ export class LabsHttpService {
 
 
   add(item: IPatientLabs[]): Observable<IPatientLabs[]> {
-    return this.http.post<IPatientLabs[]>(`${url}Consult/RequestLabs`, item);
+    return this.http.post<IPatientLabs[]>(`${url}Consulting/RequestLabs`, item);
   }
 
   edit(item: IPatientLabs): Observable<IPatientLabs> {
-    return this.http.put<IPatientLabs>(`${url}Consult/Edit`, item);
+    return this.http.put<IPatientLabs>(`${url}Consulting/Edit`, item);
   }
 
   delete(item: IPatientLabs): Observable<IPatientLabs[]> {
-    return this.http.post<IPatientLabs[]>(`${url}Consult/DeleteLabs`, item);
+    return this.http.post<IPatientLabs[]>(`${url}Consulting/DeleteLabs`, item);
   }
 
   find(id: string): Observable<IPatientLabs> {
@@ -31,7 +31,7 @@ export class LabsHttpService {
   }
 
   list(id: string, num: number = 100): Observable<IPatientLabs[]> {
-    return this.http.get<IPatientLabs[]>(`${url}Consult/LabHistory?id=${id}&num=${num}`);
+    return this.http.get<IPatientLabs[]>(`${url}Consulting/LabHistory?id=${id}&num=${num}`);
   }
   constructor(private http: HttpClient) { }
 }

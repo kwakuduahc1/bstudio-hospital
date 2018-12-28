@@ -16,6 +16,9 @@ export interface IPatientLabs {
   dateServed?: Date;
   concurrency: number[];
   cost: number;
+  labGroupsID: number;
   labsID: number;
-  Lab: string;
+  lab: string;
+  groupName: string;
+  patientAttendanceID: string;
 }

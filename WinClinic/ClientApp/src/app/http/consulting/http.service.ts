@@ -23,7 +23,7 @@ export class HttpService {
   }
 
   labGroups(): Observable<ILabGroups[]> {
-    return this.http.get<ILabGroups[]>(`${url}Consult/Labs`);
+    return this.http.get<ILabGroups[]>(`${url}Consulting/SchemeLabs`);
   }
 
   drugs(): Observable<IDrugs[]> {
