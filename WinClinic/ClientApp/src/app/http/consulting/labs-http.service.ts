@@ -33,5 +33,9 @@ export class LabsHttpService {
   list(id: string, num: number = 100): Observable<IPatientLabs[]> {
     return this.http.get<IPatientLabs[]>(`${url}Consulting/LabHistory?id=${id}&num=${num}`);
   }
+
+  current(id: string): Observable<IPatientLabs[]> {
+    return this.http.get<IPatientLabs[]>(`${url}Consulting/CurrentLabs?id=${id}`);
+  }
   constructor(private http: HttpClient) { }
 }

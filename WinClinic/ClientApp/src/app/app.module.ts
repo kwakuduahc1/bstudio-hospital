@@ -58,6 +58,8 @@ import { DiagnosesListResolver } from './resolvers/consulting/diagnoses-list-res
 import { LabsComponent } from './components/consult/labs/labs.component';
 import { LabsResolver } from './resolvers/consulting/labs-resolver';
 import { LabsHttpService } from './http/consulting/labs-http.service';
+import { DrugsComponent } from './components/consult/drugs/drugs.component';
+import { PatientDrugsResolver } from './resolvers/consulting/patient-drugs-resolver';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,8 @@ import { LabsHttpService } from './http/consulting/labs-http.service';
     ComplaintsComponent,
     NotFoundComponent,
     DiagnosisComponent,
-    LabsComponent
+    LabsComponent,
+    DrugsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -103,7 +106,8 @@ import { LabsHttpService } from './http/consulting/labs-http.service';
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
           { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } },
-          { path: 'labs', component: LabsComponent, resolve: { labs: LabsResolver, history: PatientLabsResolver, patient:FindParentPatientResolver } }
+          { path: 'labs', component: LabsComponent, resolve: { labs: LabsResolver, history: PatientLabsResolver, patient: FindParentPatientResolver } },
+          { path: 'drugs', component: DrugsComponent, resolve: { drugs: DrugsResolver, patient: FindParentPatientResolver, history: PatientDrugsResolver }}
         ]
       },
       { path: '**', component: NotFoundComponent }

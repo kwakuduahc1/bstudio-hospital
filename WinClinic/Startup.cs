@@ -20,12 +20,12 @@ namespace WinClinic
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
-            env = environment;
+            Env = environment;
         }
 
         public IConfiguration Configuration { get; }
 
-        public IHostingEnvironment env { get; }
+        public IHostingEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -49,8 +49,8 @@ namespace WinClinic
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
-                    ValidAudience = env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
+                    ValidIssuer = Env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
+                    ValidAudience = Env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xRBqwa5UtkVhr9w"))
                 };
             });

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -91,23 +92,6 @@ namespace WinClinic.DTOs.Consulting
             return services;
         }
 
-        public async Task<List<DrugCodes>> ScehemDrugs(string id)
-        {
-            var pat = await db.Patients.FindAsync(id);
-            if (pat == null)
-                return null;
-            return await Task.Run(async () => await db.DrugCodes.Where(x => x.SchemesID == pat.SchemesID).Include(x => x.Drugs).ToListAsync());
-        }
-
-        //public async Task<List<DrugCodes>> SchemeDrugs(string id)
-        //{
-        //    Patients pt = await db.Patients.FindAsync(id);
-        //    if (pt == null)
-        //        return null;
-        //    var drugs = await db.DrugCodes.Include(x => x.Drugs).Where(x => x.SchemesID == pt.SchemesID).ToListAsync();
-        //    return drugs;
-        //}
-
         public void AddConsult(PatientConsultation patientConsultation) => db.Add(patientConsultation);
 
         /// <summary>
@@ -144,32 +128,30 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id">The unique identifier for a patient</param>
         /// <returns></returns>
-        public async Task<List<PatientLaboratoryServices>> LaboratoryHistory(string id)
+        public async Task<IEnumerable> LaboratoryHistory(string id)
         {
             var pt = await db.Patients.FindAsync(id);
             if (pt == null)
                 return null;
-            return await Task.Run(async () => await db.PatientLaboratoryServices.Where(x => x.PatientAttendance.PatientsID == pt.PatientsID).Include(x => x.LaboratoryService).ThenInclude(x => x.LabGroup).ToListAsync());
+            return await db.PatientLaboratoryServices.Where(x => x.PatientAttendance.PatientsID == pt.PatientsID).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).ToListAsync();
+        }
+
+        public async Task<IEnumerable> CurrentLabs(string id)
+        {
+            return await db.PatientLaboratoryServices.Where(x => x.PatientAttendance.PatientsID == id && x.DateRequested.Date == DateTime.Now.Date).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).OrderByDescending(x => x.DateRequested).ToListAsync();
         }
 
         public void RequestLabs(List<ReqLabVm> labs)
         {
-            var list = GenerateLabs(labs);
-            db.PatientLaboratoryServices.AddRange(list);
-        }
-
-        List<PatientLaboratoryServices> GenerateLabs(List<ReqLabVm> labs)
-        {
             var list = new List<LaboratoryServices>();
-            labs.ForEach(async x =>
+            foreach (var item in labs)
             {
-                var _list = await db.LaboratoryServices.Where(t => t.LabGroupsID == x.LabGroupsID).ToListAsync();
+                var _list = db.LaboratoryServices.Where(t => t.LabGroupsID == item.LabGroupsID).ToList();
                 list.AddRange(_list);
-            });
-            var pts = new List<PatientLaboratoryServices>(list.Count);
-            list.ForEach(x =>
+            }
+            foreach (var x in list)
             {
-                pts.Add(new PatientLaboratoryServices
+                var req = new PatientLaboratoryServices
                 {
                     Amount = 0,
                     DateRequested = DateTime.Now,
@@ -179,9 +161,9 @@ namespace WinClinic.DTOs.Consulting
                     Notes = "",
                     LabOfficer = labs[0].UserName,
                     LaboratoryServicesID = x.LaboratoryServicesID
-                });
-            });
-            return pts;
+                };
+                db.PatientLaboratoryServices.Add(req);
+            }
         }
     }
 }

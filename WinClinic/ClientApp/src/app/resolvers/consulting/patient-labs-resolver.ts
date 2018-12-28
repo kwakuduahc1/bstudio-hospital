@@ -7,7 +7,7 @@ import { LabsHttpService } from "../../http/consulting/labs-http.service";
 @Injectable()
 export class PatientLabsResolver implements Resolve<Observable<IPatientLabs[]>> {
   resolve(route: ActivatedRouteSnapshot): Observable<IPatientLabs[]> {
-    return this.http.list(route.parent!.paramMap.get('id') as string);
+    return this.http.current(route.parent!.paramMap.get('id') as string);
   }
 
   constructor(private http: LabsHttpService) { }

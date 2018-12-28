@@ -43,10 +43,14 @@ export class LabsComponent implements OnInit {
       this.http.add(this.pt_labs).subscribe(() => {
         this.pt_labs.splice(0, this.pt_labs.length);
         alert("Request was successful");
+        this.reload();
       }, err => this.hand.onError(err));
     }
   }
 
+  reload() {
+    this.http.current(this.pat.patientsID).subscribe(res => this.hist = res);
+  }
   ngOnInit() {
   }
 
