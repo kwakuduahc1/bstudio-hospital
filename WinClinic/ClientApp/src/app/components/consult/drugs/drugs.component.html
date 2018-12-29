@@ -5,8 +5,67 @@
       <li class="list-group-item list-group-item-success">
         <input type="text" class="form-control" [(ngModel)]="search" ngModelOptions="{'standAlone':'true'}" placeholder="filter drugs" />
       </li>
-      <li class="list-group-item" *ngFor="let d of drugs |filterBy:['drugName']:search  |sample : 20" style="cursor:grab" (click)="select(d)">{{d.drugName}}</li>
-      <li class="list-group-item list-group-item-action"><button (click)="request()" class="btn btn-success">Request</button></li>
+      <li class="list-group-item" *ngFor="let d of drugs |filterBy:['drugName']:search  |sample : 10" style="cursor:grab" (click)="select(d)">{{d.drugName}}</li>
     </ul>
+  </div>
+  <div class="col-sm-9">
+    <div [hidden]="drugForms.length<1">
+      <div class="row">
+        <div class="col-sm-1" hidden>ID</div>
+        <div class="col-sm-3">Drug</div>
+        <div class="col-sm-1">Quantity</div>
+        <div class="col-sm-1">Freq</div>
+        <div class="col-sm-1">Days</div>
+        <div class="col-sm-1">Remove</div>
+      </div>
+      <form class="" name="drugForms" id="form{{ix}}" [formGroup]="f" *ngFor="let f of drugForms;let ix=index">
+        <div class="form-group form-row">
+          <div class="col-sm-1" hidden>
+            <input type="number" hidden disabled class="form-control" formControlName="drugCodesID" name="did{{ix}}" id="did{{ix}}" />
+          </div>
+          <div class="col-sm-3 form-group">
+            <input type="text" class="form-control" disabled formControlName="drugName" name="drug{{ix}}" id="drug{{ix}}" />
+          </div>
+          <div class="col-sm-1">
+            <input type="number" class="form-control" formControlName="quantityRequested" name="qty{{ix}}" id="qty{{ix}}" />
+          </div>
+          <div class="col-sm-1">
+            <input type="number" class="form-control" formControlName="frequency" name="freq{{ix}}" id="freq{{ix}}" />
+          </div>
+          <div class="col-sm-1">
+            <input type="number" class="form-control" formControlName="numberOfDays" name="days{{ix}}" id="days{{ix}}" />
+          </div>
+          <div class="col-sm-1">
+            <button (click)="remove(ix)" class="btn btn-outline-warning">Remove</button>
+          </div>
+        </div>
+      </form>
+      <div class="col-sm-8">
+        <button [disabled]="formsValid() || hand.isProcessing" type="button" (click)="request(drugForms)" [ngClass]="formsValid() ? 'btn-danger' : 'btn-success'" class="btn btn-block">Prescribe</button>
+      </div>
+    </div>
+    <h3>Current Drugs</h3>
+    <table class="table table-striped">
+      <thead class="thead-light">
+        <tr>
+          <th>Date</th>
+          <th>Drug</th>
+          <th>Qty</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let h of hist">
+          <td>{{h.dateRequested |date}}</td>
+          <td>{{h.drugName}}</td>
+          <td>{{h.quantityRequested}}</td>
+          <td><button disabled class="btn" [ngClass]="h.isServed ? 'btn-outline-success' : 'btn-outline-danger'">{{h.isServed ? 'Served' : 'Pending'}}</button></td>
+          <td>
+            <button class="btn" [ngClass]="h.isPaid ? 'btn-outline-success' : 'btn-outline-danger'" [disabled]="h.isPaid">Remove</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

@@ -30,7 +30,7 @@ export class DrugsHttpService {
   }
 
   list(id: string, num: number = 50): Observable<IPatientDrugs[]> {
-    return this.http.get<IPatientDrugs[]>(`${url}Consulting/PatientDrugs?id=${id}&num=${num}`);
+    return this.http.get<IPatientDrugs[]>(`${url}Consulting/CurrentDrugs?id=${id}&num=${num}`);
   }
 
   current(id: string, num: number = 50): Observable<IPatientDrugs[]> {

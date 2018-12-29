@@ -55,7 +55,20 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<PatientDrugs>> PatientDrugs(string id) => Task.Run(async () => await db.PatientDrugs.Where(x => x.PatientAttendance.PatientsID == id).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).ToListAsync());
+        public async Task<IEnumerable> PatientDrugs(string id)
+        {
+            return await db.PatientDrugs.Where(x => x.PatientAttendance.PatientsID == id && x.DateRequested.Date == DateTime.Now.Date).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).Select(x => new
+            {
+                x.DateRequested,
+                x.Drugcodes.DrugCode,
+                x.Drugcodes.Drugs.DrugName,
+                x.IsServed,
+                x.QuantityRequested,
+                x.DrugCodesID,
+                x.PatientAttendanceID,
+                x.ID
+            }).OrderByDescending(x => x.DateRequested).ToListAsync();
+        }
 
         /// <summary>
         /// Get all the drugs that can be given to patients of a scheme
@@ -165,5 +178,7 @@ namespace WinClinic.DTOs.Consulting
                 db.PatientLaboratoryServices.Add(req);
             }
         }
+
+        public void RequestDrugs(List<PatientDrugs> drugs) => db.PatientDrugs.AddRange(drugs);
     }
 }

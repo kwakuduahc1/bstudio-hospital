@@ -1,4 +1,5 @@
 export interface IDrugs {
+  drugCodesID: string;
   drugsID: number;
   drugName: string;
   price: number;

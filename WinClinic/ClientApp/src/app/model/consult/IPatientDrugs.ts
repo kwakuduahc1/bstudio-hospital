@@ -22,4 +22,6 @@ export interface IPatientDrugs {
   isEdit: boolean;
   edit: number;
   patientAttendanceID: string;
+  drugCodesID: string;
+  numberOfDays: number;
 }

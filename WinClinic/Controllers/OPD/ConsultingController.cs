@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WinClinic.DTOs.Consulting;
 using WinClinic.Model;
 using WinClinic.Model.ConsultingRoom;
+using WinClinic.Model.Pharmacy;
 
 namespace WinClinic.Controllers.OPD
 {
@@ -105,6 +106,21 @@ namespace WinClinic.Controllers.OPD
             if (drugs == null)
                 return BadRequest(new { Message = "Invalid operation. No drugs were returned for this patient" });
             return Ok(drugs.Select(x => new { x.Drugs.DrugName, x.DrugsID, x.DrugCodesID }));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RequestDrugs([FromBody]List<PatientDrugs> drugs)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
+            drugs.ForEach(x =>
+            {
+                x.DateRequested = DateTime.Now;
+                x.RequestingOficcer = User.Identity.Name;
+            });
+            db.RequestDrugs(drugs);
+            await db.Save();
+            return Created("", drugs);
         }
     }
 }
