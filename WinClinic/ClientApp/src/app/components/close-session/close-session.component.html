@@ -1,0 +1,24 @@
+<h1 class="text-xl-center text-primary">Active Sessions</h1>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Date</th>
+      <th>Session ID</th>
+      <th>Full Name</th>
+      <th>Unique Identifier</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let s of sessions">
+      <td>{{s.dateSeen |date}}</td>
+      <td>{{s.sessionName}}</td>
+      <td>{{s.fullName}}</td>
+      <td>{{s.patientsID}}</td>
+      <td>
+        <button [disabled]="!s.isActive" class="btn" [ngClass]="s.isActive ? 'btn-success' : 'btn-danger'" (click)="close(s)">Close</button>
+      </td>
+    </tr>
+  </tbody>
+  <caption>{{sessions.length}} currently active sessions</caption>
+</table>

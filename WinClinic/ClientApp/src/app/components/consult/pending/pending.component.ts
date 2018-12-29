@@ -25,7 +25,7 @@ export class PendingComponent implements OnInit {
   }
 
   find(id: string) {
-    this.http.findPat(id).subscribe(res => this.pat = this.patSer.patient = res, (err: HttpErrorResponse) => this.hand.onError(err));
+    this.http.patient(id).subscribe(res => this.pat = this.patSer.patient = res, (err: HttpErrorResponse) => this.hand.onError(err));
   }
 
   ngOnInit() {

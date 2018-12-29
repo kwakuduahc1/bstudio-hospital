@@ -11,6 +11,14 @@ export class AttendanceHttpService {
     return this.http.get<IAttendanceVm[]>(`/Attendance/List?num=${num}`);
   }
 
+  sessions(): Observable<IAttendanceVm[]> {
+    return this.http.get<IAttendanceVm[]>("/Attendance/ActiveSessions")
+  }
+
+  close(att: IAttendanceVm): Observable<IAttendanceVm> {
+    return this.http.post<IAttendanceVm>("/Attendance/CloseSession", att);
+  }
+
   add(pat: IAttendance): Observable<IAttendance> {
     return this.http.post<IAttendance>(`/Attendance/Create`, pat);
   }
@@ -32,7 +40,12 @@ export class AttendanceHttpService {
   }
 
   findPat(id: string): Observable<IPatients> {
+    return this.http.get<IPatients>(`/Attendance/FindPatient?id=${id}`);
+  }
+
+  patient(id: string): Observable<IPatients> {
     return this.http.get<IPatients>(`/Attendance/Patient?id=${id}`);
   }
+
   constructor(private http: HttpClient) { }
 }

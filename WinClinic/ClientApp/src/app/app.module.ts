@@ -61,6 +61,8 @@ import { LabsHttpService } from './http/consulting/labs-http.service';
 import { DrugsComponent } from './components/consult/drugs/drugs.component';
 import { PatientDrugsResolver } from './resolvers/consulting/patient-drugs-resolver';
 import { DrugsHttpService } from './http/consulting/drugs-http.service';
+import { CloseSessionComponent } from './components/close-session/close-session.component';
+import { ActiveSessionResolverService } from './resolvers/attendance/active-session-resolver';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { DrugsHttpService } from './http/consulting/drugs-http.service';
     NotFoundComponent,
     DiagnosisComponent,
     LabsComponent,
-    DrugsComponent
+    DrugsComponent,
+    CloseSessionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -102,13 +105,14 @@ import { DrugsHttpService } from './http/consulting/drugs-http.service';
       { path: 'attendance', component: AttendanceListComponent, resolve: { list: AttendanceResolverService } },
       { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } },
       { path: 'pending', component: PendingComponent },
+      { path: 'active-session', component: CloseSessionComponent, resolve: { sessions: ActiveSessionResolverService } },
       {
         path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
           { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } },
           { path: 'labs', component: LabsComponent, resolve: { labs: LabsResolver, history: PatientLabsResolver, patient: FindParentPatientResolver } },
-          { path: 'drugs', component: DrugsComponent, resolve: { drugs: DrugsResolver, patient: FindParentPatientResolver, history: PatientDrugsResolver }}
+          { path: 'drugs', component: DrugsComponent, resolve: { drugs: DrugsResolver, patient: FindParentPatientResolver, history: PatientDrugsResolver } }
         ]
       },
       { path: '**', component: NotFoundComponent }
@@ -150,7 +154,8 @@ import { DrugsHttpService } from './http/consulting/drugs-http.service';
     LabsHttpService,
     PatientDrugsResolver,
     DrugsResolver,
-    DrugsHttpService
+    DrugsHttpService,
+    ActiveSessionResolverService
   ],
   bootstrap: [AppComponent]
 })

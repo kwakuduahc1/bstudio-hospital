@@ -15,5 +15,7 @@ namespace WinClinic.Model.ViewModels
         public string SessionName { get; set; }
 
         public Guid ID { get; set; }
+
+        public Guid PatientAttendanceID { get; set; }
     }
 }

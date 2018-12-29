@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -91,6 +92,7 @@ namespace WinClinic.DTOs.Records
             return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
         }
 
+        public Task<PatientAttendance> Find(Guid id) => Task.Run(async () => await db.PatientAttendance.FindAsync(id));
         /// <summary>
         /// Get list of patients visiting the clinic today
         /// </summary>
@@ -106,5 +108,25 @@ namespace WinClinic.DTOs.Records
             EF.Functions.Like(x.PatientsID, $"%{name}%"))
             .Include(x => x.Schemes)
             .ToListAsync();
+
+        internal async Task<IEnumerable> ActiveSessions()
+        {
+            return await db.PatientAttendance.Where(x => x.IsActive).Select(x => new
+            {
+                x.IsActive,
+                x.PatientsID,
+                x.SessionName,
+                x.PatientAttendanceID,
+                x.Patients.FullName,
+                x.DateSeen
+            }).ToListAsync();
+        }
+
+        internal void CloseSession(PatientAttendance attendance)
+        {
+            attendance.DateClosed = DateTime.Now;
+            attendance.IsActive = false;
+            db.Entry(attendance).State = EntityState.Modified;
+        }
     }
 }

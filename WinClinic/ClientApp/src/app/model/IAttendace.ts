@@ -1,7 +1,7 @@
 import { EVisitTypes } from "./EVisitTypes";
 
 export interface IAttendance {
-  id: string;
+  patientAttendanceID: string;
   patientsID: string;
   visitType: EVisitTypes;
   dateSeen: Date;
@@ -17,4 +17,6 @@ export interface IAttendanceVm {
   patientsID: string;
   id: string;
   sessionName: string;
+  patientAttendanceID: string;
+  isActive: boolean;
 }
