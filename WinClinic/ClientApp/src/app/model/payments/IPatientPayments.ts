@@ -26,4 +26,5 @@ export interface IGroups {
   groupName: string;
   cost: number;
   labs: ILabsVm[];
+  hasPaid: boolean;
 }

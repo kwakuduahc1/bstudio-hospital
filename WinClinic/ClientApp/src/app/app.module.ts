@@ -65,6 +65,7 @@ import { CloseSessionComponent } from './components/close-session/close-session.
 import { ActiveSessionResolverService } from './resolvers/attendance/active-session-resolver';
 import { PaymentsComponent } from './components/accounts/payments/payments.component';
 import { PaymnentsHttpService } from './http/payments/payments-http-service';
+import { PrintProviderService } from './providers/print-provider.service';
 
 @NgModule({
   declarations: [
@@ -160,7 +161,8 @@ import { PaymnentsHttpService } from './http/payments/payments-http-service';
     DrugsResolver,
     DrugsHttpService,
     ActiveSessionResolverService,
-    PaymnentsHttpService
+    PaymnentsHttpService,
+    PrintProviderService
   ],
   bootstrap: [AppComponent]
 })

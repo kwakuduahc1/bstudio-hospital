@@ -18,7 +18,7 @@
     </div>
   </fieldset>
 </form>
-<div class="card text-white bg-success mb-3" style="max-width: 18rem;" *ngIf="pat && form.valid">
+<div class="card text-white bg-light text-dark mb-3" style="max-width: 18rem;" *ngIf="pat && form.valid">
   <div class="card-header">Patient Information</div>
   <div class="card-body">
     <p class="card-text">Name  : {{pat!.fullName}}</p>
@@ -26,5 +26,100 @@
     <p class="card-text">ID    : {{pat!.patientsID}}</p>
     <p class="card-text">DOB   : {{pat.dateOfBirth |date}}</p>
     <button class="btn btn-primary" (click)="get(pat.patientAttendanceID)">Get Payments</button>
+  </div>
+</div>
+
+<div>
+  <h2 class="text-secondary">Payments</h2>
+  <table class="table table-striped table-responsive">
+    <thead class="thead-light" *ngIf="pays.drugs.length>1">
+      <tr>
+        <th colspan="3" class="bg-info">Drugs</th>
+      </tr>
+      <tr>
+        <th>Item</th>
+        <th>Amount</th>
+        <th>
+          <input type="checkbox" (change)="checkDrugs()" class="form-check" />
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="pays.drugs.length>1">
+      <tr *ngFor="let d of pays.drugs">
+        <td>{{d.drugName}}</td>
+        <td>{{d.unitCost}}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="d.hasPaid" ngModelOptions="{standAlone:true}" [checked]="d.hasPaid" class="form-check" />
+        </td>
+      </tr>
+      <tr class="bg-secondary" *ngIf="pays.drugs.length>1">
+        <td colspan="3">GH¢ {{dTot() |number}}</td>
+      </tr>
+    </tbody>
+    <thead *ngIf="pays.groups.length>1">
+      <tr>
+        <th colspan="3" class="bg-info">Labs</th>
+      </tr>
+      <tr>
+        <th>Lab</th>
+        <th>Cost</th>
+        <th>
+          <input type="checkbox" (click)="checkLab()" class="form-check" />
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="pays.groups.length>1">
+      <tr *ngFor="let l of pays.groups">
+        <td>{{l.groupName}}</td>
+        <td>{{l.cost}}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="l.hasPaid" ngModelOptions="{standAlone:true}" [checked]="l.hasPaid" class="form-check" />
+        </td>
+      </tr>
+      <tr class="bg-secondary">
+        <td colspan="3">Total : GH¢ {{lTot() | number}}</td>
+      </tr>
+    </tbody>
+    <thead *ngIf="pays.services.length>1">
+      <tr>
+        <th colspan="3" class="bg-info">Labs</th>
+      </tr>
+      <tr>
+        <th>Lab</th>
+        <th>Cost</th>
+        <th>
+          <input type="checkbox" (click)="checkLab()" class="form-check" />
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="pays.services.length>1">
+      <tr *ngFor="let s of pays.services">
+        <td>{{s.service}}</td>
+        <td>{{s.amount}}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="s.hasPaid" ngModelOptions="{standAlone:true}" [checked]="s.hasPaid" class="form-check" />
+        </td>
+      </tr>
+      <tr class="bg-secondary">
+        <td colspan="3">Total : GH¢ {{sTot() | number}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+  <div [hidden]="pays.groups.length<1">
+    <h2 class="h2 text-success">Labs</h2>
+    <ul class="list-group list-group-flush" *ngIf="!pays!.labs">
+      <li class="list-group-item" *ngFor="let l of pays.groups">
+        <span class="text-primary font-weight-bold">{{l.groupName}}</span>
+        <table class="table table-responsive">
+          <tr *ngFor="let p of l.labs">
+            <td>{{p.lab}}</td>
+            <td>
+              <textarea class="form-control"></textarea>
+            </td>
+          </tr>
+        </table>
+      </li>
+    </ul>
   </div>
 </div>
