@@ -9,6 +9,7 @@ using WinClinic.DTOs.Consulting;
 using WinClinic.Model;
 using WinClinic.Model.ConsultingRoom;
 using WinClinic.Model.Pharmacy;
+using WinClinic.Model.Services;
 
 namespace WinClinic.Controllers.OPD
 {
@@ -121,6 +122,23 @@ namespace WinClinic.Controllers.OPD
             db.RequestDrugs(drugs);
             await db.Save();
             return Created("", drugs);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable> GetServices(string id)
+        {
+            return await db.SchemeServices(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RequestServices([FromBody]List<PatientServices> services)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
+            services.ForEach(x => x.RequestingOficcer = User.Identity.Name);
+            db.RequestService(services);
+            await db.Save();
+            return Created("", services);
         }
     }
 }
