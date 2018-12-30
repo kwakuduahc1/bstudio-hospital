@@ -12,8 +12,8 @@ export class PaymnentsHttpService {
   }
 
 
-  add(pat: ): Observable<IPatientPayments> {
-    return this.http.post<IPatientPayments>(`/Attendance/Create`, pat);
+  add(pay:IPatientPayments ): Observable<IPatientPayments> {
+    return this.http.post<IPatientPayments>(`/Attendance/Create`, pay);
   }
 
   edit(pat: IPatientPayments): Observable<IPatientPayments> {

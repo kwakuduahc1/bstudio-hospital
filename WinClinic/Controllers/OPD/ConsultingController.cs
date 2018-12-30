@@ -83,7 +83,7 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> LabHistory(string id) => await db.LaboratoryHistory(id);
 
         [HttpGet]
-        public async Task<IEnumerable> CurrentLabs(string id) => await db.CurrentLabs(id);
+        public async Task<IEnumerable> CurrentLabs(Guid id) => await db.CurrentLabs(id);
 
         [HttpPost]
         public async Task<IActionResult> RequestLabs([FromBody] List<ReqLabVm> labs)
@@ -97,7 +97,7 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> CurrentDrugs(string id) => await db.PatientDrugs(id);
+        public async Task<IEnumerable> CurrentDrugs(Guid id) => await db.CurrenntDrugs(id);
 
         [HttpGet]
         public async Task<IActionResult> SchemeDrugs(string id)

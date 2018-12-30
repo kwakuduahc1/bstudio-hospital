@@ -55,9 +55,9 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IEnumerable> PatientDrugs(string id)
+        public async Task<IEnumerable> CurrenntDrugs(Guid id)
         {
-            return await db.PatientDrugs.Where(x => x.PatientAttendance.PatientsID == id && x.DateRequested.Date == DateTime.Now.Date).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).Select(x => new
+            return await db.PatientDrugs.Where(x => x.PatientAttendanceID == id).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).Select(x => new
             {
                 x.DateRequested,
                 x.Drugcodes.DrugCode,
@@ -84,10 +84,7 @@ namespace WinClinic.DTOs.Consulting
             return drugs;
         }
 
-        internal void Diagnose(List<PatientDiagnosis> diagnoses)
-        {
-            this.db.AddRange(diagnoses);
-        }
+        internal void Diagnose(List<PatientDiagnosis> diagnoses) => db.AddRange(diagnoses);
 
         /// <summary>
         /// Get patient services history
@@ -149,9 +146,9 @@ namespace WinClinic.DTOs.Consulting
             return await db.PatientLaboratoryServices.Where(x => x.PatientAttendance.PatientsID == pt.PatientsID).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).ToListAsync();
         }
 
-        public async Task<IEnumerable> CurrentLabs(string id)
+        public async Task<IEnumerable> CurrentLabs(Guid id)
         {
-            return await db.PatientLaboratoryServices.Where(x => x.PatientAttendance.PatientsID == id && x.DateRequested.Date == DateTime.Now.Date).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).OrderByDescending(x => x.DateRequested).ToListAsync();
+            return await db.PatientLaboratoryServices.Where(x => x.PatientAttendanceID == id && x.DateRequested.Date == DateTime.Now.Date).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).OrderByDescending(x => x.DateRequested).ToListAsync();
         }
 
         public void RequestLabs(List<ReqLabVm> labs)
@@ -180,5 +177,18 @@ namespace WinClinic.DTOs.Consulting
         }
 
         public void RequestDrugs(List<PatientDrugs> drugs) => db.PatientDrugs.AddRange(drugs);
+
+        public void RequestServic(List<PatientServices> services)
+        {
+            services.ForEach(x =>
+            {
+                x.DateRequested = DateTime.Now;
+                x.IsPaid = false;
+                x.PatientServicesID = Guid.NewGuid();
+            });
+            db.PatientServices.AddRange(services);
+        }
+
+        public Task<IEnumerable> CurrentServices(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendanceID == id).Select(x => new { x.PatientServicesID, x.IsServed, x.DateRequested, x.Frequency, x.NumberOfDays, x.ServiceCodesID, x.ServiceCodes.Services.Service }).ToListAsync());
     }
 }
