@@ -1,15 +1,9 @@
-﻿using WinClinic.Model;
-using WinClinic.Model.Accounts;
-using WinClinic.Model.ConsultingRoom;
-using WinClinic.Model.OPD;
-using WinClinic.Model.Pharmacy;
-using WinClinic.Model.Records;
-using WinClinic.Model.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using WinClinic.Model;
+using WinClinic.Model.Pharmacy;
 
 namespace WinClinic.DTOs.Accounts
 {
@@ -29,7 +23,7 @@ namespace WinClinic.DTOs.Accounts
 
         public Task<int> Save() => Task.Run(async () => await db.SaveChangesAsync());
 
-    //    public Task
+        //    public Task
 
     }
 }

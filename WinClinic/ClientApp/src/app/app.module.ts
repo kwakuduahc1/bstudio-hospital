@@ -63,6 +63,8 @@ import { PatientDrugsResolver } from './resolvers/consulting/patient-drugs-resol
 import { DrugsHttpService } from './http/consulting/drugs-http.service';
 import { CloseSessionComponent } from './components/close-session/close-session.component';
 import { ActiveSessionResolverService } from './resolvers/attendance/active-session-resolver';
+import { PaymentsComponent } from './components/accounts/payments/payments.component';
+import { PaymnentsHttpService } from './http/payments/payments-http-service';
 
 @NgModule({
   declarations: [
@@ -88,7 +90,8 @@ import { ActiveSessionResolverService } from './resolvers/attendance/active-sess
     DiagnosisComponent,
     LabsComponent,
     DrugsComponent,
-    CloseSessionComponent
+    CloseSessionComponent,
+    PaymentsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -106,6 +109,7 @@ import { ActiveSessionResolverService } from './resolvers/attendance/active-sess
       { path: 'vital-signs', component: ListOpdComponent, resolve: { list: VitalsResolverService } },
       { path: 'pending', component: PendingComponent },
       { path: 'active-session', component: CloseSessionComponent, resolve: { sessions: ActiveSessionResolverService } },
+      { path: 'payments', component: PaymentsComponent },
       {
         path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
@@ -155,7 +159,8 @@ import { ActiveSessionResolverService } from './resolvers/attendance/active-sess
     PatientDrugsResolver,
     DrugsResolver,
     DrugsHttpService,
-    ActiveSessionResolverService
+    ActiveSessionResolverService,
+    PaymnentsHttpService
   ],
   bootstrap: [AppComponent]
 })

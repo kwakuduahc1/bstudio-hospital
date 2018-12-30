@@ -56,6 +56,10 @@
       <Generator>DtsGenerator</Generator>
       <LastGenOutput>AttendanceVm.cs.generated.d.ts</LastGenOutput>
     </Compile>
+    <Compile Update="Model\ViewModels\PaymentsVm.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>PaymentsVm.cs.generated.d.ts</LastGenOutput>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +77,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AttendanceVm.cs</DependentUpon>
+    </None>
+    <None Update="Model\ViewModels\PaymentsVm.cs.generated.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PaymentsVm.cs</DependentUpon>
     </None>
   </ItemGroup>
 
