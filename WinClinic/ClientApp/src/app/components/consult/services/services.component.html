@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-sm-4">
+    <ul class="list-group">
+      <li class="list-group-item bg-primary" style="cursor:grabbing">Services</li>
+      <li  class="list-group-item list-group-item-action" (click)="select(s)" *ngFor="let s of services" style="cursor:grab">{{s.service}}</li>
+    </ul>
+  </div>
+  <div class="col-sm-8">
+    <div [hidden]="sForms.length<1">
+      <div class="row">
+        <div class="col-sm-1" hidden>ID</div>
+        <div class="col-sm-5">Service</div>
+        <div class="col-md-1">Freq</div>
+        <div class="col-md-1">Days</div>
+        <div class="col-sm-1">Remove</div>
+      </div>
+      <form class="" name="sForms" id="form{{ix}}" [formGroup]="f" *ngFor="let f of sForms;let ix=index">
+        <div class="form-group form-row">
+          <div class="col-sm-1" hidden>
+            <input type="number" hidden disabled class="form-control" formControlName="serviceCodesID" name="did{{ix}}" id="did{{ix}}" />
+          </div>
+          <div class="col-sm-5 form-group">
+            <input type="text" class="form-control" disabled formControlName="service" name="drug{{ix}}" id="drug{{ix}}" />
+          </div>
+          <div class="col-md-1">
+            <input type="number" class="form-control" formControlName="frequency" name="freq{{ix}}" id="freq{{ix}}" />
+          </div>
+          <div class="col-md-1">
+            <input type="number" class="form-control" formControlName="numberOfDays" name="days{{ix}}" id="days{{ix}}" />
+          </div>
+          <div class="col-sm-1">
+            <button (click)="remove(ix)" class="btn btn-outline-warning">Remove</button>
+          </div>
+        </div>
+      </form>
+      <div class="col-sm-8">
+        <button [disabled]="formsValid() || hand.isProcessing" type="button" (click)="request(sForms)" [ngClass]="formsValid() ? 'btn-danger' : 'btn-success'" class="btn btn-block">Prescribe</button>
+      </div>
+    </div>
+    <h3>Current Requests</h3>
+    <table class="table table-striped table-secondary">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Service</th>
+        <th>Freq</th>
+        <th>Days</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of hist">
+        <th>{{s.dateRequested |date}}</th>
+        <td>{{s.service}}</td>
+        <td>{{s.frequency}}</td>
+        <td>{{s.numberOfDays}}</td>
+        <td><button disabled class="btn" [ngClass]="h.isServed ? 'btn-success' : 'btn-danger'">{{s.isServed ? 'Done' : 'Pending'}}</button></td>
+        <td><button [disabled]="s.isPaid" class="btn" [ngClass]="s.isPaid? 'btn-outline-danger' : 'btn-outline-success'">Remove</button></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>

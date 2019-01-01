@@ -1,5 +1,5 @@
 import { IPatientDrugs } from "../consult/IPatientDrugs";
-import { IPatientServices } from "../consult/IPatientServices";
+import { IPatientServices } from "../consult/IServices";
 
 export interface IPatientPayments {
   patientsID: string;

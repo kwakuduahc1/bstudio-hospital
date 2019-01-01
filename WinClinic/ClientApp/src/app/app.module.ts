@@ -66,6 +66,8 @@ import { ActiveSessionResolverService } from './resolvers/attendance/active-sess
 import { PaymentsComponent } from './components/accounts/payments/payments.component';
 import { PaymnentsHttpService } from './http/payments/payments-http-service';
 import { PrintProviderService } from './providers/print-provider.service';
+import { ServicesComponent } from './components/consult/services/services.component';
+import { ServicesHttpService } from './http/consulting/services-http.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +94,8 @@ import { PrintProviderService } from './providers/print-provider.service';
     LabsComponent,
     DrugsComponent,
     CloseSessionComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    ServicesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -117,13 +120,15 @@ import { PrintProviderService } from './providers/print-provider.service';
           { path: 'complaints', component: ComplaintsComponent, resolve: { 'history': HistoryResolver, patient: FindParentPatientResolver } },
           { path: 'diagnose', component: DiagnosisComponent, resolve: { diags: DiagnosesListResolver, list: PatientDiagnosesResolver, patient: FindParentPatientResolver } },
           { path: 'labs', component: LabsComponent, resolve: { labs: LabsResolver, history: PatientLabsResolver, patient: FindParentPatientResolver } },
-          { path: 'drugs', component: DrugsComponent, resolve: { drugs: DrugsResolver, patient: FindParentPatientResolver, history: PatientDrugsResolver } }
+          { path: 'drugs', component: DrugsComponent, resolve: { drugs: DrugsResolver, patient: FindParentPatientResolver, history: PatientDrugsResolver } },
+          { path: 'services', component: ServicesComponent, resolve: { patient: FindParentPatientResolver, services: ServicesResolver, history: PatientServicesResolver } }
         ]
       },
       { path: '**', component: NotFoundComponent }
     ])
   ],
   providers: [
+    ServicesHttpService,
     DiagnosesListResolver,
     PatientService,
     HistoryResolver,

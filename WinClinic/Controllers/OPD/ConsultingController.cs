@@ -9,7 +9,7 @@ using WinClinic.DTOs.Consulting;
 using WinClinic.Model;
 using WinClinic.Model.ConsultingRoom;
 using WinClinic.Model.Pharmacy;
-using WinClinic.Model.Services;
+using WinClinic.Model.ViewModels;
 
 namespace WinClinic.Controllers.OPD
 {
@@ -26,14 +26,14 @@ namespace WinClinic.Controllers.OPD
         public IActionResult Patient(string id) => Redirect($"/Attendance/Patient?id={id}");
 
         [HttpGet]
-        public async Task<IEnumerable> Vitals(string id)
+        public async Task<IEnumerable> Vitals(Guid id)
         {
             var vs = await db.Vitals(id);
             return vs.Select(x => new { x.DateSeen, x.Diastolic, x.FirstAid, x.History, x.ID, x.Pulse, x.Respiration, x.Systolic, x.Temperature, x.Weight });
         }
 
         [HttpGet]
-        public async Task<IEnumerable> ConsultHistory(string id)
+        public async Task<IEnumerable> ConsultHistory(Guid id)
         {
             var hist = await db.ConHistory(id);
             return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.PatientConsultationID, PatientsID = id }).ToList();
@@ -52,10 +52,10 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> DiagnosesHistory(string id) => await db.DiagnosesHistory(id);
+        public async Task<IEnumerable> DiagnosesHistory(Guid id) => await db.DiagnosesHistory(id);
 
         [HttpGet]
-        public async Task<IEnumerable> SchemeDiagnoses(string id) => await db.SchemeDiagnosisAsync(id);
+        public async Task<IEnumerable> SchemeDiagnoses(Guid id) => await db.SchemeDiagnosisAsync(id);
 
         [HttpPost]
         public async Task<IActionResult> Diagnose([FromBody]List<PatientDiagnosis> diagnoses)
@@ -101,7 +101,7 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> CurrentDrugs(Guid id) => await db.CurrenntDrugs(id);
 
         [HttpGet]
-        public async Task<IActionResult> SchemeDrugs(string id)
+        public async Task<IActionResult> SchemeDrugs(Guid id)
         {
             var drugs = await db.SchemeDrugs(id);
             if (drugs == null)
@@ -125,20 +125,23 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> GetServices(string id)
-        {
-            return await db.SchemeServices(id);
-        }
+        public async Task<IEnumerable> Services(Guid id) => await db.SchemeServices(id);
 
         [HttpPost]
-        public async Task<IActionResult> RequestServices([FromBody]List<PatientServices> services)
+        public async Task<IActionResult> RequestServices([FromBody]List<RequestServiceVm> services)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
-            services.ForEach(x => x.RequestingOficcer = User.Identity.Name);
+            services.ForEach(x => x.UserName = User.Identity.Name);
             db.RequestService(services);
             await db.Save();
             return Created("", services);
         }
+
+        [HttpGet]
+        public async Task<IEnumerable> ServicesHistory(Guid id) => await db.PatientServices(id);
+
+        //[HttpGet]
+        //public async Task<IEnumerable> ServicesHistory(string id) => await db.PatientServices(id);
     }
 }

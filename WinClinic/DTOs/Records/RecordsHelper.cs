@@ -89,10 +89,29 @@ namespace WinClinic.DTOs.Records
 
         public Task<PatientsVm> Find(string id)
         {
-            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
+            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance.Where(t => t.IsActive), (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
         }
 
-        public Task<PatientAttendance> Find(Guid id) => Task.Run(async () => await db.PatientAttendance.FindAsync(id));
+        public Task<PatientsVm> Find(Guid id) => Task.Run(async () => await db.PatientAttendance.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Select(c => new PatientsVm
+        {
+            PatientsID = c.PatientsID,
+            DateOfBirth = c.Patients.DateOfBirth,
+            FullName = c.Patients.FullName,
+            Gender = c.Patients.Gender,
+            MobileNumber = c.Patients.MobileNumber,
+            OtherNames = c.Patients.OtherNames,
+            PatientAttendanceID = c.PatientAttendanceID,
+            Scheme = c.Patients.Schemes.Scheme,
+            SchemesID = c.Patients.SchemesID,
+            SessionName = c.SessionName,
+            Surname = c.Patients.Surname,
+            IsActive = c.IsActive
+        }).FirstOrDefaultAsync());
+
+        public Task<PatientAttendance> FindSession(Guid id)
+        {
+            return Task.Run(async () => await db.PatientAttendance.FindAsync(id));
+        }
         /// <summary>
         /// Get list of patients visiting the clinic today
         /// </summary>

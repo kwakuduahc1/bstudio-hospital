@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace KingsMedicalVillage.Controllers.Records
         }
 
         [HttpGet]
-        public async Task<IActionResult> Patient(string id)
+        public async Task<IActionResult> Patient(Guid id)
         {
             PatientsVm pat = await helper.Find(id);
             if (pat == null)
@@ -66,7 +67,7 @@ namespace KingsMedicalVillage.Controllers.Records
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
-            var att =await helper.Find(attendance.PatientAttendanceID);
+            var att =await helper.FindSession(attendance.PatientAttendanceID);
             if (att == null)
                 return BadRequest(new { Message = "The session was not found" });
             helper.CloseSession(att);

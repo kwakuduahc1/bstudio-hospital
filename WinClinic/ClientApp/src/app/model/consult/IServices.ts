@@ -1,10 +1,48 @@
-import { IPatientServices } from "./IPatientServices";
-
-export interface IServices {
-  servicesID: number;
-  service: string;
+export interface IServiceCodes {
+  serviceCodesID: string;
+  serviceCode: string;
+  schemesID: string;
+  servicesID: string;
   cost: number;
-  serviceGroup: string;
+  status: boolean;
+  description: string;
   concurrency: number[];
-  patientServices: IPatientServices[];
+  service: string;
+  serviceTypesID: string;
+  serviceGroup: string;
+  serviceType: string;
+  isSelected: boolean;
+}
+
+export interface IPatientServices {
+  patientServicesID: string;
+  patientAttendanceID: string;
+  serviceCodesID: string;
+  numberOfDays: number;
+  frequency: number;
+  requestingOficcer: string;
+  serviceCost: number;
+  datePaid: Date;
+  isPaid: boolean;
+  receivingOficcer: string;
+  receipt: string;
+  isServed: boolean;
+  dateServed: Date;
+  servingOficcer: string;
+  dateRequested: Date;
+  concurrency: number[];
+  patientsID: string;
+  sessionName: string;
+  gender: string;
+  fullName: string;
+  serviceCode: string;
+  servicesID: string;
+  cost: number;
+  schemesID: string;
+  scheme: string;
+  service: string;
+  serviceTypesID: string;
+  serviceGroup: string;
+  status: boolean;
+  serviceType: string;
 }

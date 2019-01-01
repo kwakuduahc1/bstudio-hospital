@@ -5,10 +5,10 @@ import { IPending } from '../../model/consult/IPending';
 import { ServerUrl } from './UrlService';
 import { IPatients } from '../../model/IPatients';
 import { IDrugs } from '../../model/consult/IDrugs';
-import { IServices } from '../../model/consult/IServices';
 import { ISummary } from '../../model/consult/ISummary';
 import { IStaff } from '../../model/IStaff';
 import { ILabGroups } from '../../model/consult/ILabGroups'
+import { IServiceCodes } from '../../model/consult/IServices';
 
 const url = ServerUrl;
 @Injectable()
@@ -30,8 +30,8 @@ export class HttpService {
     return this.http.get<IDrugs[]>(`${url}Consulting/SchemeDrugs?id=${id}`);
   }
 
-  services(): Observable<IServices[]> {
-    return this.http.get<IServices[]>(`${url}Consulting/Services`);
+  services(id:string): Observable<IServiceCodes[]> {
+    return this.http.get<IServiceCodes[]>(`${url}Consulting/Services?id=${id}`);
   }
 
   summary(id: string): Observable<ISummary[]> {

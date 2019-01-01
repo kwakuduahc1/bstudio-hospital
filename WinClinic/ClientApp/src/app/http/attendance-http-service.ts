@@ -44,7 +44,7 @@ export class AttendanceHttpService {
   }
 
   patient(id: string): Observable<IPatients> {
-    return this.http.get<IPatients>(`/Attendance/Patient?id=${id}`);
+    return this.http.get<IPatients>(`/Attendance/FindPatient?id=${id}`);
   }
 
   constructor(private http: HttpClient) { }
