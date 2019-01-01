@@ -34,13 +34,14 @@ export class DiagnosisComponent implements OnInit {
   }
 
   refresh() {
-    this.http.patientList(this.pat.patientsID).subscribe(res => this.list = res, err => this.hand.onError(err));
+    this.http.patientList(this.pat.patientAttendanceID).subscribe(res => this.list = res, err => this.hand.onError(err));
   }
   diagnose() {
     this.hand.beginProc();
     this.http.add(this.pt_diags).subscribe(res => {
       this.pt_diags.splice(0, this.pt_diags.length);
       alert('Diagnoses(is) were added');
+      this.refresh();
     }, err => this.hand.onError(err));
     this.hand.endProc();
   }
@@ -48,6 +49,7 @@ export class DiagnosisComponent implements OnInit {
   remove(ix: number) {
     this.pt_diags.splice(ix, 1);
   }
+
   ngOnInit() {
   }
 

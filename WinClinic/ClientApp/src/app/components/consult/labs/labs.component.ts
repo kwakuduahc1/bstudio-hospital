@@ -49,7 +49,7 @@ export class LabsComponent implements OnInit {
   }
 
   reload() {
-    this.http.current(this.pat.patientsID).subscribe(res => this.hist = res);
+    this.http.current(this.pat.patientAttendanceID).subscribe(res => this.hist = res);
   }
   ngOnInit() {
   }
