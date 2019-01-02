@@ -24,7 +24,8 @@ namespace WinClinic.DTOs.Accounts
                     Description = "",
                     DrugName = x.Drugcodes.Drugs.DrugName,
                     MeasurementUnit = "pc",
-                    UnitCost = x.Drugcodes.Cost
+                    UnitCost = x.Drugcodes.Cost,
+                    Quantity = x.QuantityRequested
                 }).ToListAsync(),
                 Services = await db.PatientServices.Where(x => x.PatientAttendanceID == id && !x.IsPaid).Select(x => new ServicesVm
                 {

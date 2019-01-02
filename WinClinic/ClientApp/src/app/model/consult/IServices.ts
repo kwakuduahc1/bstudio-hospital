@@ -15,6 +15,7 @@ export interface IServiceCodes {
 }
 
 export interface IPatientServices {
+  amount: number;
   patientServicesID: string;
   patientAttendanceID: string;
   serviceCodesID: string;

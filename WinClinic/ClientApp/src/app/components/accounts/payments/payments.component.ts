@@ -47,6 +47,10 @@ export class PaymentsComponent implements OnInit {
     this.pays.groups.map(x => x.hasPaid = !x.hasPaid);
   }
 
+  checkServ() {
+    this.pays.services.map(x => x.isPaid = !x.isPaid);
+  }
+
   dTot(): number {
     if (this.pays.drugs.length < 1) {
       return 0;
@@ -65,6 +69,32 @@ export class PaymentsComponent implements OnInit {
     if (this.pays.services.length < 1) {
       return 0;
     }
-    return this.pays.services.reduce((p, c) => p + c.serviceCost, 0);
+    return this.pays.services.reduce((p, c) => p + c.amount, 0);
+  }
+
+  total() {
+    return this.sTot() + this.lTot() + this.dTot();
+  }
+
+  payable():number {
+    let drug: number = 0;
+    if (this.dTot() > 0) {
+      drug = this.pays.drugs.filter(x => x.hasPaid).reduce((p, c) => p + c.unitCost, 0);
+    }
+    let servs = 0;
+    if (this.sTot()>0) {
+      servs = this.pays.services.filter(x => x.isPaid).reduce((p, c) => p + c.amount, 0);
+    }
+    let labs = 0;
+    if (this.sTot() > 0) {
+      labs = this.pays.groups.filter(x => x.hasPaid).reduce((p, c) => p + c.cost, 0);
+    }
+    return drug + servs + labs;
+  }
+
+  receive() {
+    if (confirm(`Confirm you have received ${this.payable()}. It is irreversible`)) {
+
+    }
   }
 }
