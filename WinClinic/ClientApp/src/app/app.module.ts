@@ -68,6 +68,9 @@ import { PaymnentsHttpService } from './http/payments/payments-http-service';
 import { PrintProviderService } from './providers/print-provider.service';
 import { ServicesComponent } from './components/consult/services/services.component';
 import { ServicesHttpService } from './http/consulting/services-http.service';
+import { DrugQuantitiesComponent } from './components/dispensary/drug-quantities/drug-quantities.component';
+import { ServeDrugsComponent } from './components/dispensary/serve-drugs/serve-drugs.component';
+import { DrugQuantitiesHttpService } from './http/dispensary/drug-quantities-http-service';
 
 @NgModule({
   declarations: [
@@ -95,7 +98,9 @@ import { ServicesHttpService } from './http/consulting/services-http.service';
     DrugsComponent,
     CloseSessionComponent,
     PaymentsComponent,
-    ServicesComponent
+    ServicesComponent,
+    DrugQuantitiesComponent,
+    ServeDrugsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -114,6 +119,8 @@ import { ServicesHttpService } from './http/consulting/services-http.service';
       { path: 'pending', component: PendingComponent },
       { path: 'active-session', component: CloseSessionComponent, resolve: { sessions: ActiveSessionResolverService } },
       { path: 'payments', component: PaymentsComponent },
+      { path: 'quantities', component: DrugQuantitiesComponent },
+      { path: 'dispensary', component: ServeDrugsComponent },
       {
         path: 'consult/:id', component: ConsultHomeComponent, children: [
           { path: 'vitals', component: VitalsComponent, resolve: { vitals: ConsultVitalsResolver, patient: FindParentPatientResolver } },
@@ -128,6 +135,7 @@ import { ServicesHttpService } from './http/consulting/services-http.service';
     ])
   ],
   providers: [
+    DrugQuantitiesHttpService,
     ServicesHttpService,
     DiagnosesListResolver,
     PatientService,
