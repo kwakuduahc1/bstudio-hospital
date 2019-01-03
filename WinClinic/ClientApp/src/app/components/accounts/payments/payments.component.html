@@ -32,7 +32,7 @@
 <div>
   <h2 class="text-secondary">Payments</h2>
   <table class="table table-striped table-responsive">
-    <thead class="thead-light" *ngIf="pays.drugs.length>1">
+    <thead class="thead-light" *ngIf="pays.drugs.length>0">
       <tr>
         <th colspan="3" class="bg-info text-dark">Drugs</th>
       </tr>
@@ -44,7 +44,7 @@
         </th>
       </tr>
     </thead>
-    <tbody *ngIf="pays.drugs.length>1">
+    <tbody *ngIf="pays.drugs.length>0">
       <tr *ngFor="let d of pays.drugs">
         <td>{{d.drugName}}</td>
         <td>{{d.unitCost}}</td>
@@ -52,11 +52,11 @@
           <input type="checkbox" [(ngModel)]="d.hasPaid" ngModelOptions="{standAlone:true}" [checked]="d.hasPaid" class="form-check" />
         </td>
       </tr>
-      <tr class="bg-secondary" *ngIf="pays.drugs.length>1">
+      <tr class="bg-secondary" *ngIf="pays.drugs.length>0">
         <td colspan="3">GH¢ {{dTot() |number}}</td>
       </tr>
     </tbody>
-    <thead *ngIf="pays.groups.length>1">
+    <thead *ngIf="pays.groups.length>0">
       <tr>
         <th colspan="3" class="bg-info">Labs</th>
       </tr>
@@ -68,7 +68,7 @@
         </th>
       </tr>
     </thead>
-    <tbody *ngIf="pays.groups.length>1">
+    <tbody *ngIf="pays.groups.length>0">
       <tr *ngFor="let l of pays.groups">
         <td>{{l.groupName}}</td>
         <td>{{l.cost}}</td>
@@ -80,7 +80,7 @@
         <td colspan="3">Total : GH¢ {{lTot() | number}}</td>
       </tr>
     </tbody>
-    <thead *ngIf="pays.services.length>1">
+    <thead *ngIf="pays.services.length>0">
       <tr>
         <th colspan="3" class="bg-info">Services</th>
       </tr>
@@ -92,7 +92,7 @@
         </th>
       </tr>
     </thead>
-    <tbody *ngIf="pays.services.length>1">
+    <tbody *ngIf="pays.services.length>0">
       <tr *ngFor="let s of pays.services">
         <td>{{s.service}}</td>
         <td>{{s.amount}}</td>
@@ -112,7 +112,7 @@
   </table>
   <div>
     <button type="button" (click)="receive()" [ngClass]="payable() <= 0 ? 'btn-outline-danger' : 'btn-outline-success'" class="btn btn-group-lg" [disabled]="payable() <= 0">
-      <span class="badge" [ngClass]="payable() <= 0 ? 'badge-warning' : 'badge-success'"> GH¢ {{payable() |number}}</span> Receive
+      <span class="badge" [ngClass]="payable() <= 0 ? 'badge-warning' : 'badge-info'"> GH¢ {{payable() |number}}</span> Receive
       <span class="sr-only">Amount to pay</span>
     </button>
   </div>

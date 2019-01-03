@@ -94,7 +94,7 @@ namespace WinClinic.DTOs.Records
         /// <returns></returns>
         public Task<PatientsVm> Find(string id)
         {
-            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
+            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive, AttendanceDate = c.DateSeen }).OrderByDescending(x => x.AttendanceDate).FirstOrDefaultAsync());
         }
 
         /// <summary>

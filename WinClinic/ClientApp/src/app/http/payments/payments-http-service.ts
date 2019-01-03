@@ -13,7 +13,7 @@ export class PaymnentsHttpService {
 
 
   add(pay:IPatientPayments ): Observable<IPatientPayments> {
-    return this.http.post<IPatientPayments>(`/Attendance/Create`, pay);
+    return this.http.post<IPatientPayments>(`/Payments/Receive`, pay);
   }
 
   edit(pat: IPatientPayments): Observable<IPatientPayments> {

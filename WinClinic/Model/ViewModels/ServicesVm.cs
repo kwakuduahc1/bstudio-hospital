@@ -16,7 +16,10 @@ namespace WinClinic.Models.ViewModels
         public byte Frequency { get; set; }
 
         [Required]
-        public Guid PatientsID { get; set; }
+        public Guid PatientAttendanceID { get; set; }
+
+        [Required]
+        public string PatientsID { get; set; }
 
         public string Report { get; set; }
     }

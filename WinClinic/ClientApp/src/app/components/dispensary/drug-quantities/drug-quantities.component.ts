@@ -51,7 +51,7 @@ export class DrugQuantitiesComponent implements OnInit {
   }
 
   setForms(drug: IPatientDrugs[]) {
-    this.drugForms.splice(0, drug.length);
+    this.drugForms.splice(0, this.drugForms.length);
     drug.map(x => {
       this.drugForms.push(this.fb.group({
         id: [x.id, Validators.compose([Validators.required])],

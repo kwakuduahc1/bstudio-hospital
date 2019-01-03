@@ -28,6 +28,9 @@ namespace WinClinic.Model.ViewModels
         public string Scheme { get; set; }
 
         public string SessionName { get; set; }
-        public bool IsActive { get; internal set; }
+
+        public bool IsActive { get; set; }
+
+        public DateTime AttendanceDate { get; set; }
     }
 }

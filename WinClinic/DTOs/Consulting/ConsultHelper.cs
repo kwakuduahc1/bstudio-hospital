@@ -151,7 +151,7 @@ namespace WinClinic.DTOs.Consulting
         /// <returns></returns>
         public async Task<IEnumerable> CurrentLabs(Guid id)
         {
-            return await db.PatientLaboratoryServices.Where(x => x.PatientAttendanceID == id && x.DateRequested.Date == DateTime.Now.Date).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).OrderByDescending(x => x.DateRequested).ToListAsync();
+            return await db.PatientLaboratoryServices.Where(x => x.PatientAttendanceID == id).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).OrderByDescending(x => x.DateRequested).ToListAsync();
         }
 
         /// <summary>

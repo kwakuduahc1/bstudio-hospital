@@ -10,12 +10,12 @@ namespace WinClinic.Models.ViewModels
         public PatientsVm Patient { get; set; }
 
         [Required]
-        public IList<DrugsVm> Drugs { get; set; }
+        public List<DrugsVm> Drugs { get; set; }
 
         [Required]
-        public IList<ServicesVm> Services { get; set; }
+        public List<ServicesVm> Services { get; set; }
 
-        public IList<Groups> Groups { get; set; }
+        public List<Groups> Groups { get; set; }
 
         public string Receipt { get; set; }
 
@@ -26,6 +26,8 @@ namespace WinClinic.Models.ViewModels
 
         [Required]
         public Guid PatientAttendanceID { get; set; }
+
+        public string UserName { get; set; }
     }
 
     public class LabsVm
@@ -55,6 +57,6 @@ namespace WinClinic.Models.ViewModels
 
         [Required]
         public List<LabsVm> Labs { get; set; }
-
+        public Guid LaboratoryServicesID { get; set; }
     }
 }

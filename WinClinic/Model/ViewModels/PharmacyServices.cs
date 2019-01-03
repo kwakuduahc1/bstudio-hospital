@@ -112,7 +112,10 @@ namespace WinClinic.Model.ViewModels
         [StringLength(5, ErrorMessage = "{0} should be less than {1} characters")]
         [Required(ErrorMessage = "Indicate the {0} of this drug")]
         public string MeasurementUnit { get; set; }
+
         public byte Quantity { get; internal set; }
+
+        public Guid PatientDrugsID { get; set; }
     }
 
     public class DrugQuantityVm

@@ -76,25 +76,34 @@ export class PaymentsComponent implements OnInit {
     return this.sTot() + this.lTot() + this.dTot();
   }
 
-  payable():number {
+  payable(): number {
     let drug: number = 0;
     if (this.dTot() > 0) {
       drug = this.pays.drugs.filter(x => x.hasPaid).reduce((p, c) => p + c.unitCost, 0);
     }
     let servs = 0;
-    if (this.sTot()>0) {
+    if (this.sTot() > 0) {
       servs = this.pays.services.filter(x => x.isPaid).reduce((p, c) => p + c.amount, 0);
     }
     let labs = 0;
-    if (this.sTot() > 0) {
+    if (this.lTot() > 0) {
       labs = this.pays.groups.filter(x => x.hasPaid).reduce((p, c) => p + c.cost, 0);
     }
-    return drug + servs + labs;
+    let num = drug + servs + labs;
+    return num;
   }
 
   receive() {
     if (confirm(`Confirm you have received ${this.payable()}. It is irreversible`)) {
-
+      this.pays.drugs = this.pays.drugs.filter(m => m.hasPaid);
+      this.pays.groups = this.pays.groups.filter(x => x.hasPaid);
+      this.pays.services = this.pays.services.filter(x => x.isPaid);
+      this.http.add(this.pays).subscribe(() => {
+        this.pays.drugs.splice(0, this.pays.drugs.length);
+        this.pays.groups.splice(0, this.pays.groups.length);
+        this.pays.services.splice(0, this.pays.services.length);
+      }
+      );
     }
   }
 }
