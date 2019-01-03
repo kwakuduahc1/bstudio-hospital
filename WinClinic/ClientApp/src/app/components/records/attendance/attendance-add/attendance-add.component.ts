@@ -37,7 +37,11 @@ export class AttendanceAddComponent implements OnInit {
 
   add(typ: EVisitTypes) {
     let visit: IAttendance = { patientsID: this.pat.patientsID, visitType: typ, sessionName: 'next session', dateSeen: new Date(), userName: 'user name' } as IAttendance;
-    this.http.add(visit).subscribe(() => this.onAadded.emit(), (err: HttpErrorResponse) => this.hand.onError(err));
+    this.http.add(visit).subscribe(() => {
+      this.onAadded.emit();
+      this.form.reset();
+      this.att_form.reset();
+    }, (err: HttpErrorResponse) => this.hand.onError(err));
   }
   ngOnInit() {
   }

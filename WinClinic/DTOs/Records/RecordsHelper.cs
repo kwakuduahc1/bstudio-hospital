@@ -87,11 +87,22 @@ namespace WinClinic.DTOs.Records
         /// <returns>List of patients based on scheme type</returns>
         public Task<List<Patients>> SchemeList(Guid id, byte num, byte off) => Task.Run(async () => await db.Patients.Where(x => x.PatientDetails.SchemesID == id).OrderByDescending(x => x.DateAdded).Skip(off).Take(num).ToListAsync());
 
+        /// <summary>
+        /// Find details about the patient using the registration ID 
+        /// </summary>
+        /// <param name="id">The Unique ID of the patient</param>
+        /// <returns></returns>
         public Task<PatientsVm> Find(string id)
         {
-            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance.Where(t => t.IsActive), (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
+            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive }).FirstOrDefaultAsync());
         }
 
+        /// <summary>
+        /// Find the patient using an attendance ID
+        /// Mostly used in OPD, Consulting etc
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A patient session</returns>
         public Task<PatientsVm> Find(Guid id) => Task.Run(async () => await db.PatientAttendance.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Select(c => new PatientsVm
         {
             PatientsID = c.PatientsID,

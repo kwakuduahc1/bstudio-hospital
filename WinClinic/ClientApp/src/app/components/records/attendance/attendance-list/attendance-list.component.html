@@ -10,7 +10,6 @@
       <th>Identifier</th>
       <th>Visit Type</th>
       <th>Date Visited</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -20,9 +19,6 @@
       <td>{{a.patientsID}}</td>
       <td>{{a.visitType}}</td>
       <td>{{a.dateSeen |date}}</td>
-      <td>
-        <button class="btn btn-secondary" [routerLink]="['/vitals', a.patientsID]">Vitals</button>
-      </td>
     </tr>
   </tbody>
   <caption>Last 20 visits</caption>

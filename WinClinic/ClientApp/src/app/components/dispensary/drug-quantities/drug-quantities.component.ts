@@ -13,11 +13,11 @@ import { DrugQuantitiesHttpService } from '../../../http/dispensary/drug-quantit
 })
 export class DrugQuantitiesComponent implements OnInit {
   pat: IPatients | undefined;
-  forms: FormGroup[] = [];
+  drugForms: FormGroup[] = [];
   hand: bsHandler;
   opd: FormGroup;
-  constructor(fb: FormBuilder, private http: DrugQuantitiesHttpService) {
-    this.opd = fb.group({
+  constructor(private fb: FormBuilder, private http: DrugQuantitiesHttpService) {
+    this.opd = this.fb.group({
       patientsID: ["", Validators.compose([Validators.required, Validators.minLength(15), Validators.maxLength(20)])],
     });
     this.hand = new bsHandler();
@@ -27,13 +27,13 @@ export class DrugQuantitiesComponent implements OnInit {
     this.http.findPat(id).subscribe(res => this.pat = res, (err: HttpErrorResponse) => this.hand.onError(err));
   }
 
-  add(vs: IPatientDrugs) {
+  request(vs: FormGroup[]) {
     if (confirm(`Do you want to add vitals signs for this ${this.pat!.fullName}`)) {
       this.hand.beginProc();
-      vs.patientsID = this.pat.patientsID;
-      vs.patientAttendanceID = this.pat.patientAttendanceID;
-      this.http.add(vs).subscribe(() => {
-        this.forms.map(x => x.reset());
+      var drugs = this.extract(vs);
+      this.http.set(drugs).subscribe(res => {
+        this.drugForms.forEach(o => o.reset());
+        this.drugForms.splice(0, this.drugForms.length);
         this.opd.reset();
       }, err => this.hand.onError(err));
       this.hand.endProc();
@@ -41,9 +41,33 @@ export class DrugQuantitiesComponent implements OnInit {
   }
 
   getDrugs() {
-
+    this.http.get(this.pat.patientAttendanceID).subscribe(res => this.setForms(res), err => this.hand.onError(err));
   }
+
+  extract(fgs: FormGroup[]): IPatientDrugs[] {
+    let drugs: IPatientDrugs[] = [];
+    fgs.forEach(x => drugs.push(x.value));
+    return drugs;
+  }
+
+  setForms(drug: IPatientDrugs[]) {
+    this.drugForms.splice(0, drug.length);
+    drug.map(x => {
+      this.drugForms.push(this.fb.group({
+        id: [x.id, Validators.compose([Validators.required])],
+        drugName: [x.drugName, Validators.compose([Validators.required, Validators.minLength(x.drugName.length), Validators.maxLength(x.drugName.length)])],
+        numberOfDays: [x.numberOfDays, Validators.compose([Validators.required, Validators.min(x.numberOfDays), Validators.max(x.numberOfDays)])],
+        frequency: [x.frequency, Validators.compose([Validators.required, Validators.min(x.frequency), Validators.max(x.frequency)])],
+        quantityRequested: [1, Validators.compose([Validators.min(1), Validators.required, Validators.max(100)])]
+      }))
+    })
+  }
+
   ngOnInit() {
 
+  }
+
+  formsValid() {
+    return !this.drugForms.every(x => x.valid);
   }
 }

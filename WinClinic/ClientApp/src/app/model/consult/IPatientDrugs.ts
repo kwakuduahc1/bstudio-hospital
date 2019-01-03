@@ -25,4 +25,5 @@ export interface IPatientDrugs {
   drugCodesID: string;
   numberOfDays: number;
   unitCost: number;
+  drugName: string;
 }

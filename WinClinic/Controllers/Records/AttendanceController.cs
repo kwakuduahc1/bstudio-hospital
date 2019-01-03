@@ -15,10 +15,7 @@ namespace KingsMedicalVillage.Controllers.Records
     {
         private readonly RecordsHelper helper;
 
-        public AttendanceController(DbContextOptions<DataContext> dbContextOptions)
-        {
-            helper = new RecordsHelper(dbContextOptions);
-        }
+        public AttendanceController(DbContextOptions<DataContext> dbContextOptions) => helper = new RecordsHelper(dbContextOptions);
 
         [HttpGet]
         public async Task<IActionResult> Patient(Guid id)

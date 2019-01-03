@@ -38,6 +38,11 @@ namespace WinClinic.Model.Pharmacy
         [DefaultValue(false)]
         public bool IsPaid { get; set; }
 
+        [DefaultValue(false)]
+        public bool IsQuantitySet{ get; set; }
+
+        public DateTime DateQuantitySet { get; set; }
+
         [MaxLength(30)]
         public string ReceivingOficcer { get; set; }
 
