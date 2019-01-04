@@ -100,7 +100,7 @@ import { DrugQuantitiesHttpService } from './http/dispensary/drug-quantities-htt
     PaymentsComponent,
     ServicesComponent,
     DrugQuantitiesComponent,
-    ServeDrugsComponent
+    ServeDrugsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
