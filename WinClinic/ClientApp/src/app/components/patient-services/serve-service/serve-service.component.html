@@ -1,3 +1,56 @@
-<p>
-  serve-service works!
-</p>
+<form class="form-horizontal" name="form" id="form" [formGroup]="opd" (submit)="find(opd.controls.patientsID.value)">
+  <fieldset>
+    <legend>Fill in details of the patient</legend>
+    <!-- Patients ID -->
+    <div class="form-group form-row">
+      <label class="col-sm-1 control-label" for="patientsID">Identifier</label>
+      <div class="col-sm-4" [ngClass]="opd.controls.patientsID?.errors ? 'has-error' : 'has-success'">
+        <input type="text" class="form-control" formControlName="patientsID" id="patientsID" placeholder="index number/staff id">
+      </div>
+      <div class="col-sm-2">
+        <button class="btn" [ngClass]="opd.valid ? 'btn-outline-success' : 'btn-outline-danger'" [disabled]="opd.invalid || hand.processing">Find</button>
+      </div>
+      <div class="row">
+        <span [ngClass]="opd.controls.patientsID.errors?.maxlength ? 'text-danger' : ''" *ngIf="opd.controls.patientsID.errors?.maxlength">The maximum length is {{opd.controls.patientsID.errors.maxlength.requiredLength}} characters: Current is {{opd.controls.patientsID.errors.maxlength.actualLength}}</span>
+        <span [ngClass]="opd.controls.patientsID.errors?.required ? 'text-danger' : ''" *ngIf="opd.controls.patientsID.errors?.required">Unique identifier is required</span>
+        <span [ngClass]="opd.controls.patientsID.errors?.minlength ? 'text-danger' : ''" *ngIf="opd.controls.patientsID.errors?.minlength">The minimum length is {{opd.controls.patientsID.errors.minlength.requiredLength}} characters: Current is {{opd.controls.patientsID.errors.minlength.actualLength}}</span>
+      </div>
+    </div>
+  </fieldset>
+</form>
+<div class="row" *ngIf="pat && opd.valid">
+  <div class="col-sm-4">
+    <div class="card text-black-50 bg-white">
+      <div class="card-header">Patient Information</div>
+      <div class="card-body">
+        <div class="card-text">Name     : {{pat!.fullName}}</div>
+        <div class="card-text">DOB      : {{pat!.dateOfBirth | date}}</div>
+        <div class="card-text">Scheme   : {{pat.scheme}}</div>
+        <div class="card-footer">
+          <button (click)="get()" class="btn btn-success">Get Requests</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<h2>Services</h2>
+<table class="table table-striped" *ngIf="pat && services.length > 0">
+  <thead class="thead-light">
+    <tr>
+      <th>Service</th>
+      <th>Frequency</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let d of services">
+      <td>{{d.service}}</td>
+      <td>{{d.frequency}}</td>
+      <td>
+        <button class="btn" (click)="serve(d)" [ngClass]="d.isServed ? 'btn-outline-success' : 'btn-outline-danger'">{{d.isServed ? 'Served' : 'Pending'}}</button>
+      </td>
+    </tr>
+  </tbody>
+  <caption>Requests for {{pat!.fullName}}</caption>
+</table>
+<button [disabled]="!ready()" class="btn" (click)="request()" [ngClass]="ready() ? 'btn-success' : 'btn-warning'">Save</button>

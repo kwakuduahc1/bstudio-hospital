@@ -73,6 +73,7 @@ import { DrugQuantitiesHttpService } from './http/dispensary/drug-quantities-htt
 import { ServeServiceComponent } from './components/patient-services/serve-service/serve-service.component';
 import { ServeDrugsHttpService } from './http/dispensary/serve-drugs-http.service';
 import { DrugsHttpService } from './http/consulting/drugs-http.service';
+import { ServeServicesHttpService } from './http/services/serve-services-http.service';
 
 @NgModule({
   declarations: [
@@ -134,7 +135,7 @@ import { DrugsHttpService } from './http/consulting/drugs-http.service';
           { path: 'services', component: ServicesComponent, resolve: { patient: FindParentPatientResolver, services: ServicesResolver, history: PatientServicesResolver } }
         ]
       },
-      { path: 'serve-service', component: ServeServiceComponent }
+      { path: 'serve-service', component: ServeServiceComponent },
       { path: '**', component: NotFoundComponent }
     ])
   ],
@@ -180,7 +181,8 @@ import { DrugsHttpService } from './http/consulting/drugs-http.service';
     StatusProvider,
     SummarytHttpService,
     VitalsResolverService,
-    DrugsHttpService
+    DrugsHttpService,
+    ServeServicesHttpService,
   ],
   bootstrap: [AppComponent]
 })

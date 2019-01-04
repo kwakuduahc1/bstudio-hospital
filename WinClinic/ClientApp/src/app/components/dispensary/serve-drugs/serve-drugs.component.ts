@@ -4,8 +4,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { bsHandler } from '../../../providers/bsHandler';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPatientDrugs } from '../../../model/consult/IPatientDrugs';
-import { DrugQuantitiesHttpService } from '../../../http/dispensary/drug-quantities-http-service';
-import { DrugsHttpService } from '../../../http/consulting/drugs-http.service';
 import { ServeDrugsHttpService } from '../../../http/dispensary/serve-drugs-http.service';
 
 @Component({
@@ -55,7 +53,7 @@ export class ServeDrugsComponent implements OnInit {
     return this.drugs.some(x => x.isServed);
   }
 
-  getDrugs() {
+  get() {
     this.http.list(this.pat.patientAttendanceID).subscribe(res => this.drugs = res, err => this.hand.onError(err));
   }
 
