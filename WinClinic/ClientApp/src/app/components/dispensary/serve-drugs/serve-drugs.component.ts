@@ -38,6 +38,9 @@ export class ServeDrugsComponent implements OnInit {
       var drugs = this.drugs.filter(x => x.isServed);
       this.http.add(drugs).subscribe(() => {
         this.opd.reset();
+        this.drugs.splice(0, this.drugs.length);
+        this.pat = null;
+        alert("Payments were successful");
       }, err => this.hand.onError(err));
       this.hand.endProc();
     }

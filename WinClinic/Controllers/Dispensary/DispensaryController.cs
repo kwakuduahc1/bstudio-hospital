@@ -20,7 +20,7 @@ namespace WinClinic.Controllers.Dispensary
         [HttpGet]
         public async Task<IEnumerable> Prescription(Guid id) => await db.Prescriptions(id);
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Dispense([FromBody]List<PatientDrugs> drugs)
         {
             if (!ModelState.IsValid)

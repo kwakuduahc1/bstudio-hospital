@@ -22,7 +22,7 @@ namespace WinClinic.DTOs
         /// </summary>
         /// <param name="id">The session id</param>
         /// <returns>IEnumerable of PatientsDrugs</returns>
-        public Task<IEnumerable> Prescriptions(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientDrugs.Where(x => x.PatientAttendanceID == id && x.IsPaid && x.IsQuantitySet).Select(x => new { x.DateRequested, x.Drugcodes.DrugCode, x.Drugcodes.Drugs.DrugName, x.DrugCodesID, x.Frequency, x.ID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
+        public Task<IEnumerable> Prescriptions(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientDrugs.Where(x => x.PatientAttendanceID == id && x.IsPaid && x.IsQuantitySet && !x.IsServed).Select(x => new { x.DateRequested, x.Drugcodes.DrugCode, x.Drugcodes.Drugs.DrugName, x.DrugCodesID, x.Frequency, x.ID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
 
         public void UpdateQuantity(List<PatientDrugs> drugs)
         {
