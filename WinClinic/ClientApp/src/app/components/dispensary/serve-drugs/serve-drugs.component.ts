@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IPatientDrugs } from '../../../model/consult/IPatientDrugs';
 import { DrugQuantitiesHttpService } from '../../../http/dispensary/drug-quantities-http-service';
 import { DrugsHttpService } from '../../../http/consulting/drugs-http.service';
+import { ServeDrugsHttpService } from '../../../http/dispensary/serve-drugs-http.service';
 
 @Component({
   selector: 'bs-serve-drugs',
@@ -18,7 +19,7 @@ export class ServeDrugsComponent implements OnInit {
   hand: bsHandler;
   opd: FormGroup;
   drugs: IPatientDrugs[] = [];
-  constructor(private fb: FormBuilder, private http: DrugsHttpService) {
+  constructor(private fb: FormBuilder, private http: ServeDrugsHttpService) {
     this.opd = this.fb.group({
       patientsID: ["", Validators.compose([Validators.required, Validators.minLength(15), Validators.maxLength(20)])],
     });
@@ -40,7 +41,7 @@ export class ServeDrugsComponent implements OnInit {
         this.opd.reset();
         this.drugs.splice(0, this.drugs.length);
         this.pat = null;
-        alert("Payments were successful");
+        alert("Success");
       }, err => this.hand.onError(err));
       this.hand.endProc();
     }

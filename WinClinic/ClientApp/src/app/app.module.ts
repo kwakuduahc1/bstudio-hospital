@@ -60,7 +60,6 @@ import { LabsResolver } from './resolvers/consulting/labs-resolver';
 import { LabsHttpService } from './http/consulting/labs-http.service';
 import { DrugsComponent } from './components/consult/drugs/drugs.component';
 import { PatientDrugsResolver } from './resolvers/consulting/patient-drugs-resolver';
-import { DrugsHttpService } from './http/consulting/drugs-http.service';
 import { CloseSessionComponent } from './components/close-session/close-session.component';
 import { ActiveSessionResolverService } from './resolvers/attendance/active-session-resolver';
 import { PaymentsComponent } from './components/accounts/payments/payments.component';
@@ -71,6 +70,9 @@ import { ServicesHttpService } from './http/consulting/services-http.service';
 import { DrugQuantitiesComponent } from './components/dispensary/drug-quantities/drug-quantities.component';
 import { ServeDrugsComponent } from './components/dispensary/serve-drugs/serve-drugs.component';
 import { DrugQuantitiesHttpService } from './http/dispensary/drug-quantities-http-service';
+import { ServeServiceComponent } from './components/patient-services/serve-service/serve-service.component';
+import { ServeDrugsHttpService } from './http/dispensary/serve-drugs-http.service';
+import { DrugsHttpService } from './http/consulting/drugs-http.service';
 
 @NgModule({
   declarations: [
@@ -101,6 +103,7 @@ import { DrugQuantitiesHttpService } from './http/dispensary/drug-quantities-htt
     ServicesComponent,
     DrugQuantitiesComponent,
     ServeDrugsComponent,
+    ServeServiceComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -131,51 +134,53 @@ import { DrugQuantitiesHttpService } from './http/dispensary/drug-quantities-htt
           { path: 'services', component: ServicesComponent, resolve: { patient: FindParentPatientResolver, services: ServicesResolver, history: PatientServicesResolver } }
         ]
       },
+      { path: 'serve-service', component: ServeServiceComponent }
       { path: '**', component: NotFoundComponent }
     ])
   ],
   providers: [
-    DrugQuantitiesHttpService,
-    ServicesHttpService,
-    DiagnosesListResolver,
-    PatientService,
-    HistoryResolver,
-    ConsultHttpService,
-    OpdHttpService,
-    RegisterHttpService,
-    FindPatientResolverService,
-    PatientsResolverService,
+    ActiveSessionResolverService,
     AttendanceHttpService,
     AttendanceResolverService,
-    VitalsResolverService,
-    OpdHttpService,
-    PatientLabsResolver,
-    DrugsResolver,
-    ServicesResolver,
-    PatientServicesResolver,
-    FilesResolver,
-    PatientSummaryResolver,
-    FindParentPatientResolver,
-    RouteProvider,
-    StatusProvider,
-    LoginGuard,
+    ConsultHttpService,
+    ConsultVitalsResolver,
     DatesResolver,
-    SummarytHttpService,
+    DiagnosesHttpService,
+    DiagnosesListResolver,
     DiscountsHttpService,
     DiscountsResolver,
-    DiagnosesHttpService,
-    PatientDiagnosesResolver,
-    HttpService,
-    ConsultVitalsResolver,
-    LabsResolver,
-    PatientLabsResolver,
-    LabsHttpService,
-    PatientDrugsResolver,
+    DrugQuantitiesHttpService,
+    ServeDrugsHttpService,
     DrugsResolver,
-    DrugsHttpService,
-    ActiveSessionResolverService,
+    DrugsResolver,
+    FilesResolver,
+    FindParentPatientResolver,
+    FindPatientResolverService,
+    HistoryResolver,
+    HttpService,
+    LabsHttpService,
+    LabsResolver,
+    LoginGuard,
+    OpdHttpService,
+    OpdHttpService,
+    PatientDiagnosesResolver,
+    PatientDrugsResolver,
+    PatientLabsResolver,
+    PatientLabsResolver,
+    PatientService,
+    PatientServicesResolver,
+    PatientsResolverService,
+    PatientSummaryResolver,
     PaymnentsHttpService,
-    PrintProviderService
+    PrintProviderService,
+    RegisterHttpService,
+    RouteProvider,
+    ServicesHttpService,
+    ServicesResolver,
+    StatusProvider,
+    SummarytHttpService,
+    VitalsResolverService,
+    DrugsHttpService
   ],
   bootstrap: [AppComponent]
 })

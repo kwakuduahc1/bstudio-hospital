@@ -34,3 +34,35 @@
   </div>
 </div>
 <h2>Prescription</h2>
+<div class="col-sm-9">
+  <div [hidden]="drugForms.length<1">
+    <div class="row">
+      <div class="col-sm-1" hidden>ID</div>
+      <div class="col-sm-3">Drug</div>
+      <div class="col-sm-1">Freq</div>
+      <div class="col-sm-2">Days</div>
+      <div class="col-sm-2">Quantity</div>
+    </div>
+    <form class="" name="drugForms" id="form{{ix}}" [formGroup]="f" *ngFor="let f of drugForms;let ix=index">
+      <input type="text" hidden class="form-control" disabled formControlName="id" name="id{{ix}}" id="id{{ix}}" />
+      <div class="form-group form-row">
+        <div class="col-sm-3 form-group">
+          <input type="text" class="form-control" disabled formControlName="drugName" name="drug{{ix}}" id="drug{{ix}}" />
+        </div>
+        <div class="col-sm-1">
+          <input type="number" disabled class="form-control" formControlName="frequency" name="freq{{ix}}" id="freq{{ix}}" />
+        </div>
+        <div class="col-sm-2">
+          <input type="number" disabled class="form-control" formControlName="numberOfDays" name="days{{ix}}" id="days{{ix}}" />
+        </div>
+        <div class="col-sm-2">
+          <input type="number" class="form-control" formControlName="quantityRequested" name="qty{{ix}}" id="qty{{ix}}" />
+        </div>
+      </div>
+    </form>
+    <div class="col-sm-7">
+      <button [disabled]="formsValid() || hand.isProcessing" type="button" (click)="request(drugForms)" [ngClass]="formsValid() ? 'btn-danger' : 'btn-success'" class="btn btn-block">Save</button>
+    </div>
+  </div>
+</div>
+

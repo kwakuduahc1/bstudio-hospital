@@ -70,7 +70,7 @@ export class DrugsComponent implements OnInit {
   }
 
   reload() {
-    this.http.list(this.pat.patientAttendanceID).subscribe(res => this.hist = res);
+    this.http.current(this.pat.patientAttendanceID).subscribe(res => this.hist = res);
   }
 
   formsValid(): boolean {
