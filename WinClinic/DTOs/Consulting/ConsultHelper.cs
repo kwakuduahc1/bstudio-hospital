@@ -72,7 +72,8 @@ namespace WinClinic.DTOs.Consulting
                 x.QuantityRequested,
                 x.DrugCodesID,
                 x.PatientAttendanceID,
-                x.ID
+                x.ID,
+                x.IsPaid,
             }).OrderByDescending(x => x.DateRequested).ToListAsync();
         }
 

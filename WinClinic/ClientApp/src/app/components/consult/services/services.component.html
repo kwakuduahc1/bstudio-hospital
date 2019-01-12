@@ -54,7 +54,7 @@
         <td>{{s.service}}</td>
         <td>{{s.frequency}}</td>
         <td>{{s.numberOfDays}}</td>
-        <td><button disabled class="btn" [ngClass]="h.isServed ? 'btn-success' : 'btn-danger'">{{s.isServed ? 'Done' : 'Pending'}}</button></td>
+        <td><button disabled class="btn" [ngClass]="s.isServed ? 'btn-success' : 'btn-danger'">{{s.isServed ? 'Done' : 'Pending'}}</button></td>
         <td><button [disabled]="s.isPaid" class="btn" [ngClass]="s.isPaid? 'btn-outline-danger' : 'btn-outline-success'">Remove</button></td>
       </tr>
     </tbody>
