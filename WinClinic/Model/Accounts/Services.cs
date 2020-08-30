@@ -1,23 +1,21 @@
+using WinClinic.Model.Services;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace WinClinic.Model.Accounts
 {
-    using Model.Services;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public partial class Services
     {
         [Key]
-        public Guid ServicesID { get; set; }
+        public int ServicesID { get; set; }
 
         [StringLength(200)]
         [Required]
         public string Service { get; set; }
 
         [Required]
-        public Guid ServiceTypesID { get; set; }
+        public int ServiceTypesID { get; set; }
 
         [Required]
         [StringLength(50)]

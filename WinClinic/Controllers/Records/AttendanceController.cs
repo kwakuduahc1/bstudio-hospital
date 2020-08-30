@@ -18,7 +18,7 @@ namespace KingsMedicalVillage.Controllers.Records
         public AttendanceController(DbContextOptions<DataContext> dbContextOptions) => helper = new RecordsHelper(dbContextOptions);
 
         [HttpGet]
-        public async Task<IActionResult> Patient(Guid id)
+        public async Task<IActionResult> Patient(int id)
         {
             PatientsVm pat = await helper.Find(id);
             if (pat == null)
@@ -32,6 +32,7 @@ namespace KingsMedicalVillage.Controllers.Records
             PatientsVm pat = await helper.Find(id);
             return pat == null ? NotFound(new { Message = "Patient was not found" }) : (IActionResult)Ok(pat);
         }
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromBody]PatientAttendance attendance)

@@ -7,9 +7,9 @@ namespace WinClinic.Model.ViewModels
 {
     public class PatientsVm
     {
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
-        public string PatientsID { get; set; }
+        public int PatientsID { get; set; }
 
         public string FullName { get; set; }
 
@@ -23,7 +23,7 @@ namespace WinClinic.Model.ViewModels
 
         public string MobileNumber { get; set; }
 
-        public Guid SchemesID { get; set; }
+        public int SchemesID { get; set; }
 
         public string Scheme { get; set; }
 

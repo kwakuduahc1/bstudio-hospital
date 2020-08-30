@@ -21,26 +21,25 @@ namespace KingsMedicalVillage.Controllers.Records
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
-            if (await helper.CheckIDExists(patient.PatientsID))
-                return BadRequest(new { Message = $"A patient already uses the id {patient.PatientsID}" });
-            patient.SchemesID = Guid.Parse("7A45E43C-138F-4D59-8FD8-561DA7862834");
+            if (await helper.CheckIDExists(patient.FolderID))
+                return BadRequest(new { Message = $"A patient already uses the id {patient.FolderID}" });
             patient.UserName = User.Identity.Name ?? "";
             helper.Register(patient);
             int status = await helper.Save();
-            return Created($"/Patients/Find?id={patient.PatientsID}", new { patient.Gender, patient.MobileNumber, patient.Surname, patient.OtherNames, patient.PatientsID });
+            return Created($"/Patients/Find?id={patient.FolderID}", new { patient.Gender, patient.MobileNumber, patient.Surname, patient.OtherNames, patient.FolderID });
         }
 
         [HttpGet]
         public async Task<IEnumerable> List(byte num, byte off) => await helper.List(num, off);
 
         [HttpGet]
-        public async Task<IEnumerable> SchemeList(Guid id, byte num, byte off) => await helper.SchemeList(id, num, off);
+        public async Task<IEnumerable> SchemeList(int id, byte num, byte off) => await helper.SchemeList(id, num, off);
 
         [HttpGet]
         public async Task<IEnumerable> Search(string name)
         {
             var list = await helper.Search(name);
-            return list.Select(x => new { x.DateOfBirth, x.FullName, x.Gender, x.PatientsID, x.Schemes.Scheme });
+            return list.Select(x => new { x.DateOfBirth, x.FullName, x.Gender, x.FolderID, x.Schemes.Scheme });
         }
         //[HttpGet]
         //public async Task<PartialViewResult> Search(string Name)

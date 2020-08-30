@@ -7,7 +7,7 @@ namespace WinClinic.Model.Laboratory
     public class LaboratoryServices
     {
         [Key]
-        public Guid LaboratoryServicesID { get; set; }
+        public int LaboratoryServicesID { get; set; }
 
         [StringLength(100, MinimumLength = 2)]
         [Required(AllowEmptyStrings = false)]

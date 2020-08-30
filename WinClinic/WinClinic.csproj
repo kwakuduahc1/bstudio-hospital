@@ -34,59 +34,75 @@
   <ItemGroup>
     <Compile Update="Model\Accounts\ServiceCodes.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>ServiceCodes.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>ServiceCodes.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\ConsultingRoom\Diagnoses.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>Diagnoses.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>Diagnoses.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\ConsultingRoom\DiagnosticCodes.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>DiagnosticCodes.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>DiagnosticCodes.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\ConsultingRoom\PatientDiagnosis.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>PatientDiagnosis.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>PatientDiagnosis.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\Records\Patients.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>Patients.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>Patients.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\Services\PatientServices.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>PatientServices.cs.generated.d.ts</LastGenOutput>
-    </Compile>
-    <Compile Update="Model\Staff\Staff.cs">
-      <Generator>DtsGenerator</Generator>
-      <LastGenOutput>Staff.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>PatientServices.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\ViewModels\AttendanceVm.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>AttendanceVm.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>AttendanceVm.cs.d.ts</LastGenOutput>
     </Compile>
     <Compile Update="Model\ViewModels\PaymentsVm.cs">
       <Generator>DtsGenerator</Generator>
-      <LastGenOutput>PaymentsVm.cs.generated.d.ts</LastGenOutput>
+      <LastGenOutput>PaymentsVm.cs.d.ts</LastGenOutput>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Model\Records\Patients.cs.generated.d.ts">
+    <None Update="Model\Accounts\ServiceCodes.cs.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServiceCodes.cs</DependentUpon>
+    </None>
+    <None Update="Model\ConsultingRoom\Diagnoses.cs.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Diagnoses.cs</DependentUpon>
+    </None>
+    <None Update="Model\ConsultingRoom\DiagnosticCodes.cs.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DiagnosticCodes.cs</DependentUpon>
+    </None>
+    <None Update="Model\ConsultingRoom\PatientDiagnosis.cs.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PatientDiagnosis.cs</DependentUpon>
+    </None>
+    <None Update="Model\Records\Patients.cs.d.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Patients.cs</DependentUpon>
     </None>
-    <None Update="Model\Staff\Staff.cs.generated.d.ts">
+    <None Update="Model\Services\PatientServices.cs.d.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Staff.cs</DependentUpon>
+      <DependentUpon>PatientServices.cs</DependentUpon>
     </None>
-    <None Update="Model\ViewModels\AttendanceVm.cs.generated.d.ts">
+    <None Update="Model\ViewModels\AttendanceVm.cs.d.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AttendanceVm.cs</DependentUpon>
     </None>
-    <None Update="Model\ViewModels\PaymentsVm.cs.generated.d.ts">
+    <None Update="Model\ViewModels\PaymentsVm.cs.d.ts">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PaymentsVm.cs</DependentUpon>

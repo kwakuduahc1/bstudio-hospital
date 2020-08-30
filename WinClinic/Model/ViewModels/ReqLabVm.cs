@@ -16,7 +16,7 @@ namespace WinClinic
         public string GroupName { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         public string UserName { get; set; }
     }

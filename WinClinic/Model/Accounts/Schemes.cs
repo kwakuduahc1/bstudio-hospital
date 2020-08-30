@@ -1,20 +1,21 @@
+using WinClinic.Model.ConsultingRoom;
+using WinClinic.Model.Records;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using WinClinic.Model.Pharmacy;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace WinClinic.Model.Accounts
 {
-    using Model;
-    using Model.ConsultingRoom;
-    using Records;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
     public class Schemes
     {
         [Key]
-        public Guid SchemesID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SchemesID { get; set; }
 
-        [StringLength(100)]
-        [Required]
+        [StringLength(100, MinimumLength = 3)]
+        [Required(AllowEmptyStrings =false)]
         public string Scheme { get; set; }
 
         [StringLength(200)]

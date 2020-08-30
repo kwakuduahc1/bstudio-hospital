@@ -19,20 +19,20 @@ namespace WinClinic.Models.ViewModels
 
         public string Receipt { get; set; }
 
-        public Guid PaymentMethod { get; set; }
+        public int PaymentMethod { get; set; }
 
         [Required]
         public decimal Amount { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         public string UserName { get; set; }
     }
 
     public class LabsVm
     {
-        public Guid LabsID { get; set; }
+        public int LabsID { get; set; }
 
         public string Lab { get; set; }
 
@@ -41,7 +41,7 @@ namespace WinClinic.Models.ViewModels
         public long LabGroupsID { get; set; }
 
         [Required]
-        public Guid AttendanceID { get; set; }
+        public int AttendanceID { get; set; }
 
         [Required]
         public long PatLabID { get; set; }
@@ -57,6 +57,6 @@ namespace WinClinic.Models.ViewModels
 
         [Required]
         public List<LabsVm> Labs { get; set; }
-        public Guid LaboratoryServicesID { get; set; }
+        public int LaboratoryServicesID { get; set; }
     }
 }

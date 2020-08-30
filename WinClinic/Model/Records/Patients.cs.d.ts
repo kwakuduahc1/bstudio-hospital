@@ -1,18 +1,21 @@
-declare module Server.Dtos {
-	interface Patients {
-		patientsID: string;
+declare module server {
+	interface patients {
+		patientsID: number;
+		folderID: string;
 		surname: string;
 		otherNames: string;
 		gender: string;
 		dateOfBirth: Date;
+		age: any;
+		ageTyepe: string;
 		mobileNumber: string;
 		dateAdded: Date;
 		userName: string;
-		schemesID: any;
+		schemesID: number;
 		concurrency: any[];
 		fullName: string;
 		patientDetails: {
-			patientsID: string;
+			patientsID: number;
 			address: string;
 			kin: string;
 			kinContact: string;
@@ -20,22 +23,21 @@ declare module Server.Dtos {
 			dependentID: string;
 			status: boolean;
 			isCapitated: boolean;
-			schemesID: any;
-			schemeNumber: string;
+			schemesID: number;
 			town: string;
-			patients: Server.Dtos.Patients;
+			patients: server.patients;
 		};
 		patientAttendance: any[];
 		schemes: {
-			schemesID: any;
+			schemesID: number;
 			scheme: string;
 			description: string;
 			status: boolean;
 			concurrency: any[];
-			patients: Server.Dtos.Patients[];
+			patients: server.patients[];
 			drugCodes: any[];
-			serviceCodes: any[];
-			diagnosticCodes: any[];
+			serviceCodes: server.serviceCodes[];
+			diagnosticCodes: server.diagnosticCodes[];
 		};
 	}
 }

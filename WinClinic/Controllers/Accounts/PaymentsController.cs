@@ -16,7 +16,7 @@ namespace WinClinic.Controllers.Accounts
         public PaymentsController(DbContextOptions<DataContext> options) => db = new AccountsHelper(options);
 
         [HttpGet]
-        public async Task<PaymentsVm> GetPayments(Guid id) => await db.GetPaymentsAsync(id);
+        public async Task<PaymentsVm> GetPayments(int id) => await db.GetPaymentsAsync(id);
 
         [HttpPost]
         public async Task<IActionResult> Receive([FromBody]PaymentsVm payment)

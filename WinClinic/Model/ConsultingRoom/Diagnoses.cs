@@ -7,7 +7,7 @@ namespace WinClinic.Model.ConsultingRoom
     public class Diagnoses
     {
         [Key]
-        public Guid DiagnosesID { get; set; }
+        public int DiagnosesID { get; set; }
 
         [StringLength(100, ErrorMessage = "{0} should be less than {1} characters")]
         [Required(ErrorMessage = "{0} is required", AllowEmptyStrings = false)]

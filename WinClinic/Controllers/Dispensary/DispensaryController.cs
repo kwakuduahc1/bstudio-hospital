@@ -18,7 +18,7 @@ namespace WinClinic.Controllers.Dispensary
         public DispensaryController(DbContextOptions<DataContext> dbContextOptions) => db = new DispensaryHelper(dbContextOptions);
 
         [HttpGet]
-        public async Task<IEnumerable> Prescription(Guid id) => await db.Prescriptions(id);
+        public async Task<IEnumerable> Prescription(int id) => await db.Prescriptions(id);
 
         [HttpPost]
         public async Task<IActionResult> Dispense([FromBody]List<PatientDrugs> drugs)

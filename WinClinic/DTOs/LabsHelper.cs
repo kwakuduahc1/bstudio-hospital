@@ -15,7 +15,7 @@ namespace WinClinic.DTOs
 
         public LabsHelper(DbContextOptions<DataContext> context) => db = new DataContext(context);
 
-        public async Task<IEnumerable> GetLabs(Guid id)
+        public async Task<IEnumerable> GetLabs(int id)
         {
             var groups = await db.PatientLaboratoryServices.Where(x => x.PatientAttendanceID == id && !x.IsServed).Include(p => p.LaboratoryService).GroupBy(c => new { c.LaboratoryService.LabGroupsID, c.LaboratoryService.LabGroup.Cost, c.LaboratoryService.LabGroup.GroupName, c.LaboratoryServicesID }, (k, v) => new Groups { Cost = k.Cost, GroupName = k.GroupName, LabGroupsID = k.LabGroupsID, LaboratoryServicesID = k.LaboratoryServicesID, Labs = new List<LabsVm>() }).ToListAsync();
             groups.ForEach(t =>

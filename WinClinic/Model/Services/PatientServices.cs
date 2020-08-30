@@ -8,14 +8,14 @@ namespace WinClinic.Model.Services
 {
     public class PatientServices
     {
-        public Guid PatientServicesID { get; set; }
+        public int PatientServicesID { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
 
         [Required]
-        public Guid ServiceCodesID { get; set; }
+        public int ServiceCodesID { get; set; }
 
         [Required]
         [DefaultValue(1)]
@@ -26,7 +26,6 @@ namespace WinClinic.Model.Services
         [Range(1, 3)]
         [DefaultValue(1)]
         public byte Frequency { get; set; }
-
 
         [StringLength(30, MinimumLength = 7)]
         public string RequestingOficcer { get; set; }

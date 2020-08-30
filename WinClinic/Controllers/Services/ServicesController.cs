@@ -18,7 +18,7 @@ namespace WinClinic.Controllers.Services
         public ServicesController(DbContextOptions<DataContext> dbContextOptions) => db = new ServicesHelper(dbContextOptions);
 
         [HttpGet]
-        public async Task<IEnumerable> List(Guid id) =>await db.GetServices(id);
+        public async Task<IEnumerable> List(int id) =>await db.GetServices(id);
 
         [HttpPost]
         public async Task<IActionResult> Serve([FromBody]List<PatientServices> services)

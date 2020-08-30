@@ -26,14 +26,14 @@ namespace WinClinic.Controllers.OPD
         public IActionResult Patient(string id) => Redirect($"/Attendance/Patient?id={id}");
 
         [HttpGet]
-        public async Task<IEnumerable> Vitals(Guid id)
+        public async Task<IEnumerable> Vitals(int id)
         {
             var vs = await db.Vitals(id);
-            return vs.Select(x => new { x.DateSeen, x.Diastolic, x.FirstAid, x.History, x.ID, x.Pulse, x.Respiration, x.Systolic, x.Temperature, x.Weight });
+            return vs.Select(x => new { x.DateSeen, x.Diastolic, x.FirstAid, x.History, x.OPDID, x.Pulse, x.Respiration, x.Systolic, x.Temperature, x.Weight });
         }
 
         [HttpGet]
-        public async Task<IEnumerable> ConsultHistory(Guid id)
+        public async Task<IEnumerable> ConsultHistory(int id)
         {
             var hist = await db.ConHistory(id);
             return hist.Select(x => new { x.Complaints, x.DateAdded, x.Examination, x.PatientConsultationID, PatientsID = id }).ToList();
@@ -52,10 +52,10 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> DiagnosesHistory(Guid id) => await db.DiagnosesHistory(id);
+        public async Task<IEnumerable> DiagnosesHistory(int id) => await db.DiagnosesHistory(id);
 
         [HttpGet]
-        public async Task<IEnumerable> SchemeDiagnoses(Guid id) => await db.SchemeDiagnosisAsync(id);
+        public async Task<IEnumerable> SchemeDiagnoses(int id) => await db.SchemeDiagnosisAsync(id);
 
         [HttpPost]
         public async Task<IActionResult> Diagnose([FromBody]List<PatientDiagnosis> diagnoses)
@@ -65,7 +65,6 @@ namespace WinClinic.Controllers.OPD
             diagnoses.ForEach(x =>
             {
                 x.UserName = User.Identity.Name;
-                x.PatientDiagnosisID = Guid.NewGuid();
                 x.DateAdded = DateTime.Now;
             });
             db.Diagnose(diagnoses);
@@ -81,10 +80,10 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> LabHistory(string id) => await db.LaboratoryHistory(id);
+        public async Task<IEnumerable> LabHistory(int id) => await db.LaboratoryHistory(id);
 
         [HttpGet]
-        public async Task<IEnumerable> CurrentLabs(Guid id) => await db.CurrentLabs(id);
+        public async Task<IEnumerable> CurrentLabs(int id) => await db.CurrentLabs(id);
 
         [HttpPost]
         public async Task<IActionResult> RequestLabs([FromBody] List<ReqLabVm> labs)
@@ -98,10 +97,10 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> CurrentDrugs(Guid id) => await db.CurrenntDrugs(id);
+        public async Task<IEnumerable> CurrentDrugs(int id) => await db.CurrenntDrugs(id);
 
         [HttpGet]
-        public async Task<IActionResult> SchemeDrugs(Guid id)
+        public async Task<IActionResult> SchemeDrugs(int id)
         {
             var drugs = await db.SchemeDrugs(id);
             if (drugs == null)
@@ -125,7 +124,7 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> Services(Guid id) => await db.SchemeServices(id);
+        public async Task<IEnumerable> Services(int id) => await db.SchemeServices(id);
 
         [HttpPost]
         public async Task<IActionResult> RequestServices([FromBody]List<RequestServiceVm> services)
@@ -139,7 +138,7 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IEnumerable> ServicesHistory(Guid id) => await db.PatientServices(id);
+        public async Task<IEnumerable> ServicesHistory(int id) => await db.PatientServices(id);
 
         //[HttpGet]
         //public async Task<IEnumerable> ServicesHistory(string id) => await db.PatientServices(id);

@@ -15,7 +15,7 @@ namespace WinClinic.DTOs
 
         public ServicesHelper(DbContextOptions<DataContext> context) => db = new DataContext(context);
 
-        public Task<IEnumerable> GetServices(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendanceID == id && !x.IsServed).Select(x => new { x.DateRequested, x.ServiceCodes.ServiceCode, x.ServiceCodes.Services.Service, x.ServiceCodesID, x.Frequency, x.PatientServicesID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
+        public Task<IEnumerable> GetServices(int id) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendanceID == id && !x.IsServed).Select(x => new { x.DateRequested, x.ServiceCodes.ServiceCode, x.ServiceCodes.Services.Service, x.ServiceCodesID, x.Frequency, x.PatientServicesID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
 
         public void Serve(List<PatientServices> services, string user)
         {

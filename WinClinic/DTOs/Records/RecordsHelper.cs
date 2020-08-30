@@ -22,13 +22,13 @@ namespace WinClinic.DTOs.Records
         /// </summary>
         /// <param name="id">The index number, staff id or other unique identifier of the patient</param>
         /// <returns></returns>
-        public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.PatientsID == id));
+        public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.FolderID == id));
 
         /// <summary>
         /// Add patient attendance
         /// </summary>
         /// <param name="patient"></param>
-        public void AddAttendance(string pid, string uname, string visit)
+        public void AddAttendance(int pid, string uname, string visit)
         {
             db.Add(new PatientAttendance
             {
@@ -37,12 +37,11 @@ namespace WinClinic.DTOs.Records
                 UserName = uname,
                 VisitType = visit,
                 SessionName = RandomString(new Random().Next(6, 10)),
-                PatientAttendanceID = Guid.NewGuid(),
                 IsActive = true,
             });
         }
 
-        public async Task ClosePreviousesAsync(string pid)
+        public async Task ClosePreviousesAsync(int pid)
         {
             var atts = await db.PatientAttendance.Where(x => x.PatientsID == pid && x.IsActive).ToListAsync();
             if (atts.Any())
@@ -85,7 +84,7 @@ namespace WinClinic.DTOs.Records
         /// <param name="num">The number to fetch</param>
         /// <param name="off">The number to skip or offset</param>
         /// <returns>List of patients based on scheme type</returns>
-        public Task<List<Patients>> SchemeList(Guid id, byte num, byte off) => Task.Run(async () => await db.Patients.Where(x => x.PatientDetails.SchemesID == id).OrderByDescending(x => x.DateAdded).Skip(off).Take(num).ToListAsync());
+        public Task<List<Patients>> SchemeList(int id, byte num, byte off) => Task.Run(async () => await db.Patients.Where(x => x.PatientDetails.SchemesID == id).OrderByDescending(x => x.DateAdded).Skip(off).Take(num).ToListAsync());
 
         /// <summary>
         /// Find details about the patient using the registration ID 
@@ -94,7 +93,7 @@ namespace WinClinic.DTOs.Records
         /// <returns></returns>
         public Task<PatientsVm> Find(string id)
         {
-            return Task.Run(async () => await db.Patients.Where(x => x.PatientsID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive, AttendanceDate = c.DateSeen }).OrderByDescending(x => x.AttendanceDate).FirstOrDefaultAsync());
+            return Task.Run(async () => await db.Patients.Where(x => x.FolderID == id).SelectMany(x => x.PatientAttendance, (p, c) => new PatientsVm { PatientsID = c.PatientsID, DateOfBirth = p.DateOfBirth, FullName = p.FullName, Gender = p.Gender, MobileNumber = p.MobileNumber, OtherNames = p.OtherNames, PatientAttendanceID = c.PatientAttendanceID, Scheme = p.Schemes.Scheme, SchemesID = p.SchemesID, SessionName = c.SessionName, Surname = p.Surname, IsActive = c.IsActive, AttendanceDate = c.DateSeen }).OrderByDescending(x => x.AttendanceDate).FirstOrDefaultAsync());
         }
 
         /// <summary>
@@ -103,7 +102,7 @@ namespace WinClinic.DTOs.Records
         /// </summary>
         /// <param name="id"></param>
         /// <returns>A patient session</returns>
-        public Task<PatientsVm> Find(Guid id) => Task.Run(async () => await db.PatientAttendance.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Select(c => new PatientsVm
+        public Task<PatientsVm> Find(int id) => Task.Run(async () => await db.PatientAttendance.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Select(c => new PatientsVm
         {
             PatientsID = c.PatientsID,
             DateOfBirth = c.Patients.DateOfBirth,
@@ -119,7 +118,7 @@ namespace WinClinic.DTOs.Records
             IsActive = c.IsActive
         }).FirstOrDefaultAsync());
 
-        public Task<PatientAttendance> FindSession(Guid id)
+        public Task<PatientAttendance> FindSession(int id)
         {
             return Task.Run(async () => await db.PatientAttendance.FindAsync(id));
         }
@@ -128,14 +127,14 @@ namespace WinClinic.DTOs.Records
         /// </summary>
         /// <param name="num"></param>
         /// <returns></returns>
-        public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Include(x => x.Patients).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.PatientAttendanceID, PatientsID = x.PatientsID, VisitType = x.VisitType, SessionName = x.SessionName }).ToListAsync());
+        public Task<List<AttendanceVm>> Attendances(byte num) => Task.Run(async () => await db.PatientAttendance.OrderByDescending(x => x.DateSeen).Take(num).Include(x => x.Patients).Select(x => new AttendanceVm { DateSeen = x.DateSeen, FullName = x.Patients.FullName, ID = x.PatientAttendanceID, PatientsID = x.PatientsID, VisitType = x.VisitType, SessionName = x.SessionName, FolderID = x.Patients.FolderID }).ToListAsync());
 
         public async Task<List<Patients>> Search(string name) => await db.Patients
             .Where(x =>
             EF.Functions.Like(x.Surname, $"%{name}%") ||
             EF.Functions.Like(x.OtherNames, $"%{name}%") ||
             EF.Functions.Like(x.MobileNumber, $"%{name}%") ||
-            EF.Functions.Like(x.PatientsID, $"%{name}%"))
+            EF.Functions.Like(x.FolderID, $"%{name}%"))
             .Include(x => x.Schemes)
             .ToListAsync();
 

@@ -7,10 +7,10 @@ namespace WinClinic.Model.ConsultingRoom
     public class PatientConsultation
     {
         [Key]
-        public Guid PatientConsultationID { get; set; }
+        public int PatientConsultationID { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [StringLength(500, ErrorMessage = "{0} should be below {1} characters")]
         [Required(AllowEmptyStrings = false)]
@@ -24,6 +24,7 @@ namespace WinClinic.Model.ConsultingRoom
 
         public DateTime DateAdded { get; set; }
 
+        [StringLength(30, MinimumLength = 5)]
         public string UserName { get; set; }
 
         [ConcurrencyCheck, Timestamp]

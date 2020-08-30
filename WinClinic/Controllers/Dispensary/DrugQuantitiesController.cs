@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +20,10 @@ namespace WinClinic.Controllers.Dispensary
         public IActionResult FindPatient(string id) => RedirectToAction(actionName: "FindPatient", controllerName: "Attendance", routeValues: new { id });
 
         [HttpGet]
-        public async Task<IEnumerable> GetPrescriptions(Guid id) => await db.GetPrescriptions(id);
+        public async Task<IEnumerable> GetPrescriptions(int id) => await db.GetPrescriptions(id);
 
         [HttpGet]
-        public async Task<IEnumerable> Prescription(Guid id) => await db.Prescriptions(id);
+        public async Task<IEnumerable> Prescription(int id) => await db.Prescriptions(id);
 
         [HttpPost]
         public async Task<IActionResult> Set([FromBody]List<PatientDrugs> drugs)

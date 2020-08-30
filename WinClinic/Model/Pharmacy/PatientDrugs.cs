@@ -1,20 +1,21 @@
-﻿using WinClinic.Model.Records;
+﻿using WinClinic.Model.Pharmacy;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using WinClinic.Model.Records;
 
 namespace WinClinic.Model.Pharmacy
 {
     public class PatientDrugs
     {
         [Key]
-        public Guid ID { get; set; }
+        public int PatientDrugsID { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [Required]
-        public Guid DrugCodesID { get; set; }
+        public int DrugCodesID { get; set; }
 
         [Required(ErrorMessage = "Kindly Indicate the {0} for this drug")]
         [Range(1, 6, ErrorMessage = "Frequency must be between {0} and {1} daily")]

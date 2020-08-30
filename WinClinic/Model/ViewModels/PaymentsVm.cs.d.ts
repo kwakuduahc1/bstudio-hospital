@@ -1,5 +1,5 @@
-declare module Server.Dtos {
-	interface PaymentsVm {
+declare module server {
+	interface paymentsVm {
 		patient: {
 			patientAttendanceID: any;
 			patientsID: string;
@@ -13,29 +13,30 @@ declare module Server.Dtos {
 			scheme: string;
 			sessionName: string;
 			isActive: boolean;
+			attendanceDate: Date;
 		};
 		drugs: any[];
 		services: any[];
-		groups: Server.Dtos.Groups[];
+		groups: any[];
 		receipt: string;
-		paymentMethod: any;
+		paymentMethod: number;
 		amount: number;
-		patientAttendanceID: any;
+		patientAttendanceID: number;
 		userName: string;
 	}
-	interface LabsVm {
-		labsID: any;
+	interface labsVm {
+		labsID: number;
 		lab: string;
 		amount: number;
 		labGroupsID: number;
-		attendanceID: any;
+		attendanceID: number;
 		patLabID: number;
 	}
-	interface Groups {
+	interface groups {
 		labGroupsID: number;
 		groupName: string;
 		cost: number;
-		labs: Server.Dtos.LabsVm[];
-		laboratoryServicesID: any;
+		labs: any[];
+		laboratoryServicesID: number;
 	}
 }

@@ -10,12 +10,14 @@ namespace WinClinic.Model.ViewModels
 
         public string VisitType { get; set; }
 
-        public string PatientsID { get; set; }
+        public int PatientsID { get; set; }
+
+        public string FolderID { get; set; }
 
         public string SessionName { get; set; }
 
-        public Guid ID { get; set; }
+        public int ID { get; set; }
 
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
     }
 }

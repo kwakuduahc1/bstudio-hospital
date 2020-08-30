@@ -20,7 +20,7 @@ namespace WinClinic.Model
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Schemes>(x => x.HasData(new Schemes { Description = "National Health Insurance", Scheme = "NHIS", Status = true, SchemesID = Guid.Parse("7A45E43C-138F-4D59-8FD8-561DA7862834") }));
+            builder.Entity<Schemes>(x => x.HasData(new Schemes { Description = "National Health Insurance", Scheme = "NHIS", Status = true, SchemesID = 1 }));
             base.OnModelCreating(builder);
         }
 
@@ -57,8 +57,6 @@ namespace WinClinic.Model
         public virtual DbSet<Diagnoses> Diagnoses { get; set; }
 
         public virtual DbSet<PatientConsultation> PatientConsultations { get; set; }
-
-        public virtual DbSet<Staff.Staff> Staff { get; set; }
 
         public virtual DbSet<ServiceTypes> ServiceTypes { get; set; }
 

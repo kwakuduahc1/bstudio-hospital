@@ -16,7 +16,7 @@ namespace WinClinic.DTOs.Accounts
 
         public AccountsHelper(DbContextOptions<DataContext> context) => db = new DataContext(context);
 
-        public async Task<PaymentsVm> GetPaymentsAsync(Guid id)
+        public async Task<PaymentsVm> GetPaymentsAsync(int id)
         {
             var payments = new PaymentsVm
             {
@@ -26,7 +26,7 @@ namespace WinClinic.DTOs.Accounts
                     DrugName = x.Drugcodes.Drugs.DrugName,
                     MeasurementUnit = "pc",
                     UnitCost = x.Drugcodes.Cost * x.QuantityRequested,
-                    PatientDrugsID = x.ID,
+                    PatientDrugsID = x.PatientDrugsID,
                 }).ToListAsync(),
                 Services = await db.PatientServices.Where(x => x.PatientAttendanceID == id && !x.IsPaid).Select(x => new ServicesVm
                 {
@@ -63,9 +63,9 @@ namespace WinClinic.DTOs.Accounts
             if (payment.Drugs.Count > 0)
                 PayDrugs(payment.Drugs, user, receipt);
             if (payment.Services.Count > 0)
-                PayServices(payment.Services, user, receipt);
+                PayServices(payment.Services, user);
             if (payment.Groups.Count > 0)
-                PayLabs(payment.Groups, user, receipt);
+                PayLabs(payment.Groups, user);
         }
 
         void PayDrugs(List<DrugsVm> drugs, string user, string receipt)
@@ -84,7 +84,7 @@ namespace WinClinic.DTOs.Accounts
             });
         }
 
-        void PayServices(List<ServicesVm> services, string user, string receipt)
+        void PayServices(List<ServicesVm> services, string user)
         {
             services.ForEach(x =>
             {
@@ -100,7 +100,7 @@ namespace WinClinic.DTOs.Accounts
             });
         }
 
-        void PayLabs(List<Groups> labs, string user, string receipt)
+        void PayLabs(List<Groups> labs, string user)
         {
             foreach (var group in labs)
             {

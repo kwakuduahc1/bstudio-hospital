@@ -7,13 +7,13 @@ namespace WinClinic.Model.ConsultingRoom
     public class PatientDiagnosis
     {
         [Key]
-        public Guid PatientDiagnosisID { get; set; }
+        public int PatientDiagnosisID { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [Required]
-        public Guid DiagnosticCodesID { get; set; }
+        public int DiagnosticCodesID { get; set; }
 
         [StringLength(200, ErrorMessage = "{0} should be less than {1} characters")]
         public string Description { get; set; }

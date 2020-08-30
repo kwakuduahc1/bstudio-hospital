@@ -23,11 +23,11 @@ namespace WinClinic.Controllers.OPD
         public async Task<IEnumerable> List(byte num, byte off)
         {
             var list = await db.List(num, off);
-            return list.Select(x => new { x.PatientAttendance.Patients.FullName, x.Temperature, x.Systolic, x.Diastolic, x.Respiration, x.Weight, x.DateSeen, x.Pulse, x.ID, x.UserName, x.PatientAttendanceID, x.PatientAttendance.SessionName }).ToList();
+            return list.Select(x => new { x.PatientAttendance.Patients.FullName, x.Temperature, x.Systolic, x.Diastolic, x.Respiration, x.Weight, x.DateSeen, x.Pulse, x.OPDID, x.UserName, x.PatientAttendanceID, x.PatientAttendance.SessionName }).ToList();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Patient(string id)
+        public async Task<IActionResult> Patient(int id)
         {
             var pat = await db.Patient(id);
             if (pat == null)
@@ -36,7 +36,7 @@ namespace WinClinic.Controllers.OPD
         }
 
         [HttpGet]
-        public async Task<IActionResult> Find(Guid id)
+        public async Task<IActionResult> Find(int id)
         {
             bsopd.OPD opd = await db.Find(id);
             if (opd == null)
@@ -53,7 +53,7 @@ namespace WinClinic.Controllers.OPD
                 return BadRequest(new { Message = "Patient has not visited the records today" });
             db.Add(opd);
             await db.Save();
-            return Created($"/OPD/Find?id={opd.ID}", opd);
+            return Created($"/OPD/Find?id={opd.OPDID}", opd);
         }
     }
 }

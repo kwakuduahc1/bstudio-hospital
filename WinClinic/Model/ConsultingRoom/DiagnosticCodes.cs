@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WinClinic.Model.ConsultingRoom
 {
     public class DiagnosticCodes
     {
         [Key]
-        public Guid DiagnosticCodesID { get; set; }
+        public int DiagnosticCodesID { get; set; }
 
         [StringLength(20)]
         [Required]
@@ -21,14 +22,14 @@ namespace WinClinic.Model.ConsultingRoom
         public string Description { get; set; }
 
         [Required]
-        public Guid SchemesID { get; set; }
+        public int SchemesID { get; set; }
 
         [Required(ErrorMessage = "{0} is required")]
-        public Guid DiagnosesID { get; set; }
+        public int DiagnosesID { get; set; }
 
         [Required]
-        [DefaultValue(0.0)]
         [Range(0.0, double.MaxValue)]
+        [Column(TypeName = "smallmoney")]
         public double Tariff { get; set; }
 
         public virtual ICollection<PatientDiagnosis> PatientDiagnoses { get; set; }

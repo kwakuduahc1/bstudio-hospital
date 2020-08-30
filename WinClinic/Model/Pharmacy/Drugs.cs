@@ -5,16 +5,16 @@ namespace WinClinic.Model.Pharmacy
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class Drugs
+    public class Drugs
     {
         [Key]
-        public Guid DrugsID { get; set; }
+        public int DrugsID { get; set; }
 
         [StringLength(150)]
         [Required(AllowEmptyStrings = false)]
         public string DrugName { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         [DefaultValue("General")]
         public string GroupName { get; set; }
 

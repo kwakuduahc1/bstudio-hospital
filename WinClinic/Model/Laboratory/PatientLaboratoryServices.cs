@@ -11,10 +11,10 @@ namespace WinClinic.Model.Laboratory
         public long PatientLaboratoryServicesID { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [Required]
-        public Guid LaboratoryServicesID { get; set; }
+        public int LaboratoryServicesID { get; set; }
 
         [StringLength(200)]
         [DefaultValue("")]

@@ -1,26 +1,27 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace WinClinic.Model.Accounts
 {
-    using System;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
     public partial class ServiceCodes
     {
         [Key]
-        public Guid ServiceCodesID { get; set; }
+        public int ServiceCodesID { get; set; }
 
         [Required]
         [StringLength(50)]
         public string ServiceCode { get; set; }
 
         [Required]
-        public Guid SchemesID { get; set; }
+        public int SchemesID { get; set; }
 
         [Required]
-        public Guid ServicesID { get; set; }
+        public int ServicesID { get; set; }
 
         [Required]
         [Range(0, double.MaxValue)]
+        [Column(TypeName = "smallmoney")]
         public decimal Cost { get; set; }
 
         [DefaultValue(true)]
@@ -30,7 +31,9 @@ namespace WinClinic.Model.Accounts
         public string Description { get; set; }
 
         [Timestamp, ConcurrencyCheck]
+#pragma warning disable CA1819 // Properties should not return arrays
         public byte[] Concurrency { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
 
         public virtual Schemes Schemes { get; set; }
 

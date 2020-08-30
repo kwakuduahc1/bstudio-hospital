@@ -26,7 +26,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id">The index number, staff id or other unique identifier of the patient</param>
         /// <returns></returns>
-        public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.PatientsID == id));
+        public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.FolderID == id));
 
         /// <summary>
         /// Save changes
@@ -39,7 +39,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<OPD>> Opd(string id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientAttendance.PatientsID == id).OrderByDescending(x => x.DateSeen).Take(20).ToListAsync());
+        public Task<List<OPD>> Opd(int id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Take(20).ToListAsync());
 
         /// <summary>
         /// Gets the list of patients vital signs
@@ -47,21 +47,21 @@ namespace WinClinic.DTOs.Consulting
         /// <param name="num">The number to fetch</param>
         /// <param name="off">The number to skip or offset</param>
         /// <returns>List of patients</returns>
-        public Task<List<OPD>> Vitals(Guid id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Take(15).ToListAsync());
+        public Task<List<OPD>> Vitals(int id) => Task.Run(async () => await db.OpdHistory.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateSeen).Take(15).ToListAsync());
 
         /// <summary>
         /// Get the consulting history of the patient
         /// </summary>
         /// <param name="id">The unique identifier of the patient</param>
         /// <returns>PatientConsultation</returns>
-        public Task<List<PatientConsultation>> ConHistory(Guid id) => Task.Run(() => db.PatientConsultations.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateAdded).Take(10).ToListAsync());
+        public Task<List<PatientConsultation>> ConHistory(int id) => Task.Run(() => db.PatientConsultations.Where(x => x.PatientAttendanceID == id).OrderByDescending(x => x.DateAdded).Take(10).ToListAsync());
 
         /// <summary>
         /// Get last 20 drugs taken by patient
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IEnumerable> CurrenntDrugs(Guid id)
+        public async Task<IEnumerable> CurrenntDrugs(int id)
         {
             return await db.PatientDrugs.Where(x => x.PatientAttendanceID == id).Include(x => x.Drugcodes).ThenInclude(x => x.Drugs).Select(x => new
             {
@@ -72,7 +72,7 @@ namespace WinClinic.DTOs.Consulting
                 x.QuantityRequested,
                 x.DrugCodesID,
                 x.PatientAttendanceID,
-                x.ID,
+                x.PatientDrugsID,
                 x.IsPaid,
             }).OrderByDescending(x => x.DateRequested).ToListAsync();
         }
@@ -82,7 +82,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<DrugCodes>> SchemeDrugs(Guid id)
+        public async Task<List<DrugCodes>> SchemeDrugs(int id)
         {
             Patients pt = await db.PatientAttendance.Where(x => x.PatientAttendanceID == id).Select(x => x.Patients).FirstOrDefaultAsync();
             if (pt == null)
@@ -108,14 +108,14 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<List<PatientDiagnosis>> DiagnosesHistory(Guid id) => Task.Run(async () => await db.PatientDiagnosis.Where(x => x.PatientAttendanceID == id).ToListAsync());
+        public Task<List<PatientDiagnosis>> DiagnosesHistory(int id) => Task.Run(async () => await db.PatientDiagnosis.Where(x => x.PatientAttendanceID == id).ToListAsync());
 
         /// <summary>
         /// Get the list of possible diagnosis for a scheme
         /// </summary>
         /// <param name="id">The unique identifier for the patient</param>
         /// <returns></returns>
-        public async Task<List<DiagnosticCodes>> SchemeDiagnosisAsync(Guid id)
+        public async Task<List<DiagnosticCodes>> SchemeDiagnosisAsync(int id)
         {
             var pt = await Patient(id);
             if (pt == null)
@@ -137,7 +137,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id">The unique identifier for a patient</param>
         /// <returns></returns>
-        public async Task<IEnumerable> LaboratoryHistory(string id)
+        public async Task<IEnumerable> LaboratoryHistory(int id)
         {
             var pt = await db.Patients.FindAsync(id);
             if (pt == null)
@@ -150,7 +150,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id">Attendance ID or the sessions</param>
         /// <returns></returns>
-        public async Task<IEnumerable> CurrentLabs(Guid id)
+        public async Task<IEnumerable> CurrentLabs(int id)
         {
             return await db.PatientLaboratoryServices.Where(x => x.PatientAttendanceID == id).Include(x => x.LaboratoryService.LabGroup).Select(x => new { x.DateRequested, x.IsPaid, x.IsServed, x.LaboratoryServicesID, x.Notes, x.Results, x.PatientLaboratoryServicesID, x.LaboratoryService.LabGroup.GroupName, x.LaboratoryService.LaboratoryProcedure }).OrderByDescending(x => x.DateRequested).ToListAsync();
         }
@@ -208,7 +208,6 @@ namespace WinClinic.DTOs.Consulting
                     NumberOfDays = x.NumberOfDays,
                     PatientAttendanceID = x.PatientAttendanceID,
                     Receipt = "",
-                    PatientServicesID = Guid.NewGuid(),
                     RequestingOficcer = x.UserName,
                     ServiceCodesID = x.ServiceCodesID,
                     ServiceCost = cost,
@@ -221,7 +220,7 @@ namespace WinClinic.DTOs.Consulting
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<IEnumerable> PatientServices(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendanceID == id).Select(x => new
+        public Task<IEnumerable> PatientServices(int id) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendanceID == id).Select(x => new
         {
             x.PatientServicesID,
             x.IsServed,
@@ -240,14 +239,14 @@ namespace WinClinic.DTOs.Consulting
         /// <param name="num"></param>
         /// <param name="off"></param>
         /// <returns></returns>
-        public Task<IEnumerable> PatientServices(string id, byte num = 10, Byte off = 0) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendance.PatientsID == id).Select(x => new { x.PatientServicesID, x.IsServed, x.DateRequested, x.Frequency, x.NumberOfDays, x.ServiceCodesID, x.ServiceCodes.Services.Service }).ToListAsync());
+        public Task<IEnumerable> PatientServices(int id, byte num = 10, Byte off = 0) => Task.Run<IEnumerable>(async () => await db.PatientServices.Where(x => x.PatientAttendance.PatientsID == id).OrderByDescending(x => x.DateServed).Skip(off).Take(num).Select(x => new { x.PatientServicesID, x.IsServed, x.DateRequested, x.Frequency, x.NumberOfDays, x.ServiceCodesID, x.ServiceCodes.Services.Service }).ToListAsync());
 
         /// <summary>
         /// Get the services possible for a scheme
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<IEnumerable> SchemeServices(Guid id)
+        public async Task<IEnumerable> SchemeServices(int id)
         {
             Patients pt = await Patient(id);
             if (pt == null)
@@ -266,6 +265,6 @@ namespace WinClinic.DTOs.Consulting
         }
 
 
-        async Task<Patients> Patient(Guid id) => await db.PatientAttendance.Where(u => u.PatientAttendanceID == id).Select(p => p.Patients).FirstOrDefaultAsync();
+        async Task<Patients> Patient(int id) => await db.PatientAttendance.Where(u => u.PatientAttendanceID == id).Select(p => p.Patients).FirstOrDefaultAsync();
     }
 }

@@ -6,7 +6,7 @@ namespace WinClinic.Models.ViewModels
     public class ServicesVm
     {
         [Required]
-        public Guid PatientServicesID { get; set; }
+        public int PatientServicesID { get; set; }
 
         public string Service { get; set; }
 
@@ -16,10 +16,10 @@ namespace WinClinic.Models.ViewModels
         public byte Frequency { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [Required]
-        public string PatientsID { get; set; }
+        public int PatientsID { get; set; }
 
         public string Report { get; set; }
     }

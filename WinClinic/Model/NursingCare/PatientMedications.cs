@@ -12,8 +12,6 @@ namespace WinClinic.Model.NursingCare
     /// </summary>
     public class PatientMedications
     {
-        public PatientMedications() { }
-
         [Key]
         [Required]
        public Guid PatientMedicationsID { get; set; }

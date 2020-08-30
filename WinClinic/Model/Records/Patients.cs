@@ -9,8 +9,11 @@ namespace WinClinic.Model.Records
     public class Patients
     {
         [Key]
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PatientsID { get; set; }
+
+        [StringLength(20, MinimumLength = 6)]
+        public string FolderID { get; set; }
 
         [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} should be between {1} and {2} characters")]
         public string Surname { get; set; }
@@ -22,8 +25,12 @@ namespace WinClinic.Model.Records
         [StringLength(6, MinimumLength = 4)]
         public string Gender { get; set; }
 
-        [Required(ErrorMessage = "{0} is required")]
         public DateTime DateOfBirth { get; set; }
+
+        [Range(0, 180)]
+        public byte Age { get; set; }
+
+        public string AgeTyepe { get; set; }
 
         [Phone(ErrorMessage = "Provide a valid phone number")]
         [StringLength(20, MinimumLength = 10, ErrorMessage = "Mobile number should be 10 numbers long")]
@@ -37,7 +44,7 @@ namespace WinClinic.Model.Records
         public string UserName { get; set; }
 
         [Required]
-        public Guid SchemesID { get; internal set; }
+        public int SchemesID { get; set; }
 
         [ConcurrencyCheck, Timestamp]
         public byte[] Concurrency { get; set; }

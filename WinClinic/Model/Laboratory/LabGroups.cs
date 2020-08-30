@@ -11,6 +11,7 @@ namespace WinClinic.Model.Laboratory
     public class LabGroups
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public short LabGroupsID { get; set; }
 
         [StringLength(50)]

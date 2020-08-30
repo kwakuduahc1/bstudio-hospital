@@ -4,9 +4,9 @@ namespace WinClinic.Model.ViewModels
 {
     public class RequestServiceVm
     {
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
-        public Guid ServiceCodesID { get; set; }
+        public int ServiceCodesID { get; set; }
 
         public byte Frequency { get; set; }
 

@@ -11,7 +11,7 @@ namespace WinClinic
         public string PatientsID { get; set; }
 
         [Required]
-        public Guid DiagnosticCodesID { get; set; }
+        public int DiagnosticCodesID { get; set; }
 
         [StringLength(50)]
         [Required(AllowEmptyStrings = false)]
@@ -24,7 +24,6 @@ namespace WinClinic
         {
             return new PatientDiagnosis
             {
-                PatientDiagnosisID = Guid.NewGuid(),
                 DateAdded = DateTime.Now,
                 DiagnosticCodesID = DiagnosticCodesID,
          //       PatientsID = PatientsID

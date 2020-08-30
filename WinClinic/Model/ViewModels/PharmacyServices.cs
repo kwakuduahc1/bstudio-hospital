@@ -49,7 +49,7 @@ namespace WinClinic.Model.ViewModels
         [StringLength(20, MinimumLength = 8, ErrorMessage = "{0} must be {1} to {2} long")]
         public string Receipt { get; set; }
 
-        public Guid ID { get; set; }
+        public int ID { get; set; }
     }
 
     public class Dispensary
@@ -115,7 +115,7 @@ namespace WinClinic.Model.ViewModels
 
         public byte Quantity { get; internal set; }
 
-        public Guid PatientDrugsID { get; set; }
+        public int PatientDrugsID { get; set; }
     }
 
     public class DrugQuantityVm

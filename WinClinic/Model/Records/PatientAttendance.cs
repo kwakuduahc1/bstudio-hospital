@@ -7,11 +7,10 @@ namespace WinClinic.Model.Records
     public class PatientAttendance
     {
         [Key]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [Required]
-        [StringLength(20, MinimumLength = 15)]
-        public string PatientsID { get; set; }
+        public int PatientsID { get; set; }
 
         [Required]
         [StringLength(15)]

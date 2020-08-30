@@ -19,7 +19,7 @@ namespace WinClinic.Controllers.Labs
         public LabsController(DbContextOptions<DataContext> dbContextOptions) => db = new LabsHelper(dbContextOptions);
 
         [HttpGet]
-        public async Task<IEnumerable> Prescription(Guid id) => await db.GetLabs(id);
+        public async Task<IEnumerable> Prescription(int id) => await db.GetLabs(id);
 
         [HttpPost]
         public async Task<IActionResult> Dispense([FromBody]List<Groups> drugs)

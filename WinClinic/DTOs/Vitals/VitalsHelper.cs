@@ -20,14 +20,14 @@ namespace WinClinic.DTOs.Records
         /// </summary>
         /// <param name="id">The index number, staff id or other unique identifier of the patient</param>
         /// <returns></returns>
-        public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.PatientsID == id));
+        public Task<bool> CheckIDExists(string id) => Task.Run(async () => await db.Patients.AnyAsync(t => t.FolderID == id));
 
         /// <summary>
         /// Ensures the patient has visited the records department at least once today
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<bool> CheckVisit(Guid id) => Task.Run(async () => await db.PatientAttendance.AnyAsync(x => x.PatientAttendanceID == id && x.DateSeen.Date == DateTime.Now.Date));
+        public Task<bool> CheckVisit(int id) => Task.Run(async () => await db.PatientAttendance.AnyAsync(x => x.PatientAttendanceID == id && x.DateSeen.Date == DateTime.Now.Date));
 
         /// <summary>
         /// Add new vital signs
@@ -36,7 +36,6 @@ namespace WinClinic.DTOs.Records
         public void Add(OPD opd)
         {
             opd.DateSeen = DateTime.Now;
-            opd.ID = Guid.NewGuid();
             db.Add(opd);
         }
 
@@ -54,8 +53,8 @@ namespace WinClinic.DTOs.Records
         /// <returns>List of patients</returns>
         public Task<List<OPD>> List(byte num, byte off) => Task.Run(async () => await db.OpdHistory.OrderByDescending(x => x.DateSeen).Skip(off).Take(num).Include(x => x.PatientAttendance).ThenInclude(x => x.Patients).ToListAsync());
 
-        public Task<OPD> Find(Guid id) => Task.Run(async () => await db.OpdHistory.FindAsync(id));
+        public Task<OPD> Find(int id) => Task.Run(async () => await db.OpdHistory.FindAsync(id));
 
-        public Task<PatientAttendance> Patient(string id) => Task.Run(async () => await db.PatientAttendance.Include(x => x.Patients).ThenInclude(x => x.Schemes).OrderByDescending(x => x.DateSeen).FirstOrDefaultAsync(x => x.PatientsID == id && x.IsActive));
+        public Task<PatientAttendance> Patient(int id) => Task.Run(async () => await db.PatientAttendance.Include(x => x.Patients).ThenInclude(x => x.Schemes).OrderByDescending(x => x.DateSeen).FirstOrDefaultAsync(x => x.PatientsID == id && x.IsActive));
     }
 }

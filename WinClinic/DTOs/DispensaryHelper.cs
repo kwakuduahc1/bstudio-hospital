@@ -15,20 +15,20 @@ namespace WinClinic.DTOs
 
         public DispensaryHelper(DbContextOptions<DataContext> context) => db = new DataContext(context);
 
-        public Task<IEnumerable> GetPrescriptions(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientDrugs.Where(x => x.PatientAttendanceID == id && !x.IsQuantitySet).Select(x => new { x.DateRequested, x.Drugcodes.DrugCode, x.Drugcodes.Drugs.DrugName, x.DrugCodesID, x.Frequency, x.ID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
+        public Task<IEnumerable> GetPrescriptions(int id) => Task.Run<IEnumerable>(async () => await db.PatientDrugs.Where(x => x.PatientAttendanceID == id && !x.IsQuantitySet).Select(x => new { x.DateRequested, x.Drugcodes.DrugCode, x.Drugcodes.Drugs.DrugName, x.DrugCodesID, x.Frequency, x.PatientDrugsID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
 
         /// <summary>
         /// Gets the list of drugs to be served
         /// </summary>
         /// <param name="id">The session id</param>
         /// <returns>IEnumerable of PatientsDrugs</returns>
-        public Task<IEnumerable> Prescriptions(Guid id) => Task.Run<IEnumerable>(async () => await db.PatientDrugs.Where(x => x.PatientAttendanceID == id && x.IsPaid && x.IsQuantitySet && !x.IsServed).Select(x => new { x.DateRequested, x.Drugcodes.DrugCode, x.Drugcodes.Drugs.DrugName, x.DrugCodesID, x.Frequency, x.ID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
+        public Task<IEnumerable> Prescriptions(int id) => Task.Run<IEnumerable>(async () => await db.PatientDrugs.Where(x => x.PatientAttendanceID == id && x.IsPaid && x.IsQuantitySet && !x.IsServed).Select(x => new { x.DateRequested, x.Drugcodes.DrugCode, x.Drugcodes.Drugs.DrugName, x.DrugCodesID, x.Frequency, x.PatientDrugsID, x.NumberOfDays, x.PatientAttendanceID }).ToListAsync());
 
         public void UpdateQuantity(List<PatientDrugs> drugs)
         {
             drugs.ForEach(x =>
             {
-                var drug = db.PatientDrugs.Find(x.ID);
+                var drug = db.PatientDrugs.Find(x.PatientDrugsID);
                 if (drug != null)
                 {
                     drug.QuantityRequested = x.QuantityRequested;
@@ -44,7 +44,7 @@ namespace WinClinic.DTOs
             var dgs = new List<PatientDrugs>();
             drugs.ForEach(x =>
             {
-                var drug = db.PatientDrugs.Find(x.ID);
+                var drug = db.PatientDrugs.Find(x.PatientDrugsID);
                 if (drug != null)
                 {
                     drug.IsServed = x.IsServed;

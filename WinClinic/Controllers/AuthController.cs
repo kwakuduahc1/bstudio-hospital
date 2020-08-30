@@ -1,5 +1,4 @@
 ﻿using WinClinic.Model;
-using WinClinic.Model.Staff;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WinClinic.Models.Identity;
 
 namespace WinClinic.Controllers
 {
@@ -18,7 +18,7 @@ namespace WinClinic.Controllers
     {
         private readonly UserManager<Staff> _userManager;
         private readonly SignInManager<Staff> _signInManager;
-        public IHostingEnvironment _env { get; }
+        public IHostingEnvironment Env { get; }
         private readonly DataContext db;
 
         public AuthController(UserManager<Staff> userManager, SignInManager<Staff> signInManager, DbContextOptions<DataContext> contextOptions, IHostingEnvironment environment)
@@ -26,31 +26,33 @@ namespace WinClinic.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             db = new DataContext(contextOptions);
-            _env = environment;
+            Env = environment;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]Staff user)
+        public async Task<IActionResult> Login([FromBody] Staff user)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
             var _user = await _userManager.FindByNameAsync(user.UserName);
             if (_user == null)
                 return BadRequest(new { Message = "User name or password did not match any user" });
-            if (!await _userManager.CheckPasswordAsync(_user, user.Password))
-                return Unauthorized();
-            var claims = await _userManager.GetClaimsAsync(_user);
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xRBqwa5UtkVhr9w"));
-            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var tokeOptions = new JwtSecurityToken(
-                issuer: _env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
-                audience: _env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
-                claims: claims,
-                expires: DateTime.Now.AddMonths(6),
-                signingCredentials: signinCredentials
-            );
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-            return Ok(new { Token = tokenString });
+            if (await _userManager.CheckPasswordAsync(_user, user.Password))
+            {
+                var claims = await _userManager.GetClaimsAsync(_user);
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xRBqwa5UtkVhr9w"));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                var tokeOptions = new JwtSecurityToken(
+                    issuer: Env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
+                    audience: Env.IsProduction() ? "http://localhost:8097" : "https://localhost:44358",
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(7),
+                    signingCredentials: signinCredentials
+                );
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                return Ok(new { Token = tokenString, claims = GetClaimsIdentity(_user.UserName, user.Password) });
+            }
+            return Unauthorized();
         }
 
         [HttpPost]
@@ -63,14 +65,12 @@ namespace WinClinic.Controllers
                 return BadRequest(new { Message = result.Errors.First().Description });
             await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Name, user.UserName));
             await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "User"));
-            var _user = await _userManager.FindByIdAsync(user.Id);
-            await _signInManager.SignInAsync(_user, true);
             await db.SaveChangesAsync();
-            return RedirectToAction("Login");
+            return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClaim([FromBody]Staff staff, string role)
+        public async Task<IActionResult> AddClaim([FromBody] Staff staff, string role)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
@@ -82,13 +82,13 @@ namespace WinClinic.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveClaim([FromBody]Staff staff, string role)
+        public async Task<IActionResult> RemoveClaim([FromBody] Staff staff, string role)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new { Error = "Invalid data was submitted", Message = ModelState.Values.First(x => x.Errors.Count > 0).Errors.Select(t => t.ErrorMessage).First() });
             var user = await _userManager.FindByIdAsync(staff.Id);
             if (user == null)
-                return BadRequest("Could not find user to add role");
+                return BadRequest("Could not find user to remove role");
             await _userManager.RemoveClaimAsync(user, new Claim(ClaimTypes.Role, role));
             return Ok();
         }

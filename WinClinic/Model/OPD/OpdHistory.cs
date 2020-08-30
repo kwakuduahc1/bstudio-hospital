@@ -7,10 +7,10 @@ namespace WinClinic.Model.OPD
     public class OPD
     {
         [Key]
-        public Guid ID { get; set; }
+        public long OPDID { get; set; }
 
         [Required]
-        public Guid PatientAttendanceID { get; set; }
+        public int PatientAttendanceID { get; set; }
 
         [StringLength(500, ErrorMessage = "{0} should not exceed {1} characters")]
         public string History { get; set; }
